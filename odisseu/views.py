@@ -22,11 +22,25 @@ def cadastrar_paciente(request):
     return render(request, 'cadastrar_paciente.html', context)
 
 def agendar_exame(request):
+
     if request.method == 'POST':
+
         form = AgendamentoForm(request.POST)
 
         if form.is_valid():
-            form.save()
+
+            paciente = form.cleaned_data['paciente']
+            exames = form.cleaned_data['exames']
+            data = form.cleaned_data['data']
+
+            for exame in exames:
+
+                Agendamento.objects.create(
+                    paciente=paciente,
+                    exame=exame,
+                    data=data
+                )
+
             return redirect('agendar_exame')
 
     else:

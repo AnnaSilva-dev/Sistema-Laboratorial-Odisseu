@@ -3,17 +3,20 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Rotina do dia</title>
+
+    <title>Rotina</title>
 </head>
 
 <body>
 
-    <h1>Rotina do dia</h1>
+    <h1>Rotina do laboratório</h1>
+
+    <!-- FILTRO POR DATA -->
 
     <form method="GET">
 
         <label for="data">
-            Selecione a data:
+            Selecionar data:
         </label>
 
         <input
@@ -32,47 +35,58 @@
     <hr>
 
     <h2>
-        Exames de {{ data|date:"d/m/Y" }}
+        Rotina do dia:
+        {{ data|date:"d/m/Y" }}
     </h2>
 
-    {% if agendamentos %}
 
-        {% for agendamento in agendamentos %}
+    <!-- AGRUPA OS AGENDAMENTOS PELO PACIENTE -->
 
-            <div>
+    {% regroup agendamentos by paciente as pacientes %}
 
-                <strong>Paciente:</strong>
-                {{ agendamento.paciente.nome }}
+
+    {% for grupo in pacientes %}
+
+        <div>
+
+            <!-- NOME DO PACIENTE APARECE UMA VEZ -->
+
+            <h3>
+                {{ grupo.grouper.nome }}
+            </h3>
+
+
+            <!-- EXAMES DESSE PACIENTE -->
+
+            {% for agendamento in grupo.list %}
+
+                <div>
+
+                    <strong>
+                        {{ agendamento.get_exame_display }}
+                    </strong>
+
+                    <a href="{% url 'digitar_resultados' agendamento.id %}">
+                        Digitar resultado
+                    </a>
+
+                </div>
 
                 <br>
 
-                <strong>Exame:</strong>
-                {{ agendamento.get_exame_display }}
+            {% endfor %}
 
-                <br>
+        </div>
 
-                <strong>Data:</strong>
-                {{ agendamento.data|date:"d/m/Y" }}
+        <hr>
 
-                <br><br>
-
-                <a href="{% url 'digitar_resultados' agendamento.id %}">
-                    Digitar resultado
-                </a>
-
-            </div>
-
-            <hr>
-
-        {% endfor %}
-
-    {% else %}
+    {% empty %}
 
         <p>
             Não existem exames agendados para esta data.
         </p>
 
-    {% endif %}
+    {% endfor %}
 
 </body>
 

@@ -1,21 +1,58 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <title>agendar exame</title>
+
+    <title>Agendar exames</title>
 </head>
 
 <body>
 
-    <h1>agendar exame</h1>
+    <h1>Agendar exames</h1>
+
+    <p>
+        <a href="{% url 'cadastrar_paciente' %}">
+            Cadastrar novo paciente
+        </a>
+    </p>
+
+    <hr>
 
     <form method="POST">
+
         {% csrf_token %}
 
-        {{ form.as_p }}
+        <p>
+            <strong>Paciente:</strong>
+        </p>
 
-        <button type="submit">Marcar exame</button>
+        {{ form.paciente }}
+
+        <br><br>
+
+        <p>
+            <strong>Exames:</strong>
+        </p>
+
+        {{ form.exames }}
+
+        <br>
+
+        <p>
+            <strong>Data:</strong>
+        </p>
+
+        {{ form.data }}
+
+        <br><br>
+
+        <button type="submit">
+            Agendar exames
+        </button>
+
     </form>
 
 </body>
+
 </html>

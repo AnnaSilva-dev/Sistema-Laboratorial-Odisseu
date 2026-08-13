@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ver resultados</title>
+</head>
+
+<body>
+
+    <h1>Ver resultados</h1>
+
+    {% if resultados %}
+
+      <h1>Resultados</h1>
+
+<h2>{{ paciente.nome }}</h2>
+
+<p>Data: {{ data }}</p>
+
+<hr>
+
+{% for resultado in resultados %}
+
+    <h3>
+        {{ resultado.agendamento.get_exame_display }}
+    </h3>
+
+    <p>
+        <strong>Resultado:</strong>
+        {{ resultado.valor }}
+    </p>
+
+    {% if resultado.observacao %}
+        <p>
+            <strong>Observação:</strong>
+            {{ resultado.observacao }}
+        </p>
+    {% endif %}
+
+    <hr>
+
+{% empty %}
+
+    <p>
+        Nenhum resultado disponível para este paciente nesta data.
+    </p>
+
+{% endfor %}
+
+    {% else %}
+
+        <p>Nenhum resultado foi digitado ainda.</p>
+
+    {% endif %}
+
+</body>
+
+</html>
