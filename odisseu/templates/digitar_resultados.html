@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Digitar resultado</title>
+</head>
+
+<body>
+
+    <h1>Digitar resultado</h1>
+
+    <p>
+        <strong>Paciente:</strong>
+        {{ agendamento.paciente.nome }}
+    </p>
+
+    <p>
+        <strong>Exame:</strong>
+        {{ agendamento.get_exame_display }}
+    </p>
+
+    <p>
+        <strong>Data:</strong>
+        {{ agendamento.data }}
+    </p>
+
+    <hr>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Salvar resultado
+        </button>
+
+    </form>
+
+</body>
+
+</html>

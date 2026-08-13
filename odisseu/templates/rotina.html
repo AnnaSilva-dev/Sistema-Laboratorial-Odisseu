@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Rotina do dia</title>
+</head>
+
+<body>
+
+    <h1>Rotina do dia</h1>
+
+    <form method="GET">
+
+        <label for="data">
+            Selecione a data:
+        </label>
+
+        <input
+            type="date"
+            id="data"
+            name="data"
+            value="{{ data|date:'Y-m-d' }}"
+        >
+
+        <button type="submit">
+            Filtrar
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>
+        Exames de {{ data|date:"d/m/Y" }}
+    </h2>
+
+    {% if agendamentos %}
+
+        {% for agendamento in agendamentos %}
+
+            <div>
+
+                <strong>Paciente:</strong>
+                {{ agendamento.paciente.nome }}
+
+                <br>
+
+                <strong>Exame:</strong>
+                {{ agendamento.get_exame_display }}
+
+                <br>
+
+                <strong>Data:</strong>
+                {{ agendamento.data|date:"d/m/Y" }}
+
+                <br><br>
+
+                <a href="{% url 'digitar_resultados' agendamento.id %}">
+                    Digitar resultado
+                </a>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+            Não existem exames agendados para esta data.
+        </p>
+
+    {% endif %}
+
+</body>
+
+</html>

@@ -3,5 +3,11 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path('pacientes/', views.pacientes, name='pacientes'),
+    path('cadastrar_paciente', views.cadastrar_paciente, name='cadastrar_paciente'),
+    path('agendar_exame', views.agendar_exame, name='agendar_exame' ),
+    path('rotina', views.rotina, name='rotina'),
+    path('resultados', views.resultados, name='resultados'),
+    path('digitar_resultados/<int:agendamento_id>', views.digitar_resultados, name='digitar_resultados')
+    
+
 ]

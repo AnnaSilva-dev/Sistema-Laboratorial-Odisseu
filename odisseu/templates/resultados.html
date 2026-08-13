@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Digitar resultado</title>
+</head>
+
+<body>
+
+    <h1>Digitar resultados</h1>
+
+    {% if agendamentos %}
+
+        {% for agendamento in agendamentos %}
+
+            <div>
+
+                <strong>Paciente:</strong>
+                {{ agendamento.paciente.nome }}
+
+                <br>
+
+                <strong>Exame:</strong>
+                {{ agendamento.get_exame_display }}
+
+                <br>
+
+                <strong>Data:</strong>
+                {{ agendamento.data }}
+
+                <br><br>
+
+                <a href="{% url 'digitar_resultados' agendamento.id %}">
+                    Digitar resultado
+                </a>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Não existem resultados pendentes de digitação.</p>
+
+    {% endif %}
+
+</body>
+
+</html>

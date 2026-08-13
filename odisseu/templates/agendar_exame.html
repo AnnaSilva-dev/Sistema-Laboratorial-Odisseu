@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>agendar exame</title>
+</head>
+
+<body>
+
+    <h1>agendar exame</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Marcar exame</button>
+    </form>
+
+</body>
+</html>
