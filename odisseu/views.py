@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm
 from .models import Paciente, Agendamento, Resultado
 from datetime import date
+from collections import defaultdict
+
 
 def index(request):
     return render(request, "index.html")
@@ -80,20 +82,30 @@ def resultados(request):
         {'agendamentos': agendamentos}
     )
 def digitar_resultados(request, agendamento_id):
+
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
     if request.method == 'POST':
+
         form = ResultadoForm(request.POST)
 
         if form.is_valid():
+
             resultado = form.save(commit=False)
             resultado.agendamento = agendamento
             resultado.save()
 
-            return redirect('resultados')
+            return redirect(
+                'digitar_resultados',
+                agendamento_id=agendamento.id
+            )
 
     else:
         form = ResultadoForm()
+
+    resultado_existe = Resultado.objects.filter(
+        agendamento=agendamento
+    ).exists()
 
     return render(
         request,
@@ -101,21 +113,25 @@ def digitar_resultados(request, agendamento_id):
         {
             'form': form,
             'agendamento': agendamento,
+            'resultado_existe': resultado_existe,
         }
     )
 
-def adicionar_exame(request, paciente_id):
+def ver_resultados(request, paciente_id, data):
+
     paciente = Paciente.objects.get(id=paciente_id)
 
-    if request.method == 'POST':
-        exame = request.POST.get('exame')
-        data = request.POST.get('data')
+    resultados = Resultado.objects.filter(
+        agendamento__paciente=paciente,
+        agendamento__data=data
+    )
 
-        if exame and data:
-            Agendamento.objects.create(
-                paciente=paciente,
-                exame=exame,
-                data=data
-            )
-
-    return redirect('rotina')
+    return render(
+        request,
+        'ver_resultados.html',
+        {
+            'paciente': paciente,
+            'resultados': resultados,
+            'data': data,
+        }
+    )

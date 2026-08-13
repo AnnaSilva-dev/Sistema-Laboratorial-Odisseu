@@ -66,9 +66,17 @@
                         {{ agendamento.get_exame_display }}
                     </strong>
 
-                    <a href="{% url 'digitar_resultados' agendamento.id %}">
-                        Digitar resultado
-                    </a>
+                    {% if agendamento.resultado %}
+
+                        — Resultado digitado
+
+                    {% else %}
+
+                        <a href="{% url 'digitar_resultados' agendamento.id %}">
+                            Digitar resultado
+                        </a>
+
+                    {% endif %}
 
                 </div>
 

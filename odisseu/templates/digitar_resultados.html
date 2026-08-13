@@ -22,7 +22,7 @@
 
     <p>
         <strong>Data:</strong>
-        {{ agendamento.data }}
+        {{ agendamento.data|date:"d/m/Y" }}
     </p>
 
     <hr>
@@ -38,6 +38,19 @@
         </button>
 
     </form>
+
+
+ {% if resultado_existe %}
+
+    <br><br>
+
+    <a href="{% url 'ver_resultados' agendamento.paciente.id agendamento.data|date:'Y-m-d' %}">
+        <button type="button">
+            Ver resultados
+        </button>
+    </a>
+
+{% endif %}
 
 </body>
 

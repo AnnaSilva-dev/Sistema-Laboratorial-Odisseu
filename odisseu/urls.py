@@ -7,7 +7,12 @@ urlpatterns = [
     path('agendar_exame', views.agendar_exame, name='agendar_exame' ),
     path('rotina', views.rotina, name='rotina'),
     path('resultados', views.resultados, name='resultados'),
-    path('digitar_resultados/<int:agendamento_id>', views.digitar_resultados, name='digitar_resultados')
+    path('digitar_resultados/<int:agendamento_id>', views.digitar_resultados, name='digitar_resultados'),
+    path(
+        'ver_resultados/<int:paciente_id>/<str:data>',
+        views.ver_resultados,
+        name='ver_resultados'
+    ),
     
 
 ]

@@ -2,57 +2,158 @@
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>Ver resultados</title>
+
+    <title>Resultado de exames</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eeeeee;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .laudo {
+            width: 800px;
+            max-width: 100%;
+            margin: auto;
+            background-color: white;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .cabecalho {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .cabecalho h1 {
+            margin: 0;
+        }
+
+        .cabecalho p {
+            margin: 5px 0;
+        }
+
+        .dados-paciente {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .exame {
+            margin-bottom: 30px;
+        }
+
+        .exame-titulo {
+            background-color: #eeeeee;
+            padding: 10px;
+            border-bottom: 2px solid #333;
+        }
+
+        .resultado {
+            padding: 15px;
+        }
+
+        .observacao {
+            margin-top: 15px;
+        }
+
+        .rodape {
+            margin-top: 50px;
+            padding-top: 15px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+            font-size: 12px;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <h1>Ver resultados</h1>
+    <div class="laudo">
 
-    {% if resultados %}
+        <div class="cabecalho">
 
-      <h1>Resultados</h1>
+            <h1>LABORATÓRIO</h1>
 
-<h2>{{ paciente.nome }}</h2>
+            <p>Resultado de Exames Laboratoriais</p>
 
-<p>Data: {{ data }}</p>
+        </div>
 
-<hr>
 
-{% for resultado in resultados %}
+        <div class="dados-paciente">
 
-    <h3>
-        {{ resultado.agendamento.get_exame_display }}
-    </h3>
+            <strong>Paciente:</strong>
+            {{ paciente.nome }}
 
-    <p>
-        <strong>Resultado:</strong>
-        {{ resultado.valor }}
-    </p>
+            <br><br>
 
-    {% if resultado.observacao %}
-        <p>
-            <strong>Observação:</strong>
-            {{ resultado.observacao }}
-        </p>
-    {% endif %}
+            <strong>Data dos exames:</strong>
+            {{ data|date:"d/m/Y" }}
 
-    <hr>
+        </div>
 
-{% empty %}
 
-    <p>
-        Nenhum resultado disponível para este paciente nesta data.
-    </p>
+        {% for resultado in resultados %}
 
-{% endfor %}
+            <div class="exame">
 
-    {% else %}
+                <div class="exame-titulo">
 
-        <p>Nenhum resultado foi digitado ainda.</p>
+                    <strong>
+                        {{ resultado.agendamento.get_exame_display }}
+                    </strong>
 
-    {% endif %}
+                </div>
+
+
+                <div class="resultado">
+
+                    <strong>Resultado:</strong>
+
+                    {{ resultado.valor }}
+
+
+                    {% if resultado.observacao %}
+
+                        <div class="observacao">
+
+                            <strong>Observação:</strong>
+
+                            {{ resultado.observacao }}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <p>
+                Nenhum resultado disponível.
+            </p>
+
+        {% endfor %}
+
+
+        <div class="rodape">
+
+            Documento de resultado de exames laboratoriais.
+
+        </div>
+
+    </div>
 
 </body>
 
