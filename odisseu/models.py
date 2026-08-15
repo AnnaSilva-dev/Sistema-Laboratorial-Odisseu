@@ -16,6 +16,7 @@ class Agendamento(models.Model):
     EXAMES = [
         ('glicemia', 'Glicemia'),
         ('hemograma', 'Hemograma'),
+        ('proteina', 'Proteína C reativa'),
     ]
 
     paciente = models.ForeignKey(

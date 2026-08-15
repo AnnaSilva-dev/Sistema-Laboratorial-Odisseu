@@ -35,4 +35,14 @@ EXAMES = {
             },
         ],
     },
+    'proteina': {
+            'nome': 'Proteína C reativa',
+            'parametros': [
+                {
+                    'nome': 'resultado',
+                    'unidade': 'mg/dL',
+                    'referencia': 'Adultos: 60–99 mg/dL\nPré-termo: 20-60mg/dL',
+                },
+            ],
+        },
 }

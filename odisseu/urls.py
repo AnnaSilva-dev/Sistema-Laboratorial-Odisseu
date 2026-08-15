@@ -10,19 +10,9 @@ urlpatterns = [
     path('digitar_resultados/<int:agendamento_id>', views.digitar_resultados, name='digitar_resultados'),
     path('ver_resultados/<int:paciente_id>/<str:data>',views.ver_resultados, name='ver_resultados'
     ),
-    path('pacientes',views.pacientes,name='pacientes'
-),
-    path(
-    'editar_paciente/<int:paciente_id>',
-    views.editar_paciente,
-    name='editar_paciente'
-
-),
-    path(
-    'editar_resultado/<int:resultado_id>',
-    views.editar_resultado,
-    name='editar_resultado'
-),
+    path('pacientes',views.pacientes,name='pacientes'),
+    path('editar_paciente/<int:paciente_id>',views.editar_paciente, name='editar_paciente'),
+    path('editar_resultado/<int:resultado_id>',views.editar_resultado, name='editar_resultado'),
     
 
 ]
