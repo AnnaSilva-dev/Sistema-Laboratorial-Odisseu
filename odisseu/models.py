@@ -34,15 +34,50 @@ class Agendamento(models.Model):
         return f'{self.paciente.nome} - {self.exame} - {self.data}'
 
 class Resultado(models.Model):
+
     agendamento = models.OneToOneField(
         Agendamento,
         on_delete=models.CASCADE,
         related_name='resultado'
     )
 
-    valor = models.CharField(max_length=100)
-    observacao = models.TextField(blank=True)
-    liberado = models.BooleanField(default=False)
+    observacao = models.TextField(
+        blank=True
+    )
+
+    liberado = models.BooleanField(
+        default=False
+    )
 
     def __str__(self):
         return f'Resultado - {self.agendamento}'
+
+class ResultadoParametro(models.Model):
+
+    resultado = models.ForeignKey(
+        Resultado,
+        on_delete=models.CASCADE,
+        related_name='parametros'
+    )
+
+    nome = models.CharField(
+        max_length=100
+    )
+
+    valor = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    unidade = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+    referencia = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    def __str__(self):
+        return f'{self.nome}: {self.valor}'

@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm
-from .models import Paciente, Agendamento, Resultado
+from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date
-from collections import defaultdict
-
+from .exames import EXAMES
 
 def index(request):
     return render(request, "index.html")
@@ -85,6 +84,8 @@ def digitar_resultados(request, agendamento_id):
 
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
+    exame = EXAMES[agendamento.exame]
+
     if request.method == 'POST':
 
         form = ResultadoForm(request.POST)
@@ -95,6 +96,21 @@ def digitar_resultados(request, agendamento_id):
             resultado.agendamento = agendamento
             resultado.save()
 
+            # Salva os parâmetros específicos do exame
+            for parametro in exame['parametros']:
+
+                valor = request.POST.get(
+                    parametro['nome']
+                )
+
+                ResultadoParametro.objects.create(
+                    resultado=resultado,
+                    nome=parametro['nome'],
+                    valor=valor,
+                    unidade=parametro['unidade'],
+                    referencia=parametro['referencia']
+                )
+
             return redirect(
                 'digitar_resultados',
                 agendamento_id=agendamento.id
@@ -103,20 +119,15 @@ def digitar_resultados(request, agendamento_id):
     else:
         form = ResultadoForm()
 
-    resultado_existe = Resultado.objects.filter(
-        agendamento=agendamento
-    ).exists()
-
     return render(
         request,
         'digitar_resultados.html',
         {
             'form': form,
             'agendamento': agendamento,
-            'resultado_existe': resultado_existe,
+            'exame': exame,
         }
     )
-
 def ver_resultados(request, paciente_id, data):
 
     paciente = Paciente.objects.get(id=paciente_id)

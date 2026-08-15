@@ -36,10 +36,6 @@
             margin: 0;
         }
 
-        .cabecalho p {
-            margin: 5px 0;
-        }
-
         .dados-paciente {
             border: 1px solid #ccc;
             padding: 15px;
@@ -52,16 +48,30 @@
 
         .exame-titulo {
             background-color: #eeeeee;
-            padding: 10px;
+            padding: 12px;
             border-bottom: 2px solid #333;
         }
 
-        .resultado {
-            padding: 15px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
         }
 
         .observacao {
             margin-top: 15px;
+            padding: 15px;
+            border: 1px solid #ddd;
         }
 
         .rodape {
@@ -84,10 +94,14 @@
 
             <h1>LABORATÓRIO</h1>
 
-            <p>Resultado de Exames Laboratoriais</p>
+            <p>
+                Resultado de Exames Laboratoriais
+            </p>
 
         </div>
 
+
+        <!-- DADOS DO PACIENTE -->
 
         <div class="dados-paciente">
 
@@ -102,31 +116,93 @@
         </div>
 
 
-        {% for resultado in resultados %}
+        <!-- EXAMES -->
+
+        {% regroup resultados by agendamento as exames %}
+
+        {% for grupo in exames %}
 
             <div class="exame">
 
                 <div class="exame-titulo">
 
                     <strong>
-                        {{ resultado.agendamento.get_exame_display }}
+                        {{ grupo.grouper.get_exame_display }}
                     </strong>
 
                 </div>
 
 
-                <div class="resultado">
+                <table>
 
-                    <strong>Resultado:</strong>
+                    <thead>
 
-                    {{ resultado.valor }}
+                        <tr>
 
+                            <th>
+                                Parâmetro
+                            </th>
+
+                            <th>
+                                Resultado
+                            </th>
+
+                            <th>
+                                Unidade
+                            </th>
+
+                            <th>
+                                Referência
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for resultado in grupo.list %}
+
+                            {% for parametro in resultado.parametros.all %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ parametro.nome }}
+                                    </td>
+
+                                    <td>
+                                        {{ parametro.valor }}
+                                    </td>
+
+                                    <td>
+                                        {{ parametro.unidade }}
+                                    </td>
+
+                                    <td>
+                                        {{ parametro.referencia }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+
+                {% for resultado in grupo.list %}
 
                     {% if resultado.observacao %}
 
                         <div class="observacao">
 
-                            <strong>Observação:</strong>
+                            <strong>
+                                Observação:
+                            </strong>
 
                             {{ resultado.observacao }}
 
@@ -134,15 +210,9 @@
 
                     {% endif %}
 
-                </div>
+                {% endfor %}
 
             </div>
-
-        {% empty %}
-
-            <p>
-                Nenhum resultado disponível.
-            </p>
 
         {% endfor %}
 

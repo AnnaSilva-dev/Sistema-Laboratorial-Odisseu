@@ -31,7 +31,54 @@
 
         {% csrf_token %}
 
-        {{ form.as_p }}
+        <h2>
+            {{ exame.nome }}
+        </h2>
+
+        {% for parametro in exame.parametros %}
+
+            <div>
+
+                <label>
+                    <strong>{{ parametro.nome }}</strong>
+                </label>
+
+                <br>
+
+                <input
+                    type="text"
+                    name="{{ parametro.nome }}"
+                >
+
+                {{ parametro.unidade }}
+
+                <br>
+
+                <small>
+                    Valor de referência:
+                    {{ parametro.referencia }}
+                </small>
+
+            </div>
+
+            <br>
+
+        {% endfor %}
+
+
+        <div>
+
+            <label for="id_observacao">
+                <strong>Observação:</strong>
+            </label>
+
+            <br>
+
+            {{ form.observacao }}
+
+        </div>
+
+        <br>
 
         <button type="submit">
             Salvar resultado
@@ -40,17 +87,17 @@
     </form>
 
 
- {% if resultado_existe %}
+    {% if agendamento.resultado %}
 
-    <br><br>
+        <br><br>
 
-    <a href="{% url 'ver_resultados' agendamento.paciente.id agendamento.data|date:'Y-m-d' %}">
-        <button type="button">
-            Ver resultados
-        </button>
-    </a>
+        <a href="{% url 'ver_resultados' agendamento.paciente.id agendamento.data|date:'Y-m-d' %}">
+            <button type="button">
+                Ver resultados
+            </button>
+        </a>
 
-{% endif %}
+    {% endif %}
 
 </body>
 

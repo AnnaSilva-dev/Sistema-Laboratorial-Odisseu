@@ -1,17 +1,10 @@
 from django import forms
 from .models import Paciente, Agendamento, Resultado
+from .exames import EXAMES
 
 
 class PacienteForm(forms.ModelForm):
-    class Meta:
-        model = Paciente
-        fields = ['nome', 'cpf', 'data_nascimento', 'telefone']
 
-from django import forms
-from .models import Paciente, Agendamento, Resultado
-
-
-class PacienteForm(forms.ModelForm):
     class Meta:
         model = Paciente
         fields = ['nome', 'cpf', 'cns', 'data_nascimento', 'telefone']
@@ -37,9 +30,8 @@ class AgendamentoForm(forms.Form):
         )
     )
 
-
-
 class ResultadoForm(forms.ModelForm):
+
     class Meta:
         model = Resultado
-        fields = ['valor', 'observacao']
+        fields = ['observacao']
