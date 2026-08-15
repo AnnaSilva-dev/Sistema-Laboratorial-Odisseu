@@ -146,3 +146,100 @@ def ver_resultados(request, paciente_id, data):
             'data': data,
         }
     )
+
+def pacientes(request):
+
+    busca = request.GET.get('busca', '').strip()
+
+    pacientes = Paciente.objects.none()
+
+    if busca:
+
+        pacientes = Paciente.objects.filter(
+            nome__icontains=busca
+        ) | Paciente.objects.filter(
+            cpf__icontains=busca
+        ) | Paciente.objects.filter(
+            cns__icontains=busca
+        )
+
+    return render(
+        request,
+        'pacientes.html',
+        {
+            'pacientes': pacientes,
+            'busca': busca,
+        }
+    )
+def editar_paciente(request, paciente_id):
+
+    paciente = Paciente.objects.get(id=paciente_id)
+
+    if request.method == 'POST':
+
+        form = PacienteForm(
+            request.POST,
+            instance=paciente
+        )
+
+        if form.is_valid():
+            form.save()
+
+            return redirect('pacientes')
+
+    else:
+
+        form = PacienteForm(
+            instance=paciente
+        )
+
+    pacientes = Paciente.objects.all()
+
+    return render(
+        request,
+        'pacientes.html',
+        {
+            'pacientes': pacientes,
+            'busca': '',
+            'paciente_editando': paciente,
+            'form_editar': form,
+        }
+    )
+
+def editar_resultado(request, resultado_id):
+
+    resultado = Resultado.objects.get(id=resultado_id)
+
+    agendamento = resultado.agendamento
+
+    parametros = resultado.parametros.all()
+
+    if request.method == 'POST':
+
+        for parametro in parametros:
+
+            valor = request.POST.get(
+                f'parametro_{parametro.id}'
+            )
+
+            parametro.valor = valor
+            parametro.save()
+
+        resultado.observacao = request.POST.get(
+            'observacao',
+            ''
+        )
+
+        resultado.save()
+
+        return redirect('rotina')
+
+    return render(
+        request,
+        'editar_resultado.html',
+        {
+            'resultado': resultado,
+            'agendamento': agendamento,
+            'parametros': parametros,
+        }
+    )

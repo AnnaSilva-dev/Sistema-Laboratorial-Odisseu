@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Editar resultado</title>
+
+</head>
+
+<body>
+
+    <h1>Editar resultado</h1>
+
+    <p>
+        <strong>Paciente:</strong>
+        {{ agendamento.paciente.nome }}
+    </p>
+
+    <p>
+        <strong>Exame:</strong>
+        {{ agendamento.get_exame_display }}
+    </p>
+
+    <p>
+        <strong>Data:</strong>
+        {{ agendamento.data|date:"d/m/Y" }}
+    </p>
+
+    <hr>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {% for parametro in parametros %}
+
+            <div>
+
+                <label>
+                    <strong>
+                        {{ parametro.nome }}
+                    </strong>
+                </label>
+
+                <br>
+
+                <input
+                    type="text"
+                    name="parametro_{{ parametro.id }}"
+                    value="{{ parametro.valor }}"
+                >
+
+                {{ parametro.unidade }}
+
+                <br>
+
+                <small>
+                    Referência:
+                    {{ parametro.referencia }}
+                </small>
+
+            </div>
+
+            <br>
+
+        {% endfor %}
+
+
+        <label>
+            <strong>Observação:</strong>
+        </label>
+
+        <br>
+
+        <textarea
+            name="observacao"
+            rows="4"
+            cols="50"
+        >{{ resultado.observacao }}</textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Salvar alterações
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'rotina' %}">
+        Voltar para rotina
+    </a>
+
+</body>
+
+</html>

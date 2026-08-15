@@ -1,15 +1,35 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
+
     <meta charset="UTF-8">
 
     <title>Rotina</title>
+
+    <style>
+
+        @media print {
+
+            /* Esconde os botões e links na impressão */
+
+            button,
+            a,
+            form {
+                display: none !important;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 <body>
 
     <h1>Rotina do laboratório</h1>
+
 
     <!-- FILTRO POR DATA -->
 
@@ -32,7 +52,24 @@
 
     </form>
 
+
+    <br>
+
+
+    <!-- BOTÃO PDF -->
+
+    <button
+        type="button"
+        onclick="window.print()"
+    >
+        PDF
+    </button>
+
+
     <hr>
+
+
+    <!-- DATA -->
 
     <h2>
         Rotina do dia:
@@ -49,14 +86,14 @@
 
         <div>
 
-            <!-- NOME DO PACIENTE APARECE UMA VEZ -->
+            <!-- NOME DO PACIENTE -->
 
             <h3>
                 {{ grupo.grouper.nome }}
             </h3>
 
 
-            <!-- EXAMES DESSE PACIENTE -->
+            <!-- EXAMES -->
 
             {% for agendamento in grupo.list %}
 
@@ -66,13 +103,34 @@
                         {{ agendamento.get_exame_display }}
                     </strong>
 
+
+                    <!-- ESPAÇO PARA ANOTAR O RESULTADO -->
+
+                    <span
+                        style="
+                            display: inline-block;
+                            width: 250px;
+                            border-bottom: 1px solid black;
+                            margin-left: 20px;
+                        "
+                    ></span>
+
+
+                    <!-- AÇÕES NA TELA -->
+
                     {% if agendamento.resultado %}
 
-                        — Resultado digitado
+                        <a
+                            href="{% url 'editar_resultado' agendamento.resultado.id %}"
+                        >
+                            Editar resultado
+                        </a>
 
                     {% else %}
 
-                        <a href="{% url 'digitar_resultados' agendamento.id %}">
+                        <a
+                            href="{% url 'digitar_resultados' agendamento.id %}"
+                        >
                             Digitar resultado
                         </a>
 
@@ -84,9 +142,19 @@
 
             {% endfor %}
 
+
+            <!-- VER RESULTADOS -->
+
+            <a
+                href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
+            >
+                Ver resultados
+            </a>
+
         </div>
 
         <hr>
+
 
     {% empty %}
 
@@ -96,6 +164,8 @@
 
     {% endfor %}
 
+
 </body>
 
 </html>
+```
