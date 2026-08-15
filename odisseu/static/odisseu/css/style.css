@@ -1,0 +1,20 @@
+:root {
+    --verde: #005541;
+    --verde-claro: #008666;
+    --branco: #f8f7f3;
+    --preto: #010806;
+}
+
+body{ 
+    background-color: var(--preto);
+    color: var(--branco);
+} 
+
+.nav-item{
+    text-decoration: none;
+}
+
+nav{
+    max-width: 25%;
+    border-right: 2px solid var(--verde-claro);
+}

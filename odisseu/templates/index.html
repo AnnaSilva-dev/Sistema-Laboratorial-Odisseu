@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ block.super }}{% endblock %}
+{% block content %}
     <h1>Sisteminha odisseu do balaco baco</h1>
     <a href="{% url 'cadastrar_paciente' %}">Pacientes</a> <br>
-        <a href="{% url 'agendar_exame' %}">agendar exames</a> <br>
-        <a href="{% url 'rotina' %}">Ver rotinas</a> <br>
-<a href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer) </a> <br>
+    <a href="{% url 'agendar_exame' %}">agendar exames</a> <br>
+    <a href="{% url 'rotina' %}">Ver rotinas</a> <br>
+    <a href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer) </a> <br>
     <a href="{% url 'pacientes' %}">Pacientes cadastrados </a> <br>
-
-
-
-</body>
-</html>
+{% endblock %}
