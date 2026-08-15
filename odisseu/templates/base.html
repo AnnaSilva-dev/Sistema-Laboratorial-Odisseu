@@ -11,15 +11,22 @@
 <body>
     <nav>
         <section class="container-fluid m-2 p-2">
-            <div class="row">
-                <a class="nav-item" href="{% url 'cadastrar_paciente' %}">Pacientes</a>
-                <a class="nav-item" href="{% url 'agendar_exame' %}">Agendar exames</a>
-                <a class="nav-item" href="{% url 'rotina' %}">Ver rotinas</a>
-                <a class="nav-item" href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer)</a>
-                <a class="nav-item" href="{% url 'pacientes' %}">Pacientes cadastrados </a>
-            </div>
+            
+            <section class="row">
+                <div class="col navbar">
+                    <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+                    <ul>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}">Pacientes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'agendar_exame' %}">Agendar exames</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}">Ver rotinas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}}">Pacientes cadastrados</a></li>
+                    </ul>
+                </div>
+                <div class="col">{% block content %}{% endblock content %}</div>
+            </section>
         </section>
     </nav>
-    {% block content %}{% endblock content %}
+    
 </body>
 </html>

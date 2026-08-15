@@ -10,11 +10,19 @@ body{
     color: var(--branco);
 } 
 
-.nav-item{
-    text-decoration: none;
+.navbar{
+    max-width: 20%;
+    border-right: 2px solid var(--verde-claro);
+    align-items: center;
 }
 
-nav{
-    max-width: 25%;
-    border-right: 2px solid var(--verde-claro);
+.nav-item{
+    color: var(--branco);
+    list-style: none;
 }
+
+.navbar-brand{
+    width: 15rem;
+    margin-bottom: 10px;
+}
+
