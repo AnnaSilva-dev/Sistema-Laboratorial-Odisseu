@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
-from datetime import date
+from datetime import date, datetime
 from .exames import EXAMES
 
 def index(request):
@@ -84,6 +84,13 @@ def digitar_resultados(request, agendamento_id):
 
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
+    if hasattr(agendamento, 'resultado'):
+
+        return redirect(
+            'editar_resultado',
+            resultado_id=agendamento.resultado.id
+        )
+
     exame = EXAMES[agendamento.exame]
 
     if request.method == 'POST':
@@ -110,11 +117,9 @@ def digitar_resultados(request, agendamento_id):
                     unidade=parametro['unidade'],
                     referencia=parametro['referencia']
                 )
-
-            return redirect(
-                'digitar_resultados',
-                agendamento_id=agendamento.id
-            )
+        return redirect(
+            f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
+        )
 
     else:
         form = ResultadoForm()
@@ -131,7 +136,7 @@ def digitar_resultados(request, agendamento_id):
 def ver_resultados(request, paciente_id, data):
 
     paciente = Paciente.objects.get(id=paciente_id)
-
+    data = datetime.strptime(data, '%Y-%m-%d').date()
     resultados = Resultado.objects.filter(
         agendamento__paciente=paciente,
         agendamento__data=data
@@ -231,8 +236,10 @@ def editar_resultado(request, resultado_id):
         )
 
         resultado.save()
+    return redirect(
+            f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
+        )
 
-        return redirect('rotina')
 
     return render(
         request,
