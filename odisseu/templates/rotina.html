@@ -113,8 +113,9 @@
                         <a
                             href="{% url 'editar_resultado' agendamento.resultado.id %}"
                         >
-                            Editar resultado
-                        </a>
+                            Editar resultado 
+                        </a><br>
+                        <a href="{%url 'excluir_agendamento' agendamento.id%}">Excluir agendamento</a>
 
                     {% else %}
 

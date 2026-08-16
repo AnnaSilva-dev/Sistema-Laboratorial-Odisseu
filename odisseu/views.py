@@ -259,3 +259,14 @@ def editar_resultado(request, resultado_id):
             'parametros': parametros,
         }
     )
+def excluir_agendamento(request, agendamento_id):
+
+    agendamento = Agendamento.objects.get(id=agendamento_id)
+
+    data = agendamento.data
+
+    agendamento.delete()
+
+    return redirect(
+        f'/rotina?data={data.strftime("%Y-%m-%d")}'
+    )
