@@ -1,7 +1,7 @@
 from django import forms
 from .models import Paciente, Agendamento, Resultado
 from .exames import EXAMES
-
+from .validators import validate_future_date
 
 class PacienteForm(forms.ModelForm):
 
@@ -25,6 +25,7 @@ class AgendamentoForm(forms.Form):
 
     data = forms.DateField(
         label='Data',
+        validators=[validate_future_date],
         widget=forms.DateInput(
             attrs={'type': 'date'}
         )

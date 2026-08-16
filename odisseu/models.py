@@ -1,12 +1,13 @@
 from django.db import models
-
+from .validators import validate_cpf, validate_cns, validate_nome, validate_telefone
+from django.core.exceptions import ValidationError
 
 class Paciente(models.Model):
-    nome = models.CharField(max_length=200)
-    cpf = models.CharField(max_length=11)
-    cns = models.CharField(max_length=14)
+    nome = models.CharField(max_length=200, validators=[validate_nome])
+    cpf = models.CharField(max_length=11, validators=[validate_cpf])
+    cns = models.CharField(max_length=14, validators=[validate_cns])
     data_nascimento = models.DateField()
-    telefone = models.CharField(max_length=20)
+    telefone = models.CharField(max_length=20, validators=[validate_telefone])
 
     def __str__(self):
         return self.nome
