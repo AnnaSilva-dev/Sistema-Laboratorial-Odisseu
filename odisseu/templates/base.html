@@ -39,9 +39,33 @@
                             <!-- sem pagina html apenas exemplo na navbar -->
                             <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
                         </div>
+
+                        <section class="position-absolute bottom-0 mb-4">
+                            <h6>Configuração</h6>
+                            <div class="container-fluid mb-2">
+                                <!-- sem pagina html apenas exemplo na navbar -->
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                            </div>
+                        </section>
                     </ul>
                 </div>
-                <div class="col p-3">{% block content %}{% endblock content %}</div>
+                <div class="col p-3">
+                    <div class="row p-3 top">
+                        <!-- aqui vai dados do sistema, como: usuario, data. -->
+                        <section class="col-10 right-0">
+                            <h4>Bom dia!</h4>
+                            <h5>Data atual</h5>
+                        </section>
+                        
+                        <section class="col-2 right-0">
+                            <h5 class="bi bi-person-fill"> Usuario</h2>
+                        </section>
+                    </div>
+                    <div class="row p-5">
+                        {% block content %}{% endblock content %}
+                    </div>
+                </div>
             </section>
         </section>
     </nav>

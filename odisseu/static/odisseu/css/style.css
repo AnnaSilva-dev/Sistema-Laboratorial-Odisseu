@@ -29,7 +29,6 @@ body{
 }
 
 .botao-inicio{
-    /* six sevennnn */
     padding: 5px 167px 5px 20px; 
     border-radius: 2px;
     color: var(--branco);
@@ -37,5 +36,6 @@ body{
     text-decoration: none;
 }
 
-
-
+.top{
+    border-bottom: 2px solid var(--verde-claro);
+}
