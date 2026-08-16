@@ -5,25 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Odisseu{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
     <nav>
-        <section class="container-fluid m-2 p-2">
-            
-            <section class="row">
-                <div class="col navbar">
-                    <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+        <section class="container-fluid">
+            <section class="row g-2">
+                <div class="col-4 navegacao navbar">
                     <ul>
+                        <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+                        <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}">Pacientes</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'agendar_exame' %}">Agendar exames</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}">Ver rotinas</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer)</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}}">Pacientes cadastrados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}">Pacientes cadastrados</a></li>
                     </ul>
                 </div>
-                <div class="col">{% block content %}{% endblock content %}</div>
+                <div class="col p-3">{% block content %}{% endblock content %}</div>
             </section>
         </section>
     </nav>

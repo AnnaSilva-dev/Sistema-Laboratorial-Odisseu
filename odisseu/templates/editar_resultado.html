@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Editar resultado</title>
-
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Editar resultado{% endblock %}
+{% block content %}
 
     <h1>Editar resultado</h1>
 
@@ -94,6 +85,4 @@
         Voltar para rotina
     </a>
 
-</body>
-
-</html>
+{% endblock %}

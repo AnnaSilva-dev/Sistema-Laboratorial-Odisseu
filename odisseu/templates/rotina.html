@@ -1,14 +1,8 @@
-```html
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Rotina{% endblock %}
+{% block content %}
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Rotina</title>
-
-    <style>
+    <!-- <style>
 
         @media print {
 
@@ -22,11 +16,7 @@
 
         }
 
-    </style>
-
-</head>
-
-<body>
+    </style> -->
 
     <h1>Rotina do laboratório</h1>
 
@@ -163,9 +153,4 @@
         </p>
 
     {% endfor %}
-
-
-</body>
-
-</html>
-```
+{% endblock %}

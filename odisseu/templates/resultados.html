@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Digitar resultado</title>
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Resultados{% endblock %}
+{% block content %}
 
     <h1>Digitar resultados</h1>
 
@@ -47,6 +41,4 @@
 
     {% endif %}
 
-</body>
-
-</html>
+{% endblock %}

@@ -10,19 +10,32 @@ body{
     color: var(--branco);
 } 
 
-.navbar{
-    max-width: 20%;
-    border-right: 2px solid var(--verde-claro);
-    align-items: center;
-}
-
 .nav-item{
     color: var(--branco);
     list-style: none;
 }
 
 .navbar-brand{
+    /* logo de odisseu (navbar) */
     width: 15rem;
     margin-bottom: 10px;
 }
+
+.navegacao{
+    max-width: 20%;
+    border-right: 2px solid var(--verde-claro);
+    min-height: 100vh;
+    align-items: flex-start;
+}
+
+.botao-inicio{
+    /* six sevennnn */
+    padding: 5px 167px 5px 20px; 
+    border-radius: 2px;
+    color: var(--branco);
+    background-color: var(--verde-claro);
+    text-decoration: none;
+}
+
+
 

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-
-    <title>Agendar exames</title>
-</head>
-
-<body>
-
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Agendar exames{% endblock %}
+{% block content %}
     <h1>Agendar exames</h1>
 
     <p>
@@ -52,7 +44,4 @@
         </button>
 
     </form>
-
-</body>
-
-</html>
+{% endblock %}

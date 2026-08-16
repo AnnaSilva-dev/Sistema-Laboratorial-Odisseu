@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <title>Pacientes</title>
-
-</head>
-
-<body>
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Pacientes{% endblock %}
+{% block content %}
 
     <h1>Pacientes cadastrados</h1>
 
@@ -185,8 +176,4 @@
         </p>
 
     {% endfor %}
-
-
-</body>
-
-</html>
+{% endblock %}
