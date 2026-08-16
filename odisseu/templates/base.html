@@ -17,11 +17,28 @@
                     <ul>
                         <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
                         <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}">Pacientes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'agendar_exame' %}">Agendar exames</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}">Ver rotinas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}">Resultados de pacientes faltosos (não mexer)</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}">Pacientes cadastrados</a></li>
+                        <h6>Recepção</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-person p-2"></span> Pacientes cadastrados</a></li>
+                        </div>
+
+                        <h6>Rotina</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
+                        </div>
+
+                        <h6>Resultados</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-file-earmark-medical p-2"></span> Resultados de pacientes faltosos (não mexer)</a></li>
+                        </div>
+
+                        <h6>Relatórios</h6>
+                        <div class="container-fluid mb-2">
+                            <!-- sem pagina html apenas exemplo na navbar -->
+                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
+                        </div>
                     </ul>
                 </div>
                 <div class="col p-3">{% block content %}{% endblock content %}</div>
