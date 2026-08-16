@@ -33,13 +33,14 @@ def agendar_exame(request):
             paciente = form.cleaned_data['paciente']
             exames = form.cleaned_data['exames']
             data = form.cleaned_data['data']
-
+            solicitante = form.cleaned_data['solicitante']
             for exame in exames:
 
                 Agendamento.objects.create(
                     paciente=paciente,
                     exame=exame,
-                    data=data
+                    data=data,
+                    solicitante=solicitante
                 )
 
             return redirect('agendar_exame')
@@ -141,6 +142,14 @@ def ver_resultados(request, paciente_id, data):
         agendamento__paciente=paciente,
         agendamento__data=data
     )
+    for resultado in resultados:
+
+        codigo_exame = resultado.agendamento.exame
+
+        exame = EXAMES[codigo_exame]
+
+        resultado.agendamento.amostra = exame.get('amostra', '')
+        resultado.agendamento.metodo = exame.get('metodo', '')
 
     return render(
         request,
@@ -236,9 +245,9 @@ def editar_resultado(request, resultado_id):
         )
 
         resultado.save()
-    return redirect(
-            f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-        )
+        return redirect(
+                f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
+            )
 
 
     return render(

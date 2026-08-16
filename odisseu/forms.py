@@ -12,6 +12,7 @@ class PacienteForm(forms.ModelForm):
 
 class AgendamentoForm(forms.Form):
 
+
     paciente = forms.ModelChoiceField(
         queryset=Paciente.objects.all(),
         label='Paciente'
@@ -29,6 +30,11 @@ class AgendamentoForm(forms.Form):
         widget=forms.DateInput(
             attrs={'type': 'date'}
         )
+    )
+    solicitante = forms.CharField(
+        max_length=200,
+        required=False,
+        label='Solicitante'
     )
 
 class ResultadoForm(forms.ModelForm):

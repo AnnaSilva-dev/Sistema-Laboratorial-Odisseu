@@ -19,7 +19,8 @@ class Agendamento(models.Model):
         ('hemograma', 'Hemograma'),
         ('proteina', 'Proteína C reativa'),
     ]
-
+    solicitante = models.CharField(max_length=200,blank=True, validators=[validate_nome]
+    )
     paciente = models.ForeignKey(
         Paciente,
         on_delete=models.CASCADE

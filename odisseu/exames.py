@@ -37,6 +37,8 @@ EXAMES = {
     },
     'proteina': {
             'nome': 'Proteína C reativa',
+            'amostra':'soro',
+            'metodo':'algoooo',
             'parametros': [
                 {
                     'nome': 'resultado',
