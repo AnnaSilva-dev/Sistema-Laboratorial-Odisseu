@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Cadastrar Paciente{% endblock %}
 {% block content %}
-     <h1>Cadastrar paciente</h1>
+    <h4>Cadastrar paciente</h4>
+    <p>Preencha os campos abaixo para cadastrar um novo</br> paciente no sistema</p>
 
-    <form method="POST">
-        {% csrf_token %}
+    <nav class="container-fluid">
+        <form method="POST">
+            {% csrf_token %}
 
-        {{ form.as_p }}
-
-        <button class="cadastro p-2 px-4 border-0" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar paciente</button>
-    </form>
+            {{ form.as_p }}
+            <section class="botoes position-absolute bottom-0 end-0">
+                <button class="cancelar px-2" type="cancel">Cancelar</button>
+                <button class="sucesso p-2 px-4 border-0" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar paciente</button>
+            </section>
+        </form>
+    </nav>
 {% endblock %}

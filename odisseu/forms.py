@@ -9,6 +9,34 @@ class PacienteForm(forms.ModelForm):
         model = Paciente
         fields = ['nome', 'cpf', 'cns', 'data_nascimento', 'telefone']
 
+        widgets = {
+            'nome': forms.TextInput(attrs={
+                'class': 'edit-forms',
+                'placeholder': 'ex.: Rubens de Souza Magalhães'
+            }),
+
+            'cpf': forms.TextInput(attrs={
+                'class': 'edit-forms',
+                'placeholder': '999.999.999-99'
+            }),
+
+            'cns': forms.TextInput(attrs={
+                'class': 'edit-forms',
+                'placeholder': '123 4567 8901 2345'
+            }),
+
+            'telefone': forms.NumberInput(attrs={
+                'class': 'edit-forms',
+                'placeholder': '(99) 9999999-99',
+                'type': 'int'
+            }),
+
+            'data_nascimento': forms.DateInput(attrs={
+                'class': 'edit-forms',
+                'type': 'date'
+            }),
+        }
+
 
 class AgendamentoForm(forms.Form):
 

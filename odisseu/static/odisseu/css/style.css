@@ -3,6 +3,7 @@
     --verde-claro: #008666;
     --branco: #f8f7f3;
     --preto: #010806;
+    --vermelho: #ff3131;
 }
 
 body{ 
@@ -40,9 +41,38 @@ body{
     border-bottom: 2px solid var(--verde-claro);
 }
 
-/* Pag Cadastro Paciente */
-.cadastro{
+/* forms */
+form p {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--verde-claro);
+}
+
+.sucesso{
     background-color: var(--verde-claro);
     color: var(--branco);
     border-radius: 2px;
+}
+
+.cancelar{
+    background-color: var(--preto);
+    color: var(--branco);
+    border: 2px solid var(--vermelho);
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.botoes{
+    margin: 5rem;
 }
