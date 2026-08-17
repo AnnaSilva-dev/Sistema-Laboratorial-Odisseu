@@ -11,29 +11,29 @@ class PacienteForm(forms.ModelForm):
 
         widgets = {
             'nome': forms.TextInput(attrs={
-                'class': 'edit-forms',
+                'class': 'nome edit-forms',
                 'placeholder': 'ex.: Rubens de Souza Magalhães'
             }),
 
             'cpf': forms.TextInput(attrs={
-                'class': 'edit-forms',
+                'class': 'cpf edit-forms',
                 'placeholder': '999.999.999-99'
             }),
 
             'cns': forms.TextInput(attrs={
-                'class': 'edit-forms',
+                'class': 'cns edit-forms',
                 'placeholder': '123 4567 8901 2345'
             }),
 
-            'telefone': forms.NumberInput(attrs={
-                'class': 'edit-forms',
-                'placeholder': '(99) 9999999-99',
-                'type': 'int'
+            'telefone': forms.TelInput(attrs={
+                'class': 'telefone edit-forms',
+                'placeholder': '(81) 99999-9999',
             }),
 
             'data_nascimento': forms.DateInput(attrs={
-                'class': 'edit-forms',
-                'type': 'date'
+                'class': 'data_nascimento edit-forms',
+                'type': 'date',
+                'value': '2009-12-17'
             }),
         }
 

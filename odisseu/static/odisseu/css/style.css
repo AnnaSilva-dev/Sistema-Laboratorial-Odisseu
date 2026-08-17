@@ -42,7 +42,13 @@ body{
 }
 
 /* forms */
+form {
+display: flex;
+flex-wrap: wrap;
+}
+
 form p {
+    min-width: 250px;
     margin-bottom: 15px;
 }
 
@@ -58,6 +64,22 @@ form textarea:focus {
     outline: none;
     border-color: var(--verde-claro);
 }
+
+form label[for="id_cpf"], form label[for="id_cns"] {
+    text-transform: uppercase;
+}
+
+form input.edit-forms{
+    margin: 5px;
+    width: 20rem;
+    border-radius: 4px;
+    color: gray;
+}
+
+form input.nome {
+    width: 125vh;
+}
+
 
 .sucesso{
     background-color: var(--verde-claro);
