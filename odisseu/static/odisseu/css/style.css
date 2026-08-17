@@ -39,3 +39,10 @@ body{
 .top{
     border-bottom: 2px solid var(--verde-claro);
 }
+
+/* Pag Cadastro Paciente */
+.cadastro{
+    background-color: var(--verde-claro);
+    color: var(--branco);
+    border-radius: 2px;
+}
