@@ -43,7 +43,11 @@ class AgendamentoForm(forms.Form):
 
     paciente = forms.ModelChoiceField(
         queryset=Paciente.objects.all(),
-        label='Paciente'
+        # label='Paciente'
+
+        widget=forms.Select(attrs={
+                'class': 'paciente'
+            })
     )
 
     exames = forms.MultipleChoiceField(

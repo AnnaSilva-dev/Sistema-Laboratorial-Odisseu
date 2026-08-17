@@ -41,13 +41,14 @@ body{
     border-bottom: 2px solid var(--verde-claro);
 }
 
-/* forms */
-form {
+/* forms */ 
+
+.form-paciente {
 display: flex;
 flex-wrap: wrap;
-}
+} 
 
-form p {
+.form-paciente p {
     min-width: 250px;
     margin-bottom: 15px;
 }
