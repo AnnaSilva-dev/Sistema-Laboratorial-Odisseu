@@ -44,13 +44,14 @@ body{
 /* forms */ 
 
 .form-paciente {
-display: flex;
-flex-wrap: wrap;
-} 
+    display: inline;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
 .form-paciente p {
-    min-width: 250px;
-    margin-bottom: 15px;
+    min-width: 0;
+    margin: 0;
 }
 
 form label {
@@ -77,10 +78,10 @@ form input.edit-forms{
     color: gray;
 }
 
-form input.nome {
-    width: 125vh;
+.form-paciente .errorlist {
+    list-style: none;
+    font-size: 14px;
 }
-
 
 .sucesso{
     background-color: var(--verde-claro);
