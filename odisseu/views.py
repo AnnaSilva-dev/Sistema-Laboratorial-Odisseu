@@ -3,9 +3,37 @@ from .forms import PacienteForm, AgendamentoForm, ResultadoForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date, datetime
 from .exames import EXAMES
+from django.contrib.auth import authenticate, login as auth_login
+# from django.contrib.auth.models import User, Group
 
 def index(request):
-    return render(request, "index.html")
+    return render(request, 'index.html')
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('index')
+        else:
+            return render(request, 'login.html', {'error': 'Usuário ou senha inválidos.'})
+    else:
+        return render(request, 'login.html')
+
+# def cadastrar_usuario(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         role = request.POST.get('role')
+
+#         user = User.objects.create_user(username=username, password=password)
+#         assign_role(user, role)
+
+#         return redirect('index')
+
+# return render(request, 'cadastrar_usuario.html')
 
 def cadastrar_paciente(request):
     if request.method == 'POST':

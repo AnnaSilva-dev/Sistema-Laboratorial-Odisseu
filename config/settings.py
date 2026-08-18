@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'odisseu',
+    'rolepermissions',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+ROLEPERMISSIONS_MODULE = 'config.roles'
