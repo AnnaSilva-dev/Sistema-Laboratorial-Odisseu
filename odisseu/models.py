@@ -4,8 +4,8 @@ from django.core.exceptions import ValidationError
 
 class Paciente(models.Model):
     nome = models.CharField(max_length=200, validators=[validate_nome])
-    cpf = models.CharField(max_length=11, validators=[validate_cpf])
-    cns = models.CharField(max_length=14, validators=[validate_cns])
+    cpf = models.CharField(max_length=14, validators=[validate_cpf])
+    cns = models.CharField(max_length=18, validators=[validate_cns])
     data_nascimento = models.DateField()
     telefone = models.CharField(max_length=20, validators=[validate_telefone])
 
