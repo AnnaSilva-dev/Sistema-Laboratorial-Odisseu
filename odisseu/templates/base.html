@@ -54,8 +54,8 @@
                     <div class="row p-3 top">
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
                         <section class="col-10 right-0">
-                            <h4>Bom dia!</h4>
-                            <h5>Data atual</h5>
+                            <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
+                            <h5>{% now "d/m/Y" %}</h5>
                         </section>
                         
                         <section class="col-2 right-0">

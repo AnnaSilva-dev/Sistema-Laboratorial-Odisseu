@@ -30,10 +30,11 @@
         </label>
 
         <input
+            class="data_nascimento edit-forms"
             type="date"
             id="data"
             name="data"
-            value="{{ data|date:'Y-m-d' }}"
+            value="{{ data|date:'2009-12-17' }}"
         >
 
         <button class="sucesso border-0" type="submit">
@@ -49,6 +50,7 @@
     <!-- BOTÃO PDF -->
 
     <button
+        class="pdf border-0 mt-2"
         type="button"
         onclick="window.print()"
     >

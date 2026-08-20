@@ -95,13 +95,24 @@ form input.edit-forms{
     border: 2px solid var(--vermelho);
     border-radius: 2px;
     padding: 5px;
+    transition: 1s;
 }
 
-.cancelar::hover{
-    /* transition: 10s; */
+.cancelar:hover {
     background-color: var(--vermelho);
 }
 
 .botoes{
     margin: 5rem;
+}
+
+.pdf{
+    border-radius: 5px;
+}
+
+.login {
+    margin-top: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -10,16 +10,19 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
-    <section class="container">
-        <nav class="row">
-            <div>
-                <form  method="post">
-                    {% csrf_token %}
-                    <span class="bi bi-person"></span><input type="text" name="username" placeholder="Username">
-                    <span class="bi bi-key"></span><input type="password" name="password" placeholder="Password">
-                    <button class="sucesso border-0" type="submit">Login</button>
-                </form>
-            </div>
+    <section class="container login">
+        <nav>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <span class="bi bi-person-fill"></span><input class="edit-forms" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="row">
+                    <span class="bi bi-key-fill"></span><input class="edit-forms" type="password" name="password" placeholder="Password">
+                </div>
+                
+                <button class="sucesso border-0 px-4 mt-3" type="submit">Login</button>
+            </form>
         </nav>
     </section>
 </body>
