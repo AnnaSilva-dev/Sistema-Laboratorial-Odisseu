@@ -8,7 +8,7 @@
 
             /* Esconde os botões e links na impressão */
 
-            button,
+            .base, button,
             a,
             form {
                 display: none !important;
@@ -36,7 +36,7 @@
             value="{{ data|date:'Y-m-d' }}"
         >
 
-        <button type="submit">
+        <button class="sucesso border-0" type="submit">
             Filtrar
         </button>
 
