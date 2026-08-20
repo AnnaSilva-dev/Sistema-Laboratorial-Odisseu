@@ -83,6 +83,10 @@ form input.edit-forms{
     font-size: 14px;
 }
 
+.forms-login{
+    align-items: center;
+}
+
 .sucesso{
     background-color: var(--verde-claro);
     color: var(--branco);
