@@ -116,3 +116,11 @@ form input.edit-forms{
     justify-content: center;
     align-items: center;
 }
+
+.link{
+    color: var(--verde-claro);
+}
+
+.paciente{
+    color: gray;
+}

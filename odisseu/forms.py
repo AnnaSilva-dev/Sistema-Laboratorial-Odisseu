@@ -44,29 +44,38 @@ class AgendamentoForm(forms.Form):
     paciente = forms.ModelChoiceField(
         queryset=Paciente.objects.all(),
         # label='Paciente'
-
+        empty_label='Selecione o paciente',
         widget=forms.Select(attrs={
-                'class': 'paciente'
+                'class': 'paciente',
             })
     )
 
     exames = forms.MultipleChoiceField(
         choices=Agendamento.EXAMES,
         widget=forms.CheckboxSelectMultiple,
-        label='Exames'
+        label='Exames',
+        
     )
 
+    
     data = forms.DateField(
         label='Data',
         validators=[validate_future_date],
-        widget=forms.DateInput(
-            attrs={'type': 'date'}
-        )
+        widget=forms.DateInput(attrs={
+            'class': 'data edit-forms',
+            'value': '2009-12-17',
+            'type': 'date',
+        })
     )
+
     solicitante = forms.CharField(
         max_length=200,
         required=False,
-        label='Solicitante'
+        label='Solicitante',
+        widget=forms.TextInput(attrs={
+            'class': 'solicitante edit-forms',
+            'placeholder': 'Nome do solicitante',
+        })
     )
 
 class ResultadoForm(forms.ModelForm):

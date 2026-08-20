@@ -4,8 +4,8 @@
     <h1>Agendar exames</h1>
 
     <p>
-        <a href="{% url 'cadastrar_paciente' %}">
-            Cadastrar novo paciente
+        <a class="link" href="{% url 'cadastrar_paciente' %}">
+            Cadastrar novo paciente ➤
         </a>
     </p>
 
@@ -43,7 +43,7 @@
         </p>
         {{form.solicitante}} <br><br>
 
-        <button class="sucesso" type="submit">
+        <button class="sucesso border-0 px-2 p-2 position-absolute bottom-0 end-0 mb-5 botoes" type="submit">
             Agendar exames
         </button>
 
