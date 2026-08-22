@@ -2,7 +2,31 @@ from django import forms
 from .models import Paciente, Agendamento, Resultado
 from .exames import EXAMES
 from .validators import validate_future_date
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
+
+class UsuarioForm(UserCreationForm):
+
+    perfil = forms.ChoiceField(
+        label='Perfil',
+        choices=[
+            ('Administrador', 'Administrador'),
+            ('Farmaceutico', 'Farmacêutico'),
+            ('Recepcionista', 'Recepcionista'),
+            ('Tecnicolaboratorial', 'Técnico Laboratorial'),
+        ]
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        ]
+        
 class PacienteForm(forms.ModelForm):
 
     class Meta:
