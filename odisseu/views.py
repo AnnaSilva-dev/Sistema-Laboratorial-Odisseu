@@ -124,58 +124,46 @@ def resultados(request):
         {'agendamentos': agendamentos}
     )
 def digitar_resultados(request, agendamento_id):
-
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
     if hasattr(agendamento, 'resultado'):
-
-        return redirect(
-            'editar_resultado',
-            resultado_id=agendamento.resultado.id
-        )
+        return redirect('editar_resultado', resultado_id=agendamento.resultado.id)
 
     exame = EXAMES[agendamento.exame]
 
     if request.method == 'POST':
-
         form = ResultadoForm(request.POST)
 
         if form.is_valid():
-
             resultado = form.save(commit=False)
             resultado.agendamento = agendamento
             resultado.save()
 
-            # Salva os parâmetros específicos do exame
             for parametro in exame['parametros']:
+                if parametro.get('tipo') == 'diferencial':
+                    ResultadoParametro.objects.create(
+                        resultado=resultado,
+                        nome=parametro['nome'],
+                        percentual=request.POST.get(parametro['nome'], ''),
+                        valor='',  
+                        unidade=parametro['unidade'],
+                        referencia=parametro['referencia'],
+                    )
+                else:
+                    ResultadoParametro.objects.create(
+                        resultado=resultado,
+                        nome=parametro['nome'],
+                        valor=request.POST.get(parametro['nome'], ''),
+                        unidade=parametro['unidade'],
+                        referencia=parametro['referencia'],
+                    )
 
-                valor = request.POST.get(
-                    parametro['nome']
-                )
-
-                ResultadoParametro.objects.create(
-                    resultado=resultado,
-                    nome=parametro['nome'],
-                    valor=valor,
-                    unidade=parametro['unidade'],
-                    referencia=parametro['referencia']
-                )
-        return redirect(
-            f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-        )
+        return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     else:
         form = ResultadoForm()
 
-    return render(
-        request,
-        'digitar_resultados.html',
-        {
-            'form': form,
-            'agendamento': agendamento,
-            'exame': exame,
-        }
-    )
+    return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
 
 @login_required
 @has_permission_decorator('visualizar_resultados')
@@ -273,44 +261,27 @@ def editar_paciente(request, paciente_id):
 @login_required
 @has_permission_decorator('editar_resultado')
 def editar_resultado(request, resultado_id):
-
     resultado = Resultado.objects.get(id=resultado_id)
-
     agendamento = resultado.agendamento
-
     parametros = resultado.parametros.all()
 
     if request.method == 'POST':
-
         for parametro in parametros:
-
-            valor = request.POST.get(
-                f'parametro_{parametro.id}'
-            )
-
-            parametro.valor = valor
+            if parametro.percentual != '' or parametro.nome in [
+                'Neutrófilos', 'Linfócitos', 'Monócitos', 'Eosinófilos', 'Basófilos'
+            ]:
+                parametro.percentual = request.POST.get(f'parametro_{parametro.id}', '')
+            else:
+                parametro.valor = request.POST.get(f'parametro_{parametro.id}', '')
             parametro.save()
 
-        resultado.observacao = request.POST.get(
-            'observacao',
-            ''
-        )
-
+        resultado.observacao = request.POST.get('observacao', '')
         resultado.save()
-        return redirect(
-                f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-            )
+        return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
-
-    return render(
-        request,
-        'editar_resultado.html',
-        {
-            'resultado': resultado,
-            'agendamento': agendamento,
-            'parametros': parametros,
-        }
-    )
+    return render(request, 'editar_resultado.html', {
+        'resultado': resultado, 'agendamento': agendamento, 'parametros': parametros,
+    })
 
 @login_required
 @has_permission_decorator('excluir_agendamento')

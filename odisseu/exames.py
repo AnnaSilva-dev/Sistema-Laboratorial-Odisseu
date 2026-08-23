@@ -29,6 +29,36 @@ EXAMES = {
                 'referencia': '4.000–11.000 /mm³',
             },
             {
+                'nome': 'Neutrófilos',
+                'tipo': 'diferencial',
+                'unidade': '/mm³',
+                'referencia': '1.700–8.000 /mm³',
+            },
+            {
+                'nome': 'Linfócitos',
+                'tipo': 'diferencial',
+                'unidade': '/mm³',
+                'referencia': '1.000–4.800 /mm³',
+            },
+            {
+                'nome': 'Monócitos',
+                'tipo': 'diferencial',
+                'unidade': '/mm³',
+                'referencia': '200–1.100 /mm³',
+            },
+            {
+                'nome': 'Eosinófilos',
+                'tipo': 'diferencial',
+                'unidade': '/mm³',
+                'referencia': '100–660 /mm³',
+            },
+            {
+                'nome': 'Basófilos',
+                'tipo': 'diferencial',
+                'unidade': '/mm³',
+                'referencia': '0–220 /mm³',
+            },
+            {
                 'nome': 'Plaquetas',
                 'unidade': '/mm³',
                 'referencia': '150.000–450.000 /mm³',

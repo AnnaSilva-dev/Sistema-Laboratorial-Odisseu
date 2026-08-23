@@ -37,23 +37,48 @@ class Agendamento(models.Model):
         return f'{self.paciente.nome} - {self.exame} - {self.data}'
 
 class Resultado(models.Model):
-
-    agendamento = models.OneToOneField(
-        Agendamento,
-        on_delete=models.CASCADE,
-        related_name='resultado'
-    )
-
-    observacao = models.TextField(
-        blank=True
-    )
-
-    liberado = models.BooleanField(
-        default=False
-    )
+    agendamento = models.OneToOneField(Agendamento, on_delete=models.CASCADE, related_name='resultado')
+    observacao = models.TextField(blank=True)
+    liberado = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Resultado - {self.agendamento}'
+
+    def parametros_calculados(self):
+        """Retorna os parâmetros já com o valor absoluto calculado (não salvo no banco)."""
+        parametros = list(self.parametros.all())
+
+        leucocitos = None
+        for p in parametros:
+            if p.nome == 'Leucócitos':
+                try:
+                    leucocitos = float(p.valor.replace(',', '.'))
+                except (ValueError, AttributeError):
+                    leucocitos = None
+                break
+
+        lista = []
+        for p in parametros:
+            valor_exibido = p.valor
+
+            if p.percentual:
+                try:
+                    pct = float(p.percentual.replace(',', '.'))
+                    if leucocitos is not None:
+                        valor_exibido = f'{(pct / 100) * leucocitos:.0f}'
+                except (ValueError, AttributeError):
+                    pass
+
+            lista.append({
+                'nome': p.nome,
+                'percentual': p.percentual,
+                'valor': valor_exibido,
+                'unidade': p.unidade,
+                'referencia': p.referencia,
+            })
+
+        return lista
+
 
 class ResultadoParametro(models.Model):
 
@@ -63,24 +88,13 @@ class ResultadoParametro(models.Model):
         related_name='parametros'
     )
 
-    nome = models.CharField(
-        max_length=100
-    )
+    nome = models.CharField(max_length=100)
 
-    valor = models.CharField(
-        max_length=100,
-        blank=True
-    )
+    valor = models.CharField(max_length=100, blank=True)
+    percentual = models.CharField(max_length=20, blank=True)  
 
-    unidade = models.CharField(
-        max_length=50,
-        blank=True
-    )
-
-    referencia = models.CharField(
-        max_length=200,
-        blank=True
-    )
+    unidade = models.CharField(max_length=50, blank=True)
+    referencia = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return f'{self.nome}: {self.valor}'
