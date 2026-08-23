@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Cadastrar Usuário{% endblock %}
+{% block content %}
+    <h4>Cadastrar usuário</h4>
+    <p>Preencha os campos abaixo para cadastrar um novo</br> usuário no sistema</p>
+
+    <nav class="container-fluid">
+        <form method="POST" class="form-paciente">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+            <section class="botoes position-absolute bottom-0 end-0">
+                <button class="cancelar px-2 m-2" type="reset">Cancelar</button>
+                <button class="sucesso p-2 px-4 border-0 m-2" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
+            </section>
+        </form>
+    </nav>
+{% endblock %}

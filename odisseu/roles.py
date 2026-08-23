@@ -28,7 +28,7 @@ class Recepcionista(AbstractUserRole):
         'editar_paciente':True,
     }
 
-class tecnico_laboratorial(AbstractUserRole):
+class TecnicoLaboratorial(AbstractUserRole):
     available_permissions = {
         'exibir_rotina': True,
         'digitar_resultados': True,

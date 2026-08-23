@@ -128,4 +128,4 @@ MAILERS = {
     },
 }
 
-ROLEPERMISSIONS_MODULE = 'config.roles'
+ROLEPERMISSIONS_MODULE = 'odisseu.roles'

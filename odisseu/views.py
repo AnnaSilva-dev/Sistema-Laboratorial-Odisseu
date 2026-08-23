@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
-from .forms import PacienteForm, AgendamentoForm, ResultadoForm
+from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date, datetime
 from .exames import EXAMES
 from django.contrib.auth import authenticate, login as auth_login
-# from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
+from rolepermissions.roles import assign_role
+from rolepermissions.decorators import has_permission_decorator
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     return render(request, 'index.html')
 
@@ -22,19 +26,23 @@ def login(request):
     else:
         return render(request, 'login.html')
 
-# def cadastrar_usuario(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         role = request.POST.get('role')
+@login_required
+@has_permission_decorator('cadastrar_usuario')
+def cadastrar_usuario(request):
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            perfil = form.cleaned_data['perfil']
+            assign_role(user, perfil)
+            return redirect('index')
+        
+    else:
+        form = UsuarioForm()
+    return render(request, 'cadastrar_usuario.html', {'form': form})
 
-#         user = User.objects.create_user(username=username, password=password)
-#         assign_role(user, role)
-
-#         return redirect('index')
-
-# return render(request, 'cadastrar_usuario.html')
-
+@login_required
+@has_permission_decorator('cadastrar_paciente')
 def cadastrar_paciente(request):
     if request.method == 'POST':
         form= PacienteForm(request.POST)
@@ -50,6 +58,8 @@ def cadastrar_paciente(request):
 
     return render(request, 'cadastrar_paciente.html', context)
 
+@login_required
+@has_permission_decorator('agendar_exame')
 def agendar_exame(request):
 
     if request.method == 'POST':
@@ -82,6 +92,8 @@ def agendar_exame(request):
         {'form': form}
     )
 
+@login_required
+@has_permission_decorator('visualizar_rotina')
 def rotina(request):
     data = request.GET.get('data')
 
@@ -99,6 +111,8 @@ def rotina(request):
             'data': data,
         }
     )
+@login_required
+@has_permission_decorator('visualizar_resultados')
 def resultados(request):
     agendamentos = Agendamento.objects.filter(
         resultado__isnull=True
@@ -110,58 +124,49 @@ def resultados(request):
         {'agendamentos': agendamentos}
     )
 def digitar_resultados(request, agendamento_id):
-
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
     if hasattr(agendamento, 'resultado'):
-
-        return redirect(
-            'editar_resultado',
-            resultado_id=agendamento.resultado.id
-        )
+        return redirect('editar_resultado', resultado_id=agendamento.resultado.id)
 
     exame = EXAMES[agendamento.exame]
 
     if request.method == 'POST':
-
         form = ResultadoForm(request.POST)
 
         if form.is_valid():
-
             resultado = form.save(commit=False)
             resultado.agendamento = agendamento
             resultado.save()
 
-            # Salva os parâmetros específicos do exame
             for parametro in exame['parametros']:
+                if parametro.get('tipo') == 'diferencial':
+                    ResultadoParametro.objects.create(
+                        resultado=resultado,
+                        nome=parametro['nome'],
+                        percentual=request.POST.get(parametro['nome'], ''),
+                        valor='',  
+                        unidade=parametro['unidade'],
+                        referencia=parametro['referencia'],
+                    )
+                else:
+                    ResultadoParametro.objects.create(
+                        resultado=resultado,
+                        nome=parametro['nome'],
+                        valor=request.POST.get(parametro['nome'], ''),
+                        unidade=parametro['unidade'],
+                        referencia=parametro['referencia'],
+                    )
 
-                valor = request.POST.get(
-                    parametro['nome']
-                )
-
-                ResultadoParametro.objects.create(
-                    resultado=resultado,
-                    nome=parametro['nome'],
-                    valor=valor,
-                    unidade=parametro['unidade'],
-                    referencia=parametro['referencia']
-                )
-        return redirect(
-            f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-        )
+        return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     else:
         form = ResultadoForm()
 
-    return render(
-        request,
-        'digitar_resultados.html',
-        {
-            'form': form,
-            'agendamento': agendamento,
-            'exame': exame,
-        }
-    )
+    return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
+
+@login_required
+@has_permission_decorator('visualizar_resultados')
 def ver_resultados(request, paciente_id, data):
 
     paciente = Paciente.objects.get(id=paciente_id)
@@ -189,6 +194,8 @@ def ver_resultados(request, paciente_id, data):
         }
     )
 
+@login_required
+@has_permission_decorator('visualizar_pacientes')
 def pacientes(request):
 
     busca = request.GET.get('busca', '').strip()
@@ -213,6 +220,9 @@ def pacientes(request):
             'busca': busca,
         }
     )
+
+@login_required
+@has_permission_decorator('editar_paciente')
 def editar_paciente(request, paciente_id):
 
     paciente = Paciente.objects.get(id=paciente_id)
@@ -248,45 +258,33 @@ def editar_paciente(request, paciente_id):
         }
     )
 
+@login_required
+@has_permission_decorator('editar_resultado')
 def editar_resultado(request, resultado_id):
-
     resultado = Resultado.objects.get(id=resultado_id)
-
     agendamento = resultado.agendamento
-
     parametros = resultado.parametros.all()
 
     if request.method == 'POST':
-
         for parametro in parametros:
-
-            valor = request.POST.get(
-                f'parametro_{parametro.id}'
-            )
-
-            parametro.valor = valor
+            if parametro.percentual != '' or parametro.nome in [
+                'Neutrófilos', 'Linfócitos', 'Monócitos', 'Eosinófilos', 'Basófilos'
+            ]:
+                parametro.percentual = request.POST.get(f'parametro_{parametro.id}', '')
+            else:
+                parametro.valor = request.POST.get(f'parametro_{parametro.id}', '')
             parametro.save()
 
-        resultado.observacao = request.POST.get(
-            'observacao',
-            ''
-        )
-
+        resultado.observacao = request.POST.get('observacao', '')
         resultado.save()
-        return redirect(
-                f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-            )
+        return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
+    return render(request, 'editar_resultado.html', {
+        'resultado': resultado, 'agendamento': agendamento, 'parametros': parametros,
+    })
 
-    return render(
-        request,
-        'editar_resultado.html',
-        {
-            'resultado': resultado,
-            'agendamento': agendamento,
-            'parametros': parametros,
-        }
-    )
+@login_required
+@has_permission_decorator('excluir_agendamento')
 def excluir_agendamento(request, agendamento_id):
 
     agendamento = Agendamento.objects.get(id=agendamento_id)

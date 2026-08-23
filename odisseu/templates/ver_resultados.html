@@ -145,65 +145,38 @@
                 </div>
 
 
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Parâmetro
-                            </th>
-
-                            <th>
-                                Resultado
-                            </th>
-
-                            <th>
-                                Unidade
-                            </th>
-
-                            <th>
-                                Referência
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        {% for resultado in grupo.list %}
-
-                            {% for parametro in resultado.parametros.all %}
-
-                                <tr>
-
-                                    <td>
-                                        {{ parametro.nome }}
-                                    </td>
-
-                                    <td>
-                                        {{ parametro.valor }}
-                                    </td>
-
-                                    <td>
-                                        {{ parametro.unidade }}
-                                    </td>
-
-                                    <td>
-                                       {{ parametro.referencia|linebreaksbr }}
-                                    </td>
-
-                                </tr>
-
-                            {% endfor %}
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
+            <table>
+    <thead>
+        <tr>
+            <th>Parâmetro</th>
+            {% if grupo.grouper.exame == 'hemograma' %}
+                <th>%</th>
+                <th>Absoluta</th>
+            {% else %}
+                <th>Resultado</th>
+            {% endif %}
+            <th>Unidade</th>
+            <th>Referência</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resultado in grupo.list %}
+            {% for parametro in resultado.parametros_calculados %}
+                <tr>
+                    <td>{{ parametro.nome }}</td>
+                    {% if grupo.grouper.exame == 'hemograma' %}
+                        <td>{{ parametro.percentual }}{% if parametro.percentual %} %{% endif %}</td>
+                        <td>{{ parametro.valor }}</td>
+                    {% else %}
+                        <td>{{ parametro.valor }}</td>
+                    {% endif %}
+                    <td>{{ parametro.unidade }}</td>
+                    <td>{{ parametro.referencia|linebreaksbr }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 
 
                 {% for resultado in grupo.list %}
