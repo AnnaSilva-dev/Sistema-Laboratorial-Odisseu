@@ -10,12 +10,16 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
-    <nav>
-        <section class="container-fluid base">
+    <section  class="container-fluid base navbar-expand-lg">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <section class="row g-2">
-                <div class="col-4 navegacao navbar">
+                <div class="col navegacao collapse navbar-collapse" id="navbarNav">
                     <ul>
                         <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+
                         <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
                         <h6>Recepção</h6>
                         <div class="container-fluid mb-2">
@@ -50,7 +54,8 @@
                         </section>
                     </ul>
                 </div>
-                <div class="col p-3">
+
+                <div class="col px-3">
                     <div class="row p-3 top">
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
                         <section class="col-10 right-0">
@@ -66,9 +71,67 @@
                         {% block content %}{% endblock content %}
                     </div>
                 </div>
+            </section>  
+        </div>
+    </section>
+    
+    <!-- <nav>
+        <section class="container-fluid base">
+            <section class="row g-2">
+                <div class="col-md-4 col-sd-12 navegacao navbar">
+                    <ul>
+                        <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+                        <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
+                        <h6>Recepção</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-person p-2"></span> Pacientes cadastrados</a></li>
+                        </div>
+
+                        <h6>Rotina</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
+                        </div>
+
+                        <h6>Resultados</h6>
+                        <div class="container-fluid mb-2">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-file-earmark-medical p-2"></span> Resultados de pacientes faltosos (não mexer)</a></li>
+                        </div>
+
+                        <h6>Relatórios</h6>
+                        <div class="container-fluid mb-2">
+                             sem pagina html apenas exemplo na navbar
+                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
+                        </div>
+
+                        <section class="position-absolute bottom-0 mb-4">
+                            <h6>Configuração</h6>
+                            <div class="container-fluid mb-2">
+                                 sem pagina html apenas exemplo na navbar 
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                            </div>
+                        </section>
+                    </ul>
+                </div>
+                <div class="col p-3">
+                    <div class="row p-3 top">
+                        aqui vai dados do sistema, como: usuario, data.
+                        <section class="col-10 right-0">
+                            <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
+                            <h5>{% now "d/m/Y" %}</h5>
+                        </section>
+                        
+                        <section class="col-2 right-0">
+                            <h2 class="bi bi-person-fill"> {{ request.user.username }}</h2>
+                        </section>
+                    </div>
+                    <div class="row p-5">
+                    </div>
+                </div>
             </section>
-        </section>
-    </nav>
+    </nav> -->
     
 </body>
 </html>
