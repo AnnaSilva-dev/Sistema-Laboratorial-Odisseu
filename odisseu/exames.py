@@ -77,4 +77,16 @@ EXAMES = {
                 },
             ],
         },
+    'colesterol_total':{
+        'nome': 'Colesterol total',
+        'amostra': 'plasma fluoretado',
+        'metodo': 'enzimático colorimétrico',
+        'parametros':[
+            {
+                'nome': 'resultado',
+                'unidade': 'mg/dL',
+                'referencia': '<190mg/dL'
+            }
+        ]
+    }
 }

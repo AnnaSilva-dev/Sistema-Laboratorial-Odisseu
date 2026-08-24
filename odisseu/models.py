@@ -18,6 +18,7 @@ class Agendamento(models.Model):
         ('glicemia', 'Glicemia'),
         ('hemograma', 'Hemograma'),
         ('proteina', 'Proteína C reativa'),
+        ('colesterol_total', 'Colesterol total')
     ]
     solicitante = models.CharField(max_length=200,blank=True, validators=[validate_nome]
     )
