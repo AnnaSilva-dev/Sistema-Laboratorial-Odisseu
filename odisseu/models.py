@@ -2,6 +2,7 @@ from django.db import models
 from .validators import validate_cpf, validate_cns, validate_nome, validate_telefone
 from django.core.exceptions import ValidationError
 
+
 class Paciente(models.Model):
     nome = models.CharField(max_length=200, validators=[validate_nome])
     cpf = models.CharField(max_length=14, validators=[validate_cpf])
@@ -11,30 +12,24 @@ class Paciente(models.Model):
 
     def __str__(self):
         return self.nome
-    
+
+
 class Agendamento(models.Model):
 
     EXAMES = [
         ('glicemia', 'Glicemia'),
         ('hemograma', 'Hemograma'),
         ('proteina', 'Proteína C reativa'),
+        ('sumario_urina', 'Sumário de Urina')
     ]
-    solicitante = models.CharField(max_length=200,blank=True, validators=[validate_nome]
-    )
-    paciente = models.ForeignKey(
-        Paciente,
-        on_delete=models.CASCADE
-    )
-
-    exame = models.CharField(
-        max_length=50,
-        choices=EXAMES
-    )
-
+    solicitante = models.CharField(max_length=200, blank=True, validators=[validate_nome])
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
+    exame = models.CharField(max_length=50, choices=EXAMES)
     data = models.DateField()
 
     def __str__(self):
         return f'{self.paciente.nome} - {self.exame} - {self.data}'
+
 
 class Resultado(models.Model):
     agendamento = models.OneToOneField(Agendamento, on_delete=models.CASCADE, related_name='resultado')
@@ -44,8 +39,7 @@ class Resultado(models.Model):
     def __str__(self):
         return f'Resultado - {self.agendamento}'
 
-    def parametros_calculados(self):
-        """Retorna os parâmetros já com o valor absoluto calculado (não salvo no banco)."""
+    def _valores_calculados(self):
         parametros = list(self.parametros.all())
 
         leucocitos = None
@@ -57,7 +51,7 @@ class Resultado(models.Model):
                     leucocitos = None
                 break
 
-        lista = []
+        valores = {}
         for p in parametros:
             valor_exibido = p.valor
 
@@ -69,15 +63,35 @@ class Resultado(models.Model):
                 except (ValueError, AttributeError):
                     pass
 
-            lista.append({
+            valores[p.nome] = {
                 'nome': p.nome,
                 'percentual': p.percentual,
                 'valor': valor_exibido,
                 'unidade': p.unidade,
                 'referencia': p.referencia,
-            })
+            }
 
-        return lista
+        return valores
+
+    def secoes_calculadas(self):
+       
+        from .exames import EXAMES
+
+        exame_config = EXAMES[self.agendamento.exame]
+        valores = self._valores_calculados()
+
+        if 'secoes' not in exame_config:
+            parametros = list(valores.values())
+            return [{'nome': None, 'parametros': parametros}]
+
+        secoes = []
+        for secao in exame_config['secoes']:
+            parametros = [
+                valores[p['nome']] for p in secao['parametros'] if p['nome'] in valores
+            ]
+            secoes.append({'nome': secao['nome'], 'parametros': parametros})
+
+        return secoes
 
 
 class ResultadoParametro(models.Model):
@@ -91,7 +105,7 @@ class ResultadoParametro(models.Model):
     nome = models.CharField(max_length=100)
 
     valor = models.CharField(max_length=100, blank=True)
-    percentual = models.CharField(max_length=20, blank=True)  
+    percentual = models.CharField(max_length=20, blank=True)
 
     unidade = models.CharField(max_length=50, blank=True)
     referencia = models.CharField(max_length=200, blank=True)

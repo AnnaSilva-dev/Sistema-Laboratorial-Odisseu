@@ -122,6 +122,8 @@
 
         {% for grupo in exames %}
 
+            {% with resultado_ref=grupo.list.0 %}
+
             <div class="exame">
 
                 <div class="exame-titulo">
@@ -145,38 +147,43 @@
                 </div>
 
 
-            <table>
-    <thead>
-        <tr>
-            <th>Parâmetro</th>
-            {% if grupo.grouper.exame == 'hemograma' %}
-                <th>%</th>
-                <th>Absoluta</th>
-            {% else %}
-                <th>Resultado</th>
-            {% endif %}
-            <th>Unidade</th>
-            <th>Referência</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for resultado in grupo.list %}
-            {% for parametro in resultado.parametros_calculados %}
-                <tr>
-                    <td>{{ parametro.nome }}</td>
-                    {% if grupo.grouper.exame == 'hemograma' %}
-                        <td>{{ parametro.percentual }}{% if parametro.percentual %} %{% endif %}</td>
-                        <td>{{ parametro.valor }}</td>
-                    {% else %}
-                        <td>{{ parametro.valor }}</td>
-                    {% endif %}
-                    <td>{{ parametro.unidade }}</td>
-                    <td>{{ parametro.referencia|linebreaksbr }}</td>
-                </tr>
-            {% endfor %}
-        {% endfor %}
-    </tbody>
-</table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>%</th>
+                            <th>Resultado</th>
+                            {% if resultado_ref.tem_unidade %}
+                                <th>Unidade</th>
+                            {% endif %}
+                            <th>Referência</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in grupo.list %}
+                            {% for secao in resultado.secoes_calculadas %}
+                                {% if secao.nome %}
+                                    <tr>
+                                        <td colspan="5" style="background-color:#f5f5f5;">
+                                            <strong>{{ secao.nome }}</strong>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                {% for parametro in secao.parametros %}
+                                    <tr>
+                                        <td>{{ parametro.nome }}</td>
+                                        <td>{{ parametro.percentual }}{% if parametro.percentual %} %{% endif %}</td>
+                                        <td>{{ parametro.valor }}</td>
+                                        {% if resultado_ref.tem_unidade %}
+                                            <td>{{ parametro.unidade }}</td>
+                                        {% endif %}
+                                        <td>{{ parametro.referencia|linebreaksbr }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
 
 
                 {% for resultado in grupo.list %}
@@ -198,6 +205,8 @@
                 {% endfor %}
 
             </div>
+
+            {% endwith %}
 
         {% endfor %}
 

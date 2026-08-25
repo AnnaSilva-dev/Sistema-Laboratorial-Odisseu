@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date, datetime
-from .exames import EXAMES
+from .exames import EXAMES, parametros_do_exame
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
 from rolepermissions.roles import assign_role
@@ -139,13 +139,13 @@ def digitar_resultados(request, agendamento_id):
             resultado.agendamento = agendamento
             resultado.save()
 
-            for parametro in exame['parametros']:
+            for parametro in parametros_do_exame(exame):
                 if parametro.get('tipo') == 'diferencial':
                     ResultadoParametro.objects.create(
                         resultado=resultado,
                         nome=parametro['nome'],
                         percentual=request.POST.get(parametro['nome'], ''),
-                        valor='',  
+                        valor='',
                         unidade=parametro['unidade'],
                         referencia=parametro['referencia'],
                     )
@@ -164,7 +164,6 @@ def digitar_resultados(request, agendamento_id):
         form = ResultadoForm()
 
     return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
-
 @login_required
 @has_permission_decorator('visualizar_resultados')
 def ver_resultados(request, paciente_id, data):

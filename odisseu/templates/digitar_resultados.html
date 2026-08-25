@@ -22,63 +22,46 @@
     <hr>
 
     <form method="POST">
+    {% csrf_token %}
+    <h2>{{ exame.nome }}</h2>
 
-        {% csrf_token %}
-
-        <h2>
-            {{ exame.nome }}
-        </h2>
-
-        {% for parametro in exame.parametros %}
-
-            <div>
-
-                <label>
-                    <strong>{{ parametro.nome }}</strong>
-                </label>
-
+    {% if exame.secoes %}
+        {% for secao in exame.secoes %}
+            <h3>{{ secao.nome }}</h3>
+            {% for parametro in secao.parametros %}
+                <div>
+                    <label><strong>{{ parametro.nome }}</strong></label>
+                    <br>
+                    <input type="text" name="{{ parametro.nome }}">
+                    {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
+                    <br>
+                    <small>Valor de referência: {{ parametro.referencia }}</small>
+                </div>
                 <br>
-
-                <input
-                    type="text"
-                    name="{{ parametro.nome }}"
-                >
-
-                {{ parametro.unidade }}
-
-                <br>
-
-                <small>
-                    Valor de referência:
-                    {{ parametro.referencia }}
-                </small>
-
-            </div>
-
-            <br>
-
+            {% endfor %}
         {% endfor %}
-
-
-        <div>
-
-            <label for="id_observacao">
-                <strong>Observação:</strong>
-            </label>
-
+    {% else %}
+        {% for parametro in exame.parametros %}
+            <div>
+                <label><strong>{{ parametro.nome }}</strong></label>
+                <br>
+                <input type="text" name="{{ parametro.nome }}">
+                {{ parametro.unidade }}
+                <br>
+                <small>Valor de referência: {{ parametro.referencia }}</small>
+            </div>
             <br>
+        {% endfor %}
+    {% endif %}
 
-            {{ form.observacao }}
-
-        </div>
-
+    <div>
+        <label for="id_observacao"><strong>Observação:</strong></label>
         <br>
-
-        <button type="submit">
-            Salvar resultado
-        </button>
-
-    </form>
+        {{ form.observacao }}
+    </div>
+    <br>
+    <button type="submit">Salvar resultado</button>
+</form>
 
 
     {% if agendamento.resultado %}
