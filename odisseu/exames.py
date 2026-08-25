@@ -122,8 +122,8 @@ EXAMES = {
             {
                 'nome': 'Sedimentoscopia',
                 'parametros': [
-                    {'nome': 'Leucócitos', 'unidade': '/campo', 'referencia': 'até 5 /campo'},
-                    {'nome': 'Hemácias', 'unidade': '/campo', 'referencia': 'até 3 /campo'},
+                    {'nome': 'Leucócitos', 'unidade': '', 'referencia': 'até 5 /campo'},
+                    {'nome': 'Hemácias', 'unidade': '', 'referencia': 'até 3 /campo'},
                 ],
             },
         ],

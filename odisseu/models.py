@@ -92,7 +92,12 @@ class Resultado(models.Model):
             secoes.append({'nome': secao['nome'], 'parametros': parametros})
 
         return secoes
-
+    def tem_unidade(self):
+        for secao in self.secoes_calculadas():
+            for parametro in secao['parametros']:
+                if parametro['unidade']:
+                    return True
+        return False
 
 class ResultadoParametro(models.Model):
 
