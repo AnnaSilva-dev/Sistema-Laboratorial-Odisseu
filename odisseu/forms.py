@@ -4,6 +4,7 @@ from .exames import EXAMES
 from .validators import validate_future_date
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from datetime import date
 
 
 class UsuarioForm(UserCreationForm):
@@ -84,10 +85,10 @@ class AgendamentoForm(forms.Form):
     
     data = forms.DateField(
         label='Data',
+        initial=date.today,
         validators=[validate_future_date],
         widget=forms.DateInput(attrs={
             'class': 'data edit-forms',
-            'value': '2009-12-17',
             'type': 'date',
         })
     )
