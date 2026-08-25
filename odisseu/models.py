@@ -20,7 +20,13 @@ class Agendamento(models.Model):
         ('glicemia', 'Glicemia'),
         ('hemograma', 'Hemograma'),
         ('proteina', 'Proteína C reativa'),
-        ('sumario_urina', 'Sumário de Urina')
+        ('sumario_urina', 'Sumário de Urina'),
+        ('colesterol_total', 'Colesterol Total'),
+        ('also', 'Antiestreptolisina O'),
+        ('ureia', 'Uréia'),
+        ('tgo', 'TGO'),
+        ('tgp', 'TGP'),
+        ('gp_sanguineo', 'Grupo Sanguíneo e fator RH')
     ]
     solicitante = models.CharField(max_length=200, blank=True, validators=[validate_nome])
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE)
@@ -92,12 +98,18 @@ class Resultado(models.Model):
             secoes.append({'nome': secao['nome'], 'parametros': parametros})
 
         return secoes
-    def tem_unidade(self):
+    def tem_campo(self, campo):
         for secao in self.secoes_calculadas():
             for parametro in secao['parametros']:
-                if parametro['unidade']:
+                if parametro.get(campo):
                     return True
         return False
+
+    @property
+    def colunas_visiveis(self):
+        """Dicionário indicando quais colunas devem aparecer no laudo."""
+        campos = ['percentual', 'unidade', 'referencia']
+        return {campo: self.tem_campo(campo) for campo in campos}
 
 class ResultadoParametro(models.Model):
 

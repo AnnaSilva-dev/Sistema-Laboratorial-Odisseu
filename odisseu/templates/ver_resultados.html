@@ -147,44 +147,51 @@
                 </div>
 
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Parâmetro</th>
-                            <th>%</th>
-                            <th>Resultado</th>
-                            {% if resultado_ref.tem_unidade %}
-                                <th>Unidade</th>
-                            {% endif %}
-                            <th>Referência</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for resultado in grupo.list %}
-                            {% for secao in resultado.secoes_calculadas %}
-                                {% if secao.nome %}
-                                    <tr>
-                                        <td colspan="5" style="background-color:#f5f5f5;">
-                                            <strong>{{ secao.nome }}</strong>
-                                        </td>
-                                    </tr>
-                                {% endif %}
-                                {% for parametro in secao.parametros %}
-                                    <tr>
-                                        <td>{{ parametro.nome }}</td>
-                                        <td>{{ parametro.percentual }}{% if parametro.percentual %} %{% endif %}</td>
-                                        <td>{{ parametro.valor }}</td>
-                                        {% if resultado_ref.tem_unidade %}
-                                            <td>{{ parametro.unidade }}</td>
-                                        {% endif %}
-                                        <td>{{ parametro.referencia|linebreaksbr }}</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-
+               <table>
+    <thead>
+        <tr>
+            <th>Parâmetro</th>
+            {% if resultado_ref.colunas_visiveis.percentual %}
+                <th>%</th>
+            {% endif %}
+            <th>Resultado</th>
+            {% if resultado_ref.colunas_visiveis.unidade %}
+                <th>Unidade</th>
+            {% endif %}
+            {% if resultado_ref.colunas_visiveis.referencia %}
+                <th>Referência</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for resultado in grupo.list %}
+            {% for secao in resultado.secoes_calculadas %}
+                {% if secao.nome %}
+                    <tr>
+                        <td colspan="5" style="background-color:#f5f5f5;">
+                            <strong>{{ secao.nome }}</strong>
+                        </td>
+                    </tr>
+                {% endif %}
+                {% for parametro in secao.parametros %}
+                    <tr>
+                        <td>{{ parametro.nome }}</td>
+                        {% if resultado_ref.colunas_visiveis.percentual %}
+                            <td>{{ parametro.percentual }}{% if parametro.percentual %} %{% endif %}</td>
+                        {% endif %}
+                        <td>{{ parametro.valor }}</td>
+                        {% if resultado_ref.colunas_visiveis.unidade %}
+                            <td>{{ parametro.unidade }}</td>
+                        {% endif %}
+                        {% if resultado_ref.colunas_visiveis.referencia %}
+                            <td>{{ parametro.referencia|linebreaksbr }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
 
                 {% for resultado in grupo.list %}
 

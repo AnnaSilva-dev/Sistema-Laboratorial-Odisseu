@@ -128,4 +128,76 @@ EXAMES = {
             },
         ],
     },
+    'colesterol_total': {
+            'nome': 'Colesterol Total',
+            'amostra':'soro',
+            'metodo':'Enzimático-Colorimétrico',
+            'parametros': [
+                {
+                    'nome': 'resultado',
+                    'unidade': 'mg/dL',
+                    'referencia': 'desejável: < 200 mg/dL\nlimítrofe: 200 a 239 mg/dL\nelevado: ≥ 240 mg/dL',
+                },
+            ],
+        },
+    'also': {
+                'nome': 'Antestreptolisina O',
+                'amostra':'soro',
+                'metodo':'Aglutinação',
+                'parametros': [
+                    {
+                        'nome': 'resultado',
+                        'unidade': 'UI/mL',
+                        'referencia': '< 200 UI/mL',
+                    },
+                ],
+            },
+    'ureia': {
+                    'nome': 'Uría',
+                    'amostra':'soro',
+                    'metodo':'Cinético-UV.',
+                    'parametros': [
+                        {
+                            'nome': 'resultado',
+                            'unidade': 'UI/mL',
+                            'referencia': '15 – 45 mg/dL',
+                        },
+                    ],
+                },
+    'tgo': {
+                'nome': 'TGO',
+                'amostra':'soro',
+                'metodo':'cinético-UV',
+                'parametros': [
+                    {
+                        'nome': 'resultado',
+                        'unidade': 'UI/mL',
+                        'referencia': 'Homens: 11 - 39 U/L \nMulheres: 10 - 37 U/L',
+                    },
+                ],
+            },
+    'tgp': {
+                'nome': 'TGP',
+                'amostra':'soro',
+                'metodo':'Cinético-UV',
+                'parametros': [
+                    {
+                        'nome': 'resultado',
+                        'unidade': 'UI/mL',
+                        'referencia': 'Homens: 11 - 45 U/L \nMulheres: 10 - 37 U/L',
+                    },
+                ],
+            },
+    'gp_sanguineo': {
+                'nome': 'Grupo sanguíneo e fator RH',
+                'amostra':'soro',
+                'metodo':'Cinético-UV',
+                'parametros': [
+                    {
+                        'nome': 'resultado',
+                        'unidade': '',
+                        'referencia': '',
+                    },
+                ],
+            },
 }
