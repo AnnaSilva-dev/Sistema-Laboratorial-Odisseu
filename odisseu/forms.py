@@ -56,9 +56,9 @@ class PacienteForm(forms.ModelForm):
             }),
 
             'data_nascimento': forms.DateInput(attrs={
-                'class': 'data_nascimento edit-forms',
+                'class': 'data edit-forms',
                 'type': 'date',
-                'value': '2009-12-17'
+                'value': 'aaaa/mm/dd'
             }),
         }
 

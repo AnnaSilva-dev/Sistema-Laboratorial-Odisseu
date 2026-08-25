@@ -42,13 +42,13 @@ body{
 
 /* forms */ 
 
-.form-paciente {
+.forms {
     display: inline;
     flex-wrap: wrap;
     gap: 15px;
 }
 
-.form-paciente p {
+.forms p {
     min-width: 0;
     margin: 0;
 }
@@ -70,17 +70,20 @@ form label[for="id_cpf"], form label[for="id_cns"] {
     text-transform: uppercase;
 }
 
+form input.nome{
+    text-transform: capitalize;
+}
+
 form input.edit-forms{
     margin: 5px;
     width: 20rem;
     border-radius: 4px;
-    color: gray;
 }
 
-.form-paciente .errorlist {
+/* .forms .errorlist {
     list-style: none;
     font-size: 14px;
-}
+} */
 
 .sucesso{
     background-color: var(--verde-claro);
@@ -121,5 +124,10 @@ form input.edit-forms{
 }
 
 .paciente{
+    color: gray;
+}
+
+.data{
+    text-transform: uppercase;
     color: gray;
 }
