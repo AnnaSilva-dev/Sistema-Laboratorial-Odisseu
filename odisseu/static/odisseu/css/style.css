@@ -123,11 +123,14 @@ form input.edit-forms{
     color: var(--verde-claro);
 }
 
-.paciente{
+.data{
+    text-transform: uppercase;
+}
+
+input[type="date"], .perfil, .paciente {
     color: gray;
 }
 
-.data{
-    text-transform: uppercase;
-    color: gray;
+input[type="date"]:valid, .perfil:valid, .paciente:valid {
+    color: black;
 }

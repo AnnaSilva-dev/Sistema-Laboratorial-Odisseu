@@ -25,8 +25,8 @@
                         <div class="container-fluid mb-2">
                             <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-person p-2"></span> Pacientes cadastrados</a></li>
                             <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar usuários</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
                         </div>
 
                         <h6>Rotina</h6>
@@ -64,9 +64,9 @@
                             <h5>{% now "d/m/Y" %}</h5>
                         </section>
                         
-                        <section class="col-2 right-0">
+                        <!-- <section class="col-2 right-0">
                             <h2 class="bi bi-person-fill"> {{ request.user.username }}</h2>
-                        </section>
+                        </section> -->
                     </div>
                     <div class="row p-5">
                         {% block content %}{% endblock content %}
@@ -76,63 +76,47 @@
         </div>
     </section>
     
-    <!-- <nav>
-        <section class="container-fluid base">
-            <section class="row g-2">
-                <div class="col-md-4 col-sd-12 navegacao navbar">
-                    <ul>
-                        <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
-                        <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
-                        <h6>Recepção</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-person p-2"></span> Pacientes cadastrados</a></li>
-                        </div>
+    <!-- padronização dos forms_cadastros -->
+    <script>
 
-                        <h6>Rotina</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
-                        </div>
+        const cpf = document.querySelector('.cpf');
 
-                        <h6>Resultados</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-file-earmark-medical p-2"></span> Resultados de pacientes faltosos (não mexer)</a></li>
-                        </div>
+        cpf.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
+            v = v.replace(/^(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+            v = v.replace(/\.(\d{3})(\d)/, '.$1-$2');
+            e.target.value = v.slice(0, 14);
+        });
 
-                        <h6>Relatórios</h6>
-                        <div class="container-fluid mb-2">
-                             sem pagina html apenas exemplo na navbar
-                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
-                        </div>
+        const cns = document.querySelector('.cns');
 
-                        <section class="position-absolute bottom-0 mb-4">
-                            <h6>Configuração</h6>
-                            <div class="container-fluid mb-2">
-                                 sem pagina html apenas exemplo na navbar 
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
-                            </div>
-                        </section>
-                    </ul>
-                </div>
-                <div class="col p-3">
-                    <div class="row p-3 top">
-                        aqui vai dados do sistema, como: usuario, data.
-                        <section class="col-10 right-0">
-                            <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
-                            <h5>{% now "d/m/Y" %}</h5>
-                        </section>
-                        
-                        <section class="col-2 right-0">
-                            <h2 class="bi bi-person-fill"> {{ request.user.username }}</h2>
-                        </section>
-                    </div>
-                    <div class="row p-5">
-                    </div>
-                </div>
-            </section>
-    </nav> -->
+        cns.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 15);
+            v = v.replace(/(\d{3})(\d)/, '$1 $2');
+            v = v.replace(/(\d{3}) (\d{4})(\d)/, '$1 $2 $3');
+            v = v.replace(/(\d{3}) (\d{4}) (\d{4})(\d)/, '$1 $2 $3 $4');
+            e.target.value = v;
+        });
+    
+        const telefone = document.querySelector('.telefone');
+
+        telefone.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+
+            if (v.length <= 2) {
+                v = '(' + v;
+            } 
+            else if (v.length <= 7) {
+                v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+            } 
+            else {
+                v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
+            }
+
+            e.target.value = v;
+        });
+    </script>
     
 </body>
 </html>
