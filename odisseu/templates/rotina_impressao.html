@@ -1,0 +1,203 @@
+
+{% block title %}Rotina do laboratório{% endblock %}
+
+{% block content %}
+
+<style>
+
+    @media print {
+
+        @page {
+            size: A4;
+            margin: 15mm;
+        }
+
+        html,
+        body {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+
+        .rotina-impressao {
+            background: #ffffff !important;
+            color: #000000 !important;
+
+            width: 100%;
+            max-width: none;
+
+            margin: 0;
+            padding: 0;
+        }
+
+        /*
+        Esconde elementos herdados do base.html
+        */
+
+        nav,
+        button,
+        a,
+        form {
+            display: none !important;
+        }
+
+        .paciente,
+        .exame,
+        .secao {
+            page-break-inside: avoid;
+        }
+
+    }
+
+</style>
+
+
+<div class="rotina-impressao">
+
+
+    
+    <div class="cabecalho">
+
+        <h1>
+            ROTINA DO LABORATÓRIO
+        </h1>
+
+        <p>
+            Data:
+            <strong>
+                {{ data|date:"d/m/Y" }}
+            </strong>
+        </p>
+
+    </div>
+
+
+    {% regroup exames_impressao by agendamento.paciente as pacientes %}
+
+
+    {% for grupo in pacientes %}
+
+
+        <div class="paciente">
+
+
+
+            <h2>
+                Paciente: {{ grupo.grouper.nome }}
+            </h2>
+
+
+            {% for item in grupo.list %}
+
+
+                <div class="exame">
+
+
+              
+
+                    <h3>
+                        {{ item.exame.nome }}
+                    </h3>
+
+
+                    {% if item.exame.secoes %}
+
+
+                        {% for secao in item.exame.secoes %}
+
+
+                            <div class="secao">
+
+
+                                <h4>
+                                    {{ secao.nome }}
+                                </h4>
+
+
+                                {% for parametro in secao.parametros %}
+
+
+                                    <div class="parametro">
+
+                                        <span class="nome-parametro">
+                                            {{ parametro.nome }}:
+                                        </span>
+
+                                        <span class="linha"></span>
+
+                                    </div>
+
+
+                                {% endfor %}
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% else %}
+
+
+                   
+
+                        {% for parametro in item.exame.parametros %}
+
+
+                            <div class="parametro">
+
+                                <span class="nome-parametro">
+                                    {{ parametro.nome }}:
+                                </span>
+
+                                <span class="linha"></span>
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    {% endif %}
+
+
+              
+                    <div class="observacao">
+
+                        <strong>
+                            Observação:
+                        </strong>
+
+                        <span class="linha-observacao"></span>
+
+                        <span class="linha-observacao"></span>
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        <hr class="separador">
+
+
+    {% empty %}
+
+
+        <p>
+            Não existem exames agendados para esta data.
+        </p>
+
+
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

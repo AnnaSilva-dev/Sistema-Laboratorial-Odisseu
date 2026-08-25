@@ -1,158 +1,158 @@
 {% extends "base.html" %}
+
 {% block title %}{{ block.super }} - Rotina{% endblock %}
+
 {% block content %}
 
-    <style>
-
-        @media print {
-
-            /* Esconde os botões e links na impressão */
-
-            .base, button,
-            a,
-            form {
-                display: none !important;
-            }
-
-        }
-
-    </style>
-
-    <h1>Rotina do laboratório</h1>
+<h1>Rotina do laboratório</h1>
 
 
-    <!-- FILTRO POR DATA -->
+<!-- FILTRO POR DATA -->
 
-    <form method="GET">
+<form method="GET">
 
-        <label for="data">
-            Selecionar data:
-        </label>
+    <label for="data">
+        Selecionar data:
+    </label>
 
-        <input
-            class="data_nascimento edit-forms"
-            type="date"
-            id="data"
-            name="data"
-        >
-
-        <button class="sucesso border-0" type="submit">
-            Filtrar
-        </button>
-
-    </form>
-
-
-    <br>
-
-
-    <!-- BOTÃO PDF -->
-
-    <button
-        class="pdf border-0 mt-2"
-        type="button"
-        onclick="window.print()"
+    <input
+        class="data_nascimento edit-forms"
+        type="date"
+        id="data"
+        name="data"
+        value="{{ data|date:'Y-m-d' }}"
     >
-        PDF
+
+    <button class="sucesso border-0" type="submit">
+        Filtrar
     </button>
 
+</form>
+
+
+<br>
+
+
+<!-- BOTÃO PARA A PÁGINA DE IMPRESSÃO -->
+
+{% if agendamentos %}
+
+    <a
+        href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
+        target="_blank"
+        class="pdf border-0 mt-2"
+    >
+        Imprimir rotina
+    </a>
+
+{% endif %}
+
+
+<hr>
+
+
+<!-- DATA -->
+
+<h2>
+    Rotina do dia:
+    {{ data|date:"d/m/Y" }}
+</h2>
+
+
+<!-- AGRUPA OS AGENDAMENTOS PELO PACIENTE -->
+
+{% regroup agendamentos by paciente as pacientes %}
+
+
+{% for grupo in pacientes %}
+
+    <div>
+
+        <!-- NOME DO PACIENTE -->
+
+        <h3>
+            {{ grupo.grouper.nome }}
+        </h3>
+
+
+        <!-- EXAMES -->
+
+        {% for agendamento in grupo.list %}
+
+            <div>
+
+                <strong>
+                    {{ agendamento.get_exame_display }}
+                </strong>
+
+
+                <!-- ESPAÇO VISUAL -->
+
+                <span
+                    style="
+                        display: inline-block;
+                        width: 250px;
+                        border-bottom: 1px solid black;
+                        margin-left: 20px;
+                    "
+                ></span>
+
+
+                <!-- AÇÕES -->
+
+                {% if agendamento.resultado %}
+
+                    <a
+                        href="{% url 'editar_resultado' agendamento.resultado.id %}"
+                    >
+                        Editar resultado
+                    </a>
+
+                    <br>
+
+                    <a
+                        href="{% url 'excluir_agendamento' agendamento.id %}"
+                    >
+                        Excluir agendamento
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'digitar_resultados' agendamento.id %}"
+                    >
+                        Digitar resultado
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+            <br>
+
+        {% endfor %}
+
+
+        <!-- VER RESULTADOS -->
+
+        <a
+            href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
+        >
+            Ver resultados
+        </a>
+
+    </div>
 
     <hr>
 
 
-    <!-- DATA -->
+{% empty %}
 
-    <h2>
-        Rotina do dia:
-        {{ data|date:"d/m/Y" }}
-    </h2>
+    <p>
+        Não existem exames agendados para esta data.
+    </p>
 
-
-    <!-- AGRUPA OS AGENDAMENTOS PELO PACIENTE -->
-
-    {% regroup agendamentos by paciente as pacientes %}
+{% endfor %}
 
 
-    {% for grupo in pacientes %}
-
-        <div>
-
-            <!-- NOME DO PACIENTE -->
-
-            <h3>
-                {{ grupo.grouper.nome }}
-            </h3>
-
-
-            <!-- EXAMES -->
-
-            {% for agendamento in grupo.list %}
-
-                <div>
-
-                    <strong>
-                        {{ agendamento.get_exame_display }}
-                    </strong>
-
-
-                    <!-- ESPAÇO PARA ANOTAR O RESULTADO -->
-
-                    <span
-                        style="
-                            display: inline-block;
-                            width: 250px;
-                            border-bottom: 1px solid black;
-                            margin-left: 20px;
-                        "
-                    ></span>
-
-
-                    <!-- AÇÕES NA TELA -->
-
-                    {% if agendamento.resultado %}
-
-                        <a
-                            href="{% url 'editar_resultado' agendamento.resultado.id %}"
-                        >
-                            Editar resultado 
-                        </a><br>
-                        <a href="{%url 'excluir_agendamento' agendamento.id%}">Excluir agendamento</a>
-
-                    {% else %}
-
-                        <a
-                            href="{% url 'digitar_resultados' agendamento.id %}"
-                        >
-                            Digitar resultado
-                        </a>
-
-                    {% endif %}
-
-                </div>
-
-                <br>
-
-            {% endfor %}
-
-
-            <!-- VER RESULTADOS -->
-
-            <a
-                href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
-            >
-                Ver resultados
-            </a>
-
-        </div>
-
-        <hr>
-
-
-    {% empty %}
-
-        <p>
-            Não existem exames agendados para esta data.
-        </p>
-
-    {% endfor %}
 {% endblock %}

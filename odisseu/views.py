@@ -295,3 +295,47 @@ def excluir_agendamento(request, agendamento_id):
     return redirect(
         f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )
+def rotina_impressao(request):
+
+    data = request.GET.get('data')
+
+    if data:
+        agendamentos = Agendamento.objects.filter(
+            data=data
+        ).select_related(
+            'paciente'
+        ).order_by(
+            'paciente__nome'
+        )
+    else:
+        data = date.today()
+
+        agendamentos = Agendamento.objects.filter(
+            data=data
+        ).select_related(
+            'paciente'
+        ).order_by(
+            'paciente__nome'
+        )
+
+    exames_impressao = []
+
+    for agendamento in agendamentos:
+
+        exame = EXAMES.get(agendamento.exame)
+
+        if not exame:
+            continue
+
+        exames_impressao.append({
+            'agendamento': agendamento,
+            'exame': exame,
+        })
+
+    return render(
+        request,
+        'rotina_impressao.html',
+        {
+            'data': data,
+            'exames_impressao': exames_impressao,
+        })

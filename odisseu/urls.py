@@ -18,6 +18,7 @@ urlpatterns = [
     path(
         'excluir_agendamento/<int:agendamento_id>/',views.excluir_agendamento, name='excluir_agendamento'
     ),
-    
+    path('rotina/imprimir/',views.rotina_impressao, name='rotina_impressao'
+),
 
 ]
