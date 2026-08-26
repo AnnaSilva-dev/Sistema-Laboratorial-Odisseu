@@ -3,15 +3,15 @@
 {% block content %}
     <section class="container">
         <div class="row">
-            <nav class="col-md-4">
-                <h5>Pacientes agendados para hoje</h5>
+            <nav class="col-md-3 cards py-5 mx-1">
+                <h5>Pacientes agendados <br> hoje</h5>
                 <h3>{{ pacientes_agendados }}</h3>
             </nav>
-            <nav class="col-md-4">
+            <nav class="col-md-4 cards py-5 mx-1">
                 <h5>Resultados pendentes por laudos não liberados</h5>
                 <h3>{{ resultados_pendentes }}</h3>
             </nav>
-            <nav class="col-md-4">
+            <nav class="col-md-4 cards py-5 mx-1">
                 <h5>Tipos diferentes de exames para hoje</h5>
                 <h3>{{ exames_pendentes }}</h3>
             </nav>

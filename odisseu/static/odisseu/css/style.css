@@ -202,3 +202,10 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .ms{
     margin-left: 6rem;
 }
+
+/* personalização da tela index */
+
+.cards{
+    background-color: var(--verde-claro);
+    border-radius: 10px;
+}
