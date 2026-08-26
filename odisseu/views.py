@@ -1,7 +1,8 @@
+from django.db.models import Count
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from .exames import EXAMES, parametros_do_exame
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
@@ -9,10 +10,33 @@ from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_permission_decorator
 from django.contrib.auth.decorators import login_required
 from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionista
+from django.utils import timezone
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    hoje = timezone.localdate()
+
+    pacientes_agendados = Agendamento.objects.filter(
+        data=hoje
+    ).values('paciente').distinct().count()
+
+    resultados_pendentes = Agendamento.objects.filter(
+        resultado__isnull=True
+    ).count()
+
+    exames_pendentes = Agendamento.objects.filter(
+        resultado__isnull=True
+    ).values('exame').distinct().count()
+
+    return render(
+        request,
+        'index.html',
+        {
+            'pacientes_agendados': pacientes_agendados,
+            'resultados_pendentes': resultados_pendentes,
+            'exames_pendentes': exames_pendentes,
+        }
+    )
 
 def login(request):
     if request.method == 'POST':
@@ -96,7 +120,9 @@ def agendar_exame(request):
     return render(
         request,
         'agendar_exame.html',
-        {'form': form}
+        {
+            'form': form,
+        }
     )
 
 @login_required
