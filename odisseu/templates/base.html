@@ -116,6 +116,21 @@
 
             e.target.value = v;
         });
+
+        function mostrarSenha(id, botao) {
+            const campo = document.getElementById(id);
+            const icone = botao.querySelector('i');
+
+            if (campo.type === 'password') {
+                campo.type = 'text';
+                icone.classList.remove('bi-eye-fill');
+                icone.classList.add('bi-eye-slash-fill');
+            } else {
+                campo.type = 'password';
+                icone.classList.remove('bi-eye-slash-fill');
+                icone.classList.add('bi-eye-fill');
+            }
+        }
     </script>
     
 </body>

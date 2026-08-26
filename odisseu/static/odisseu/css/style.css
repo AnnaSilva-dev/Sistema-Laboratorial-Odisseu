@@ -77,7 +77,7 @@ form input.nome{
 
 form input.edit-forms{
     margin: 5px;
-    width: 20rem;
+    width: 100%;
     border-radius: 4px;
 }
 
@@ -93,6 +93,11 @@ form input.edit-forms{
 
 label::after {
     content: ":";
+}
+
+.eye{
+    color: var(--verde-claro);
+    padding: 10px;
 }
 
 .confirmar{
@@ -114,9 +119,6 @@ label::after {
     background-color: var(--vermelho);
 }
 
-.botoes{
-    margin: 5rem;
-}
 
 .pdf{
     border-radius: 5px;

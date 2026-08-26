@@ -8,65 +8,82 @@
         <form method="POST" class="forms">
             {% csrf_token %}
 
-            <div class="campo">
-                <label for="{{ form.username.id_for_label }}">
-                    {{ form.username.label }}
-                </label>
-                {{ form.username }}
-                {{ form.username.errors }}
-            </div>
+            <section class="row">
+                <div class="col-md-8 border-0">
+                    <label for="{{ form.username.id_for_label }}">
+                        {{ form.username.label }}
+                    </label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+            </section>
 
-            <div class="campo">
-                <label for="{{ form.first_name.id_for_label }}">
-                    {{ form.first_name.label }}
-                </label>
-                {{ form.first_name }}
-                {{ form.first_name.errors }}
-            </div>
+            <section class="row">
+                <div class="col-md-4 rounded-2">
+                    <label for="{{ form.first_name.id_for_label }}">
+                        {{ form.first_name.label }}
+                    </label>
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
 
-            <div class="campo">
-                <label for="{{ form.last_name.id_for_label }}">
-                    {{ form.last_name.label }}
-                </label>
-                {{ form.last_name }}
-                {{ form.last_name.errors }}
-            </div>
+                <div class="col-md-4 rounded-2">
+                    <label for="{{ form.last_name.id_for_label }}">
+                        {{ form.last_name.label }}
+                    </label>
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+            </section>
 
-            <div class="campo">
-                <label for="{{ form.email.id_for_label }}">
-                    {{ form.email.label }}
-                </label>
-                {{ form.email }}
-                {{ form.email.errors }}
-            </div>
 
-            <div class="campo">
-                <label for="{{ form.password1.id_for_label }}">
-                    {{ form.password1.label }}
-                </label>
-                {{ form.password1 }}
-                {{ form.password1.errors }}
-            </div>
+            <section class="row">
+                <div class="col-md-6 rounded-2">
+                   <label for="{{ form.email.id_for_label }}">
+                        {{ form.email.label }}
+                    </label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
 
-            <div class="campo">
-                <label for="{{ form.password2.id_for_label }}">
+                <div class="col-md-2 rounded-2">
+                    <label for="{{ form.perfil.id_for_label }}">
+                        {{ form.perfil.label }}
+                    </label>
+                    {{ form.perfil}}
+                    {{ form.perfil.errors }}
+                </div>
+            </section>
+            
+            <section class="row">
+                <div class="col-md-4 rounded-2 position-relative campo">
+                    <label for="{{ form.password1.id_for_label }}">
+                        {{ form.password1.label }}
+                    </label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+
+                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password1', this)">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </div>
+
+                <div class="col-md-4 rounded-2 position-relative campo">
+                    <label for="{{ form.password2.id_for_label }}">
                     {{ form.password2.label }}
-                </label>
-                {{ form.password2 }}
-                {{ form.password2.errors }}
-            </div>
-        
-             <div class="campo">
-                <label for="{{ form.perfil.id_for_label }}">
-                    {{ form.perfil.label }}
-                </label>
-                {{ form.perfil}}
-                {{ form.perfil.errors }}
-            </div>
+                    </label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
 
-            <section class="botoes position-absolute bottom-0 end-0">
+                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password1', this)">
+                        <i class="bi bi-eye-fill" style="width: 20px;"></i>
+                    </button>
+                </div>
+            </section>
+
+            <section class="my-5">
                 <button class="cancelar px-2 m-2" type="reset">Cancelar</button>
-                <button class="confirmar p-2 px-4 border-0 m-2" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
+                <button class="confirmar p-2 px-4 border-0 m-2 rounded-2" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
             </section>
         </form>
     </nav>
