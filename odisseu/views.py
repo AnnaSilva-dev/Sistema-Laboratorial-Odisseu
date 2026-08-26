@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from rolepermissions.roles import assign_role
 from rolepermissions.decorators import has_permission_decorator
 from django.contrib.auth.decorators import login_required
+from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionista
 
 @login_required
 def index(request):
@@ -34,7 +35,13 @@ def cadastrar_usuario(request):
         if form.is_valid():
             user = form.save()
             perfil = form.cleaned_data['perfil']
-            assign_role(user, perfil)
+            ROLES = {
+            'Administrador': Administrador,
+            'Farmaceutico': Farmaceutico,
+            'Recepcionista': Recepcionista,
+            'TecnicoLaboratorial': TecnicoLaboratorial}
+            role = ROLES[perfil]
+            assign_role(user, role)
             return redirect('index')
         
     else:

@@ -15,7 +15,7 @@ class UsuarioForm(UserCreationForm):
         choices=[
             ('', 'Selecione seu perfil'),
             ('Administrador', 'Administrador'),
-            ('Farmaceutico', 'Farmacêutico'),
+            ('Farmaceutico', 'Farmaceutico'),
             ('Recepcionista', 'Recepcionista'),
             ('Tecnicolaboratorial', 'Técnico Laboratorial'),
         ],
