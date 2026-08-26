@@ -10,19 +10,33 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
-    <section class="container login">
+    <section class="container login d-flex justify-content-center align-items-center ">
         <nav>
             <form method="post">
                 {% csrf_token %}
-                <div class="row">
-                    <span class="bi bi-person-fill"></span><input class="edit-forms" type="text" name="username" placeholder="Username">
-                </div>
-                <div class="row">
-                    <span class="bi bi-key-fill"></span><input class="edit-forms" type="password" name="password" placeholder="Password">
-                </div>
-                
-                <button class="sucesso border-0 px-4 mt-3" type="submit">Login</button>
+                <section class="base-login">
+                    <h4 class="text">
+                        Bem-vindo(a)!
+                    </h4>
+                    <div class="borda"></div>
+                    <p class="text-secondary-emphasis text">Faça o login para acessar o sistema</p>
+
+                    <div class="login-form">
+                        <label>Usuário</label>
+                        <input class="edit-forms" type="text" name="username" placeholder="Username">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <div class="login-form">
+                        <label>Senha</label>
+                        <input class="edit-forms" type="password" name="password" placeholder="Password">
+                        <i class="bi bi-lock"></i>
+                    </div>
+                    <div class="ms my-5">
+                        <button class="confirmar border-0 px-5 mt-3" type="submit"><span class="bi bi-door-open-fill"></span> Entrar</button>
+                    </div> 
+                </section>
             </form>
+           
         </nav>
     </section>
 </body>

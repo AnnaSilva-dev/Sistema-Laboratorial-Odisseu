@@ -23,7 +23,7 @@
         value="{{ data|date:'Y-m-d' }}"
     >
 
-    <button class="sucesso border-0" type="submit">
+    <button class="confirmar border-0" type="submit">
         Filtrar
     </button>
 
@@ -40,7 +40,7 @@
     <a
         href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
         target="_blank"
-        class="pdf border-0 mt-2"
+        class="pdf border-0 mt-2 link"
     >
         Imprimir rotina
     </a>
@@ -103,6 +103,7 @@
                 {% if agendamento.resultado %}
 
                     <a
+                        class="link"
                         href="{% url 'editar_resultado' agendamento.resultado.id %}"
                     >
                         Editar resultado
@@ -111,6 +112,7 @@
                     <br>
 
                     <a
+                        class="link"
                         href="{% url 'excluir_agendamento' agendamento.id %}"
                     >
                         Excluir agendamento
@@ -119,6 +121,7 @@
                 {% else %}
 
                     <a
+                        class="link"
                         href="{% url 'digitar_resultados' agendamento.id %}"
                     >
                         Digitar resultado
@@ -136,6 +139,7 @@
         <!-- VER RESULTADOS -->
 
         <a
+            class="link"
             href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
         >
             Ver resultados

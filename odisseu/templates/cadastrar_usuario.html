@@ -8,10 +8,65 @@
         <form method="POST" class="forms">
             {% csrf_token %}
 
-            {{ form.as_p }}
+            <div class="campo">
+                <label for="{{ form.username.id_for_label }}">
+                    {{ form.username.label }}
+                </label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </div>
+
+            <div class="campo">
+                <label for="{{ form.first_name.id_for_label }}">
+                    {{ form.first_name.label }}
+                </label>
+                {{ form.first_name }}
+                {{ form.first_name.errors }}
+            </div>
+
+            <div class="campo">
+                <label for="{{ form.last_name.id_for_label }}">
+                    {{ form.last_name.label }}
+                </label>
+                {{ form.last_name }}
+                {{ form.last_name.errors }}
+            </div>
+
+            <div class="campo">
+                <label for="{{ form.email.id_for_label }}">
+                    {{ form.email.label }}
+                </label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+
+            <div class="campo">
+                <label for="{{ form.password1.id_for_label }}">
+                    {{ form.password1.label }}
+                </label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </div>
+
+            <div class="campo">
+                <label for="{{ form.password2.id_for_label }}">
+                    {{ form.password2.label }}
+                </label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </div>
+        
+             <div class="campo">
+                <label for="{{ form.perfil.id_for_label }}">
+                    {{ form.perfil.label }}
+                </label>
+                {{ form.perfil}}
+                {{ form.perfil.errors }}
+            </div>
+
             <section class="botoes position-absolute bottom-0 end-0">
                 <button class="cancelar px-2 m-2" type="reset">Cancelar</button>
-                <button class="sucesso p-2 px-4 border-0 m-2" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
+                <button class="confirmar p-2 px-4 border-0 m-2" type="submit"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
             </section>
         </form>
     </nav>

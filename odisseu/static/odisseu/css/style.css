@@ -38,6 +38,7 @@ body{
 
 .top{
     border-bottom: 2px solid var(--verde-claro);
+    margin-top: 10px;
 }
 
 /* forms */ 
@@ -80,12 +81,21 @@ form input.edit-forms{
     border-radius: 4px;
 }
 
-/* .forms .errorlist {
+.forms .errorlist {
+    margin: 5px;
+    padding: 5px;
+    color: var(--vermelho);
+    border-radius: 4px;
     list-style: none;
+    text-decoration: underline;
     font-size: 14px;
-} */
+}
 
-.sucesso{
+label::after {
+    content: ":";
+}
+
+.confirmar{
     background-color: var(--verde-claro);
     color: var(--branco);
     border-radius: 2px;
@@ -112,13 +122,6 @@ form input.edit-forms{
     border-radius: 5px;
 }
 
-.login {
-    margin-top: 10rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .link{
     color: var(--verde-claro);
 }
@@ -133,4 +136,67 @@ input[type="date"], .perfil, .paciente {
 
 input[type="date"]:valid, .perfil:valid, .paciente:valid {
     color: black;
+}
+
+
+/* login */
+
+.login {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    position: relative;
+    width: 20rem;
+}
+
+.login-form input {
+    width: 100%;
+    padding-right: 40px;
+}
+
+.login-form i {
+    position: absolute;
+    right: 12px;
+    top: 70%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--verde-claro);
+}
+
+
+.login-form input {
+    border: 1px solid var(--verde-claro);
+    padding: 4px;
+}
+
+.base-login{
+    background-color: var(--branco);
+    color: var(--preto);
+    border-radius: 10px;
+    min-width: 50vh;
+    min-height: 70vh;
+    padding: 5rem;
+}
+
+.base-login .confirmar{
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.text{
+    text-align: center;
+}
+
+.borda{
+    border-bottom: 2px solid var(--verde-claro);
+    margin-left: 7rem;
+    max-width: 10vh;
+}
+
+.ms{
+    margin-left: 6rem;
 }
