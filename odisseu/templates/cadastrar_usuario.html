@@ -9,7 +9,7 @@
             {% csrf_token %}
 
             <section class="row">
-                <div class="col-md-8 border-0">
+                <div class="col-md-8 col-12 border-0">
                     <label for="{{ form.username.id_for_label }}">
                         {{ form.username.label }}
                     </label>
@@ -19,7 +19,7 @@
             </section>
 
             <section class="row">
-                <div class="col-md-4 rounded-2">
+                <div class="col-md-4 col-6 rounded-2">
                     <label for="{{ form.first_name.id_for_label }}">
                         {{ form.first_name.label }}
                     </label>
@@ -27,7 +27,7 @@
                     {{ form.first_name.errors }}
                 </div>
 
-                <div class="col-md-4 rounded-2">
+                <div class="col-md-4 col-6 rounded-2">
                     <label for="{{ form.last_name.id_for_label }}">
                         {{ form.last_name.label }}
                     </label>
@@ -38,7 +38,7 @@
 
 
             <section class="row">
-                <div class="col-md-6 rounded-2">
+                <div class="col-md-6 col-8 rounded-2">
                    <label for="{{ form.email.id_for_label }}">
                         {{ form.email.label }}
                     </label>
@@ -46,7 +46,7 @@
                     {{ form.email.errors }}
                 </div>
 
-                <div class="col-md-2 rounded-2">
+                <div class="col-md-2 col-4 rounded-2">
                     <label for="{{ form.perfil.id_for_label }}">
                         {{ form.perfil.label }}
                     </label>

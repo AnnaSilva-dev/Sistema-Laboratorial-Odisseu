@@ -22,18 +22,22 @@ body{
 }
 
 .navegacao{
-    max-width: 20%;
     border-right: 2px solid var(--verde-claro);
     min-height: 100vh;
     align-items: flex-start;
 } 
 
 .botao-inicio{
-    padding: 5px 167px 5px 20px; 
+    padding: 5px 167px 5px 15px; 
     border-radius: 2px;
     color: var(--branco);
     background-color: var(--verde-claro);
     text-decoration: none;
+}
+
+.navegacao .nav-link,
+.navegacao .botao-inicio {
+    white-space: nowrap;
 }
 
 .top{
@@ -206,6 +210,44 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 /* personalização da tela index */
 
 .cards{
-    background-color: var(--verde-claro);
     border-radius: 10px;
+}
+
+/* menu */
+.menu-mobile {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+
+    width: 250px;
+
+    background-color: #fff;
+    border-radius: 8px;
+    border: 0px solid var(--verde-claro);
+    padding: 10px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    z-index: 1000;
+}
+
+.menu-mobile a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px;
+    margin-bottom: 3px;
+
+    text-decoration: none;
+    color: #333;
+    border-radius: 6px;
+}
+
+.menu-mobile a:hover {
+    background-color: #eee;
+}
+
+.menu-mobile i {
+    font-size: 18px;
 }

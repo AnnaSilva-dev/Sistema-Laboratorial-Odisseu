@@ -8,58 +8,120 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
+    <script src="{% static 'odisseu/js/bootstrap.bundle.min.js' %}"></script>
 </head>
 <body>
-    <section  class="container-fluid base navbar-expand-lg">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <section  class="container-fluid base">
+        <nav class="container-fluid">
             <section class="row g-2">
-                <div class="col navegacao collapse navbar-collapse" id="navbarNav">
-                    <ul>
-                        <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+                <div class="col-md-3 navegacao d-none d-lg-block">
+                        <ul>
+                            <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
 
-                        <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
-                        <h6>Recepção</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar usuários</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
-                        </div>
+                            <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-fill"></span> Início</a></li>
+                            <h6>Recepção</h6>
+                            <div class="container-fluid mb-2">
+                                <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar usuários</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
+                            </div>
 
-                        <h6>Rotina</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
-                        </div>
+                            <h6>Rotina</h6>
+                            <div class="container-fluid mb-2">
+                                <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
+                            </div>
 
-                        <h6>Resultados</h6>
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-file-earmark-medical p-2"></span> Resultados de pacientes faltosos (não mexer)</a></li>
-                        </div>
+                            <h6>Resultados</h6>
+                            <div class="container-fluid mb-2">
+                                <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-file-earmark-medical p-2"></span> Resultados de pacientes</a></li>
+                            </div>
 
-                        <h6>Relatórios</h6>
-                        <div class="container-fluid mb-2">
-                            <!-- sem pagina html apenas exemplo na navbar -->
-                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
-                        </div>
-
-                        <section class="position-absolute bottom-0 mb-4">
-                            <h6>Configuração</h6>
+                            <h6>Relatórios</h6>
                             <div class="container-fluid mb-2">
                                 <!-- sem pagina html apenas exemplo na navbar -->
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
                             </div>
-                        </section>
-                    </ul>
+
+                            <section class="position-absolute bottom-0 mb-4">
+                                <h6>Configuração</h6>
+                                <div class="container-fluid mb-2">
+                                    <!-- sem pagina html apenas exemplo na navbar -->
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                </div>
+                            </section>
+                        </ul>
                 </div>
 
                 <div class="col px-3">
                     <div class="row p-3 top">
+                            <section class="col-sd-2 d-lg-none">
+                                <button class="navbar-toggler" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#menuMobile"
+                                        aria-controls="navbarNav"
+                                        aria-expanded="false"
+                                        aria-label="Abrir menu">
+                                    <i class="bi bi-list" style="font-size: 40px;"></i>
+                                </button>
+
+                                <div class="collapse menu-mobile navbar navbar-expand-sd" id="menuMobile">
+
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-house-fill"></i>
+                                        Início
+                                    </a>
+
+                                    <a href="{% url 'agendar_exame' %}">
+                                        <i class="bi bi-calendar3"></i>
+                                        Agendar exames
+                                    </a>
+
+                                    <a href="{% url 'cadastrar_paciente' %}">
+                                        <i class="bi bi-person-plus"></i>
+                                        Cadastrar pacientes
+                                    </a>
+
+                                    <a href="{% url 'cadastrar_usuario' %}">
+                                        <i class="bi bi-person-plus"></i>
+                                        Cadastrar usuários
+                                    </a>
+
+                                    <a href="{% url 'pacientes' %}">
+                                        <i class="bi bi-people"></i>
+                                        Pacientes cadastrados
+                                    </a>
+
+                                    <a href="{% url 'rotina' %}">
+                                        <i class="bi bi-search"></i>
+                                        Consultar rotinas
+                                    </a>
+
+                                    <a href="{% url 'resultados' %}">
+                                        <i class="bi bi-file-earmark-medical"></i>
+                                        Resultados
+                                    </a>
+
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-file-earmark-bar-graph"></i>
+                                        Relatórios
+                                    </a>
+
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-gear"></i>
+                                        Configuração
+                                    </a>
+
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-question-circle"></i>
+                                        Suporte
+                                    </a>
+                                </div>
+                            </section>
+                            
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
-                        <section class="col-10 right-0">
+                        <section class="col-10 col-sd-8 right-0">
                             <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
                             <h5>{% now "d/m/Y" %}</h5>
                         </section>
@@ -73,7 +135,7 @@
                     </div>
                 </div>
             </section>  
-        </div>
+        </nav>
     </section>
     
     <!-- padronização dos forms_cadastros -->
