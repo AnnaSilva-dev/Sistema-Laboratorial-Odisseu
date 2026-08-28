@@ -1,19 +1,23 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{{ block.super }}{% endblock %}
 {% block content %}
-    <section class="container">
+    <section class="container-fluid">
         <div class="row">
-            <nav class="col-md-3 cards py-5 mx-1">
-                <h5>Pacientes agendados <br> hoje</h5>
-                <h3>{{ pacientes_agendados }}</h3>
+            <nav class="col-md-4 cards py-2 m-1">
+                <h6>
+                    <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:100px;">
+                    Pacientes agendados <br> hoje
+                </h6>
+                <h1 class="text-success">{{ pacientes_agendados }}</h1>
             </nav>
-            <nav class="col-md-4 cards py-5 mx-1">
-                <h5>Resultados pendentes por laudos não liberados</h5>
-                <h3>{{ resultados_pendentes }}</h3>
+            <nav class="col-md-3 cards py-5 m-1">
+                <h6>Resultados pendentes por<br> laudos não liberados</h6>
+                <h1 class="text-warning">{{ resultados_pendentes }}</h1>
             </nav>
-            <nav class="col-md-4 cards py-5 mx-1">
-                <h5>Tipos diferentes de exames para hoje</h5>
-                <h3>{{ exames_pendentes }}</h3>
+            <nav class="col-md-4 cards py-5 m-1">
+                <h6>Tipos diferentes de exames<br> para hoje</h6>
+                <h1 class="text-primary">{{ exames_pendentes }}</h1>
             </nav>
         </div>
     </section>

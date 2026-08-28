@@ -3,6 +3,7 @@
     --verde-claro: #008666;
     --branco: #f8f7f3;
     --preto: #010806;
+    --preto-azulado: #0b1514;
     --vermelho: #ff3131;
 }
 
@@ -10,6 +11,10 @@ body{
     background-color: var(--preto);
     color: var(--branco);
 } 
+
+.bg-preto-azulado{
+    background-color: var(--preto-azulado);
+}
 
 .nav-item{
     color: var(--branco);
@@ -211,6 +216,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .cards{
     border-radius: 10px;
+    background-color: var(--preto-azulado);
 }
 
 /* menu */
@@ -223,7 +229,6 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
     background-color: #fff;
     border-radius: 8px;
-    border: 0px solid var(--verde-claro);
     padding: 10px;
 
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
