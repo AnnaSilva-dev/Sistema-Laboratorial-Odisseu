@@ -128,7 +128,7 @@ def agendar_exame(request):
 @login_required
 @has_permission_decorator('visualizar_rotina')
 def rotina(request):
-    data = request.GET.get('data')
+    data = request.GET.get('data') or date.today().strftime('%Y-%m-%d')
 
     if data:
         agendamentos = Agendamento.objects.filter(data=data)

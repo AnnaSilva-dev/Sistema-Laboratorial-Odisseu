@@ -23,7 +23,7 @@
                             <div class="container-fluid mb-2">
                                 <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar usuários</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-check p-2"></span> Cadastrar usuários</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
                             </div>
 
@@ -86,7 +86,7 @@
                                     </a>
 
                                     <a href="{% url 'cadastrar_usuario' %}">
-                                        <i class="bi bi-person-plus"></i>
+                                        <i class="bi bi-person-check"></i>
                                         Cadastrar usuários
                                     </a>
 
@@ -128,7 +128,7 @@
                             
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
                         <section class="col-10 col-sd-8 right-0">
-                            <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
+                            <h4>Bom dia, {{ request.user.username }}! <span class="bi bi-brightness-high-fill"></span></h4>
                             <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
                         </section>
                         

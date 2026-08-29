@@ -139,7 +139,7 @@ class AgendamentoForm(forms.Form):
     
     data = forms.DateField(
         label='Data',
-        initial=date.today,
+        initial=date.today(),
         validators=[validate_future_date],
         widget=forms.DateInput(attrs={
             'class': 'data edit-forms',

@@ -11,15 +11,18 @@
 
     <hr>
 
-    <form method="POST">
+    <form method="POST" class="forms">
 
         {% csrf_token %}
-
-        <p>
-            <strong>Paciente:</strong>
-        </p>
-
-        {{ form.paciente }}
+        <div class="row">
+            <nav class="col-md-8 rounded-2">
+                <p>
+                    <strong>Paciente:</strong>
+                </p>
+                {{ form.paciente }}
+                {{ form.paciente.errors }}
+            </nav>
+        </div>
 
         <br><br>
 
@@ -36,12 +39,15 @@
         </p>
 
         {{ form.data }}
+        {{ form.data.errors }}
 
         <br><br>
         <p> 
             <strong>Solicitante:</strong>
         </p>
-        {{form.solicitante}} <br><br>
+        {{form.solicitante}} 
+        
+        <br><br>
 
         <button class="confirmar border-0 px-2 p-2" type="submit">
             Agendar exames

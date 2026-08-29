@@ -94,7 +94,7 @@ EXAMES = {
             'metodo':'algoooo',
             'parametros': [
                 {
-                    'nome': 'resultado',
+                    'nome': 'Resultados do Exame',
                     'unidade': 'mg/dL',
                     'referencia': 'Adultos: 60–99 mg/dL\nPré-termo: 20-60mg/dL',
                 },
@@ -134,7 +134,7 @@ EXAMES = {
             'metodo':'Enzimático-Colorimétrico',
             'parametros': [
                 {
-                    'nome': 'resultado',
+                    'nome': 'Resultados do Exame',
                     'unidade': 'mg/dL',
                     'referencia': 'desejável: < 200 mg/dL\nlimítrofe: 200 a 239 mg/dL\nelevado: ≥ 240 mg/dL',
                 },
@@ -146,7 +146,7 @@ EXAMES = {
                 'metodo':'Aglutinação',
                 'parametros': [
                     {
-                        'nome': 'resultado',
+                        'nome': 'Resultados do Exame',
                         'unidade': 'UI/mL',
                         'referencia': '< 200 UI/mL',
                     },
@@ -158,7 +158,7 @@ EXAMES = {
                     'metodo':'Cinético-UV.',
                     'parametros': [
                         {
-                            'nome': 'resultado',
+                            'nome': 'Resultados do Exame',
                             'unidade': 'UI/mL',
                             'referencia': '15 – 45 mg/dL',
                         },
@@ -170,7 +170,7 @@ EXAMES = {
                 'metodo':'cinético-UV',
                 'parametros': [
                     {
-                        'nome': 'resultado',
+                        'nome': 'Resultados do Exame',
                         'unidade': 'UI/mL',
                         'referencia': 'Homens: 11 - 39 U/L \nMulheres: 10 - 37 U/L',
                     },
@@ -182,7 +182,7 @@ EXAMES = {
                 'metodo':'Cinético-UV',
                 'parametros': [
                     {
-                        'nome': 'resultado',
+                        'nome': 'Resultados do Exame',
                         'unidade': 'UI/mL',
                         'referencia': 'Homens: 11 - 45 U/L \nMulheres: 10 - 37 U/L',
                     },
@@ -194,7 +194,7 @@ EXAMES = {
                 'metodo':'Cinético-UV',
                 'parametros': [
                     {
-                        'nome': 'resultado',
+                        'nome': 'Resultados do Exame',
                         'unidade': '',
                         'referencia': '',
                     },

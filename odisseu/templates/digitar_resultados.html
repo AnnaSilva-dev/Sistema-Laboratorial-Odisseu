@@ -3,65 +3,73 @@
 {% block content %}
 
     <h1>Digitar resultado</h1>
-
-    <p>
-        <strong>Paciente:</strong>
-        {{ agendamento.paciente.nome }}
-    </p>
-
-    <p>
-        <strong>Exame:</strong>
-        {{ agendamento.get_exame_display }}
-    </p>
-
-    <p>
-        <strong>Data:</strong>
-        {{ agendamento.data|date:"d/m/Y" }}
-    </p>
+    <p>Preencha os resultados do exame realizado.</p>
+    <section>
+        <div class="row bg-success-subtle text-dark rounded-2 p-2">
+            <nav class="col-md-4">
+                <h4 class="text-success">
+                    {{ agendamento.paciente.nome }}
+                </h4>
+            </nav>
+            <nav class="col-md-4">
+                <h6>
+                    <strong>Data da coleta:</strong>
+                    {{ agendamento.data|date:"d/m/Y" }}
+                </h6>
+            </nav>
+            <p>
+                <strong>Exame:</strong>
+                {{ agendamento.get_exame_display }}
+            </p>
+        </div>
+    </section>
 
     <hr>
+    <section>
+        <section class="row text-dark bg-light rounded-2 p-2">
+            <form method="POST">
+                {% csrf_token %}
+                <h2>{{ exame.nome }}</h2>
 
-    <form method="POST">
-    {% csrf_token %}
-    <h2>{{ exame.nome }}</h2>
+                {% if exame.secoes %}
+                    {% for secao in exame.secoes %}
+                        <h3>{{ secao.nome }}</h3>
+                        {% for parametro in secao.parametros %}
+                            <div>
+                                <label><strong>{{ parametro.nome }}</strong></label>
+                                <br>
+                                <input type="text" name="{{ parametro.nome }}">
+                                {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
+                                <br>
+                                <small>Valor de referência: {{ parametro.referencia }}</small>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    {% for parametro in exame.parametros %}
+                        <div>
+                            <label><strong>{{ parametro.nome }}</strong></label>
+                            <br>
+                            <input type="text" name="{{ parametro.nome }}">
+                                {{ parametro.unidade }}
+                            <br>
+                            <small>Valor de referência: {{ parametro.referencia }}</small>
+                        </div>
+                        <br>
+                    {% endfor %}
+                {% endif %}
 
-    {% if exame.secoes %}
-        {% for secao in exame.secoes %}
-            <h3>{{ secao.nome }}</h3>
-            {% for parametro in secao.parametros %}
                 <div>
-                    <label><strong>{{ parametro.nome }}</strong></label>
+                    <label for="id_observacao"><strong>Observação:</strong></label>
                     <br>
-                    <input type="text" name="{{ parametro.nome }}">
-                    {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
-                    <br>
-                    <small>Valor de referência: {{ parametro.referencia }}</small>
+                    {{ form.observacao }}
                 </div>
                 <br>
-            {% endfor %}
-        {% endfor %}
-    {% else %}
-        {% for parametro in exame.parametros %}
-            <div>
-                <label><strong>{{ parametro.nome }}</strong></label>
-                <br>
-                <input type="text" name="{{ parametro.nome }}">
-                {{ parametro.unidade }}
-                <br>
-                <small>Valor de referência: {{ parametro.referencia }}</small>
-            </div>
-            <br>
-        {% endfor %}
-    {% endif %}
-
-    <div>
-        <label for="id_observacao"><strong>Observação:</strong></label>
-        <br>
-        {{ form.observacao }}
-    </div>
-    <br>
-    <button type="submit">Salvar resultado</button>
-</form>
+                <button type="submit" class="confirmar px-3">Salvar resultado <span class="bi bi-caret-right-fill"></span></button>
+            </form>
+        </section>
+    </section>
 
 
     {% if agendamento.resultado %}
