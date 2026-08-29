@@ -11,11 +11,6 @@ from rolepermissions.decorators import has_permission_decorator
 from django.contrib.auth.decorators import login_required
 from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionista
 from django.utils import timezone
-from django.contrib.auth import logout
-
-def logout_view(request):
-    logout(request)
-    return redirect('login.html')
 
 @login_required
 def index(request):

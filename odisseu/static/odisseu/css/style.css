@@ -12,6 +12,19 @@ body{
     color: var(--branco);
 } 
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--verde);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .bg-preto-azulado{
     background-color: var(--preto-azulado);
 }
@@ -100,7 +113,7 @@ form input.edit-forms{
     font-size: 14px;
 }
 
-label::after {
+.forms label::after {
     content: ":";
 }
 
@@ -212,6 +225,13 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     margin-left: 6rem;
 }
 
+/* forms rotina */
+.form-rotina input[type="date"], .form-rotina .confirmar {
+    border-style: solid;
+    border-color: var(--verde);
+    border-radius: 5px;
+}
+
 /* personalização da tela index */
 
 .card{
@@ -220,12 +240,19 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }
 
 /* menu */
-.menu-mobile {
-    position: absolute;
+#menuMobile {
     top: 60px;
     left: 10px;
 
     width: 250px;
+}
+
+#menuResultado{
+    width: 200px;
+}
+
+.menu {
+    position: absolute;
 
     background-color: #fff;
     border-radius: 8px;
@@ -236,7 +263,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     z-index: 1000;
 }
 
-.menu-mobile a {
+.menu a {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -249,10 +276,22 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     border-radius: 6px;
 }
 
-.menu-mobile a:hover {
+.menu a:hover {
     background-color: #eee;
 }
 
-.menu-mobile i {
+.menu i {
     font-size: 18px;
+}
+
+/* pagina de rotina */
+.exame-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.form-rotina .menu {
+    display: inline-block;
 }
