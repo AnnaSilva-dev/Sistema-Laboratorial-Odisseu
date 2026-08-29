@@ -43,12 +43,13 @@
                                 <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-file-earmark-bar-graph p-2"></span> Consultar relatórios</a></li>
                             </div>
 
-                            <section class="position-absolute bottom-0 mb-4">
+                            <section class="position-absolute bottom-0 mb-5">
                                 <h6>Configuração</h6>
-                                <div class="container-fluid mb-2">
+                                <div class="container-fluid">
                                     <!-- sem pagina html apenas exemplo na navbar -->
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                    <!-- sem logica de logout -->
                                     <li class="nav-item"><a class="nav-link text-danger" href="{% url 'login' %}"><span class="bi bi-box-arrow-left"></span> Sair</a></li>
                                 </div>
                             </section>

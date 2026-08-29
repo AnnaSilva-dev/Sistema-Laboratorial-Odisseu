@@ -164,12 +164,8 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 
 /* login */
-
-.login {
-    margin-top: 5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.base-login input.edit-forms{
+    width: 95%;
 }
 
 .login-form {
@@ -184,26 +180,22 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .login-form i {
     position: absolute;
-    right: 12px;
+    right: 15px;
     top: 70%;
     transform: translateY(-50%);
     font-size: 20px;
-    color: var(--verde-claro);
+    color: gray;
 }
 
 
 .login-form input {
-    border: 1px solid var(--verde-claro);
+    border: 1px solid gray;
     padding: 4px;
 }
 
-.base-login{
-    background-color: var(--branco);
-    color: var(--preto);
-    border-radius: 10px;
-    min-width: 50vh;
-    min-height: 70vh;
-    padding: 5rem;
+.base-login .card{
+    padding: 10px;
+    max-width: 45vh;
 }
 
 .base-login .confirmar{
@@ -215,15 +207,6 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     text-align: center;
 }
 
-.borda{
-    border-bottom: 2px solid var(--verde-claro);
-    margin-left: 7rem;
-    max-width: 10vh;
-}
-
-.ms{
-    margin-left: 6rem;
-}
 
 /* forms rotina */
 .form-rotina input[type="date"], .form-rotina .confirmar {
@@ -294,4 +277,8 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .form-rotina .menu {
     display: inline-block;
+}
+
+.ms{
+    margin-top: 7rem;
 }

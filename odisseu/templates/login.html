@@ -10,33 +10,42 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
-    <section class="container login d-flex justify-content-center align-items-center ">
-        <nav>
-            <form method="post">
-                {% csrf_token %}
-                <section class="base-login">
-                    <h4 class="text">
-                        Bem-vindo(a)!
-                    </h4>
-                    <div class="borda"></div>
-                    <p class="text-secondary-emphasis text">Faça o login para acessar o sistema</p>
-
-                    <div class="login-form">
-                        <label>Usuário</label>
-                        <input class="edit-forms" type="text" name="username" placeholder="Username">
-                        <i class="bi bi-person"></i>
-                    </div>
-                    <div class="login-form">
-                        <label>Senha</label>
-                        <input class="edit-forms" type="password" name="password" placeholder="Password">
-                        <i class="bi bi-lock"></i>
-                    </div>
-                    <div class="ms my-5">
-                        <button class="confirmar border-0 px-5 mt-3" type="submit"><span class="bi bi-door-open-fill"></span> Entrar</button>
-                    </div> 
-                </section>
-            </form>
-           
+    <section class="container">
+        <nav class="row">
+            <div class="col-md-8 mt-5 text-center">
+                <img src="{% static 'odisseu/imgs/pag-inicio.png' %}" style="width: 40rem;">
+                <p class="text-secondary text-center">2026 ODISSEU - Todos os direitos reservados</p>
+            </div>
+            <div class="col-md-4 base-login ms">
+                <form method="post">
+                    {% csrf_token %}
+                    <section class="card bg-light py-5">
+                        <h4 class="card-title text-center fw-bold">
+                            Bem-vindo(a)!
+                        </h4>
+                        
+                        <span class="border-2 border-bottom border-success d-flex mx-auto" style="width: 25%;"></span>
+                    
+                        <p class="text-secondary-emphasis text">Faça o login para acessar o sistema</p>
+                        <section class="card-body">
+                            <div class="login-form">
+                                <label>Usuário</label>
+                                <i class="bi bi-person"></i>
+                                <input class="edit-forms bi bi-person" type="text" name="username" placeholder="Username">
+                            </div>
+                            <div class="login-form">
+                                <label>Senha</label>
+                                <input class="edit-forms" type="password" name="password" placeholder="Password">
+                                <i class="bi bi-lock"></i>
+                            </div>
+                            <div class="my-5">
+                                <button class="confirmar border-0 px-5 mt-3" type="submit" style="width:100%;"><span class="bi bi-door-open-fill"></span> Entrar</button>
+                            </div> 
+                        </section>
+                    </section>
+                </form>
+            </div>
+            
         </nav>
     </section>
 </body>
