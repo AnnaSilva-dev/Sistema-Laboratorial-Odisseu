@@ -49,6 +49,7 @@
                                     <!-- sem pagina html apenas exemplo na navbar -->
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                    <li class="nav-item"><a class="nav-link text-danger" href="{% url 'login' %}"><span class="bi bi-box-arrow-left"></span> Sair</a></li>
                                 </div>
                             </section>
                         </ul>
@@ -117,13 +118,17 @@
                                         <i class="bi bi-question-circle"></i>
                                         Suporte
                                     </a>
+
+                                    <a href="{% url 'logout' %}" class="btn btn-danger">
+                                        Sair
+                                    </a>    
                                 </div>
                             </section>
                             
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
                         <section class="col-10 col-sd-8 right-0">
                             <h4>Bom dia, {{ request.user.username }}! ☀️</h4>
-                            <h5>{% now "d/m/Y" %}</h5>
+                            <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
                         </section>
                         
                         <!-- <section class="col-2 right-0">

@@ -3,22 +3,55 @@
 {% block title %}{{ block.super }}{% endblock %}
 {% block content %}
     <section class="container-fluid">
-        <div class="row">
-            <nav class="col-md-4 cards py-2 m-1">
-                <h6>
-                    <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:100px;">
-                    Pacientes agendados <br> hoje
-                </h6>
-                <h1 class="text-success">{{ pacientes_agendados }}</h1>
-            </nav>
-            <nav class="col-md-3 cards py-5 m-1">
-                <h6>Resultados pendentes por<br> laudos não liberados</h6>
-                <h1 class="text-warning">{{ resultados_pendentes }}</h1>
-            </nav>
-            <nav class="col-md-4 cards py-5 m-1">
-                <h6>Tipos diferentes de exames<br> para hoje</h6>
-                <h1 class="text-primary">{{ exames_pendentes }}</h1>
-            </nav>
+        <div class="row gap-2">
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <nav class="row">
+                        <section class="col-4 g-3">
+                            <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:70px;">
+                        </section>
+                        <section class="col-8 mt-3">
+                            <h6 class="card-title text-nowrap text-white">
+                                Pacientes agendados<br>
+                                para hoje
+                            </h6>
+                            <h1 class="card-text text-success fw-bold">{{ pacientes_agendados }}</h1>
+                        </section>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <nav class="row">
+                        <section class="col-4 g-3">
+                            <img src="{% static 'odisseu/imgs/logo1.png' %}" style="width:70px;">
+                        </section>
+                        <section class="col-8 mt-3">
+                            <h6 class="card-title text-white">
+                                Resultados ainda pendentes
+                            </h6>
+                            <h1 class="card-text text-warning fw-bold">{{ resultados_pendentes }}</h1>
+                        </section>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="card" style="width: 20rem;">
+                <div class="card-body">
+                    <nav class="row">
+                        <section class="col-4 g-3">
+                            <img src="{% static 'odisseu/imgs/logo2.png' %}" style="width:70px;">
+                        </section>
+                        <section class="col-8 mt-3">
+                            <h6 class="card-title text-white">
+                                Tipos diferentes de exames
+                            </h6>
+                            <h1 class="card-text text-primary fw-bold">{{ exames_pendentes }}</h1>
+                        </section>
+                    </nav>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}
