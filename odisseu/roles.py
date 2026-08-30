@@ -19,6 +19,7 @@ class Farmaceutico(AbstractUserRole):
         'digitar_resultados': True,
         'pdf_resultados': True,
         'imprimir_rotina': True,
+        'liberar_resultados': True
     }
 
 class Recepcionista(AbstractUserRole):

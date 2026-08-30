@@ -149,12 +149,7 @@
 
                                     <!-- VER RESULTADOS -->
 
-                                    <a
-                                        class="link"
-                                        href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
-                                    >
-                                        Ver resultados
-                                    </a>
+                                
 
 
                                 {% else %}
@@ -170,8 +165,17 @@
                             </div>
                             <span class="border-bottom"></span>
                         {% endfor %}
+                        
+                        
+                         <a
+                                        class="link link-primary"
+                                        href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
+                                    >
+                                        Ver resultados
+                                    </a>
                     </section>
                 </nav>
+                
             </div>
 
 

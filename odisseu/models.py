@@ -12,6 +12,27 @@ class Paciente(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    def historico_agendamentos(self):
+       
+        agendamentos = self.agendamento_set.all().order_by('-data')
+
+        agrupado = {}
+        for agendamento in agendamentos:
+            data = agendamento.data
+            if data not in agrupado:
+                agrupado[data] = {
+                    'data': data,
+                    'agendamentos': [],
+                    'tem_liberado': False,
+                }
+
+            agrupado[data]['agendamentos'].append(agendamento)
+
+            if hasattr(agendamento, 'resultado') and agendamento.resultado.liberado:
+                agrupado[data]['tem_liberado'] = True
+
+        return list(agrupado.values())
 
 
 class Agendamento(models.Model):

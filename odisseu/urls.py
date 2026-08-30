@@ -21,4 +21,5 @@ urlpatterns = [
     ),
     path('rotina/imprimir/',views.rotina_impressao, name='rotina_impressao'),
     path('logout/', LogoutView.as_view(), name='logout'),
+    (path('liberar-resultados/', views.liberar_resultados, name='liberar_resultados')),
 ]

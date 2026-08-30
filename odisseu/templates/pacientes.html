@@ -4,11 +4,9 @@
 
     <h1>Pacientes cadastrados</h1>
 
-
     <!-- PESQUISA -->
 
     <form method="GET">
-
         <input
             class="edit-forms"
             type="text"
@@ -16,127 +14,68 @@
             placeholder="Pesquisar por nome, CPF ou CNS"
             value="{{ busca }}"
         >
-
         <button class="confirmar border-0" type="submit">
             Pesquisar
         </button>
-
     </form>
 
-
     <hr>
-
 
     {% for paciente in pacientes %}
 
         <div>
 
-            <h2>
-                {{ paciente.nome }}
-            </h2>
+            <h2>{{ paciente.nome }}</h2>
 
+            <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
+            <p><strong>CNS:</strong> {{ paciente.cns }}</p>
+            <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+            <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
 
-            <!-- DADOS DO PACIENTE -->
-
-            <p>
-                <strong>CPF:</strong>
-                {{ paciente.cpf }}
-            </p>
-
-            <p>
-                <strong>CNS:</strong>
-                {{ paciente.cns }}
-            </p>
-
-            <p>
-                <strong>Data de nascimento:</strong>
-                {{ paciente.data_nascimento|date:"d/m/Y" }}
-            </p>
-
-            <p>
-                <strong>Telefone:</strong>
-                {{ paciente.telefone }}
-            </p>
-
-
-            <!-- EDITAR PACIENTE -->
-
-            <a href="{% url 'editar_paciente' paciente.id %}">
-                Editar paciente
-            </a>
-
+            <a href="{% url 'editar_paciente' paciente.id %}">Editar paciente</a>
 
             {% if paciente_editando.id == paciente.id %}
 
                 <hr>
-
-                <h3>
-                    Editar paciente
-                </h3>
+                <h3>Editar paciente</h3>
 
                 <form method="POST">
-
                     {% csrf_token %}
-
                     {{ form_editar.as_p }}
-
-                    <button type="submit">
-                        Salvar alterações
-                    </button>
-
+                    <button type="submit">Salvar alterações</button>
                 </form>
 
                 <br>
-
-                <a href="{% url 'pacientes' %}">
-                    Cancelar
-                </a>
-
+                <a href="{% url 'pacientes' %}">Cancelar</a>
                 <hr>
 
             {% endif %}
 
-
             <!-- HISTÓRICO DE EXAMES -->
 
-            <h3>
-                Histórico de exames
-            </h3>
+            <h3>Histórico de exames</h3>
 
-
-            {% regroup paciente.agendamento_set.all by data as datas %}
-
-
-            {% for grupo in datas %}
+            {% for grupo in paciente.historico_agendamentos %}
 
                 <div>
 
-                    <h4>
-                        {{ grupo.grouper|date:"d/m/Y" }}
-                    </h4>
+                    <h4>{{ grupo.data|date:"d/m/Y" }}</h4>
 
-
-                    {% for agendamento in grupo.list %}
+                    {% for agendamento in grupo.agendamentos %}
 
                         <div>
-
-                            <strong>
-                                {{ agendamento.get_exame_display }}
-                            </strong>
-
+                            <strong>{{ agendamento.get_exame_display }}</strong>
 
                             {% if agendamento.resultado %}
 
-                                ✓ Resultado disponível
-
-                                <br>
-
-                    
+                                {% if agendamento.resultado.liberado %}
+                                    ✓ Resultado liberado
+                                {% else %}
+                                    ◷ Aguardando liberação
+                                {% endif %}
 
                             {% else %}
-
                                 — Resultado pendente
-
                             {% endif %}
 
                         </div>
@@ -145,36 +84,26 @@
 
                     {% endfor %}
 
-
-                    <!-- LAUDO DA DATA -->
-
-                    <a href="{% url 'ver_resultados' paciente.id grupo.grouper|date:'Y-m-d' %}">
-                        Ver laudo
-                    </a>
+                    {% if grupo.tem_liberado %}
+                        <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}">
+                            Ver laudo
+                        </a>
+                    {% endif %}
 
                 </div>
 
                 <hr>
 
-
             {% empty %}
-
-                <p>
-                    Nenhum exame encontrado para este paciente.
-                </p>
-
+                <p>Nenhum exame encontrado para este paciente.</p>
             {% endfor %}
 
         </div>
 
         <hr>
 
-
     {% empty %}
-
-        <p>
-            Nenhum paciente encontrado.
-        </p>
-
+        <p>Nenhum paciente encontrado.</p>
     {% endfor %}
+
 {% endblock %}

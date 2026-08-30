@@ -209,7 +209,8 @@ def ver_resultados(request, paciente_id, data):
     data = datetime.strptime(data, '%Y-%m-%d').date()
     resultados = Resultado.objects.filter(
         agendamento__paciente=paciente,
-        agendamento__data=data
+        agendamento__data=data,
+        liberado=True
     )
     for resultado in resultados:
 
@@ -377,3 +378,45 @@ def rotina_impressao(request):
             'data': data,
             'exames_impressao': exames_impressao,
         })
+
+@login_required
+@has_permission_decorator('liberar_resultado')
+def liberar_resultados(request):
+
+    if request.method == 'POST':
+
+        ids_selecionados = request.POST.getlist('resultados')
+
+        Resultado.objects.filter(
+            id__in=ids_selecionados
+        ).update(liberado=True)
+
+        return redirect('liberar_resultados')
+
+    resultados_pendentes = Resultado.objects.filter(
+        liberado=False
+    ).select_related(
+        'agendamento__paciente'
+    ).order_by(
+        'agendamento__paciente__nome',
+        'agendamento__data'
+    )
+
+    agrupado = {}
+    for resultado in resultados_pendentes:
+        chave = (resultado.agendamento.paciente_id, resultado.agendamento.data)
+        if chave not in agrupado:
+            agrupado[chave] = {
+                'paciente': resultado.agendamento.paciente,
+                'data': resultado.agendamento.data,
+                'resultados': [],
+            }
+        agrupado[chave]['resultados'].append(resultado)
+
+    grupos = list(agrupado.values())
+
+    return render(
+        request,
+        'liberar_resultados.html',
+        {'grupos': grupos}
+    )
