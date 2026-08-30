@@ -1,84 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Liberar Resultados{% endblock %}
 {% block content %}
-
 <style>
-
-
-    .lr-titulo {
-        color: #ffffff;
-        font-size: 28px;
-        font-weight: 700;
-        margin: 0 0 4px;
-    }
-
-    .lr-subtitulo {
-        color: #b7c2bd;
-        font-size: 15px;
-        margin: 0 0 24px;
-    }
-
-    .lr-card {
-        background-color: #ffffff;
-        border-radius: 14px;
-        padding: 24px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-        box-sizing: border-box;
-        max-width: 900px;
-    }
-
-    .lr-card-titulo {
-        font-size: 20px;
-        font-weight: 700;
-        color: #14251c;
-        margin: 0 0 16px;
-    }
-
-    table.lr-tabela {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    table.lr-tabela thead th {
-        text-align: left;
-        font-size: 14px;
-        font-weight: 600;
-        color: #4b564f;
-        background-color: #f2f4f2;
-        padding: 12px 14px;
-    }
-
-    table.lr-tabela thead th:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-    }
-
-    table.lr-tabela thead th:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-    }
-
-    table.lr-tabela tbody tr {
-        border-bottom: 1px solid #edf0ee;
-    }
-
-    table.lr-tabela tbody td {
-        padding: 14px;
-        font-size: 15px;
-        color: #1c2b22;
-        vertical-align: middle;
-    }
-
-    .lr-paciente-nome {
-        font-weight: 600;
-    }
-
-    .lr-paciente-data {
-        color: #8a938c;
-        display: block;
-        margin-top: 2px;
-    }
-
     .lr-checkbox-label {
         display: flex;
         align-items: center;
@@ -96,7 +19,7 @@
         height: 18px;
         accent-color: #2f7a52;
         cursor: pointer;
-    }
+}
 
     .lr-btn-revisar {
         background: #ffffff;
@@ -117,91 +40,86 @@
         background-color: #f2fbf5;
     }
 
-    .lr-btn-liberar {
-        background-color: #2f7a52;
-        color: #ffffff;
-        border: none;
-        font-weight: 700;
-        font-size: 15px;
-        padding: 14px 26px;
-        border-radius: 10px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 20px;
-    }
-
-  
-
     .lr-vazio {
         padding: 24px;
         text-align: center;
         color: #8a938c;
         font-size: 14px;
     }
-
 </style>
 
+<h1 id="titulo">Liberar resultados</h1>
+<p id="subtitulo">Revise e libere os resultados dos exames</p>
 
-    <h1 class="lr-titulo">Liberar resultados</h1>
-    <p class="lr-subtitulo">Revise e libere os resultados dos exames</p>
+<section class="bg-light text-dark rounded-4 p-4">
 
-    <div class="lr-card">
+    <form method="POST" class="form-rotina">
+        {% csrf_token %}
+        
+        <h3 class="text-dark fw-bold content">
+            Exames aguardando liberação ({{ grupos|length }})
+        </h3>
 
-        <form method="POST">
-            {% csrf_token %}
+        <div class="row bg-dark-subtle rounded-1 p-1 m-1">
+            <nav class="col-md-4">
+                <h5 class="tabela">
+                    Paciente
+                </h5>
+            </nav>
 
-            <h3 class="lr-card-titulo">Exames aguardando liberação ({{ grupos|length }})</h3>
+            <nav class="col-md-6">
+                <h5 class="tabela">
+                    Exames agendados 
+                </h5>
+            </nav>
 
-            <table class="lr-tabela">
-                <thead>
-                    <tr>
-                        <th>Paciente</th>
-                        <th>Exame</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for grupo in grupos %}
+            <nav class="col-md-2">
+                <h5 class="tabela">
+                    Ações
+                </h5>
+            </nav>
+        </div>
 
-                        <tr>
-                            <td>
-                                <span class="lr-paciente-nome">{{ grupo.paciente.nome }}</span>
-                                <span class="lr-paciente-data">{{ grupo.data|date:"d/m/Y" }}</span>
-                            </td>
+        {% for grupo in grupos %}
+            <div class="row border-bottom border-secondary p-1 m-2">
+                <nav class="col-md-4">
+                    <h5>
+                        {{ grupo.paciente.nome }}
+                    </h5>
+                </nav>
 
-                            <td>
-                                {% for resultado in grupo.resultados %}
-                                    <label class="lr-checkbox-label">
-                                        <input type="checkbox" name="resultados" value="{{ resultado.id }}">
-                                        {{ resultado.agendamento.get_exame_display }}
-                                    </label>
-                                {% endfor %}
-                            </td>
+                <nav class="col-md-6">
+                    <strong>
+                        <!-- {{ grupo.data|date:"d/m/Y" }} -->
+                        {% for resultado in grupo.resultados %}
+                            {{ resultado.agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                            <!-- <label class="lr-checkbox-label"> -->
+                                <!-- <input type="checkbox" name="resultados" value="{{ resultado.id }}"> -->
+                                
+                            <!-- </label> -->
+                        {% endfor %}
+                    </strong>
+                </nav>
 
-                            <td>
-                                <a class="lr-btn-revisar" href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}">
-                                    <i class="bi bi-eye"></i> Revisar
-                                </a>
-                            </td>
-                        </tr>
+                <nav class="col-md-2">
+                    <a class="lr-btn-revisar" href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}">
+                        <i class="bi bi-eye"></i> Revisar
+                    </a>
+                </nav>
+            </div>
 
-                    {% empty %}
-                        <tr>
-                            <td colspan="3" class="lr-vazio">Nenhum resultado aguardando liberação.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+            {% empty %}
+                <tr>
+                    <td colspan="3" class="lr-vazio">Nenhum resultado aguardando liberação.</td>
+                </tr>
+        {% endfor %}
 
             {% if grupos %}
-                <button class="lr-btn-liberar" type="submit">Liberar selecionados</button>
+                <button class="confirmar p-2 mt-2" type="submit">Liberar selecionados</button>
             {% endif %}
 
-        </form>
+    </form>
 
-    </div>
-
-
+</div>
 {% endblock %}

@@ -25,6 +25,18 @@ body{
     background: transparent;
 }
 
+#titulo{
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+#subtitulo {
+    color: gray;
+    font-size: 15px;
+    margin: 0 0 24px;
+}
+
 .bg-preto-azulado{
     background-color: var(--preto-azulado);
 }
@@ -123,18 +135,25 @@ form input.edit-forms{
 }
 
 .confirmar{
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     background-color: var(--verde-claro);
     color: var(--branco);
-    border-radius: 2px;
 }
 
 .cancelar{
     background-color: var(--preto);
     color: var(--branco);
-    border: 2px solid var(--vermelho);
-    border-radius: 2px;
+    border: 1px solid var(--vermelho);
+    border-radius: 10px;
     padding: 5px;
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .cancelar:hover {
@@ -212,13 +231,13 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .form-rotina input[type="date"], .form-rotina .confirmar {
     border-style: solid;
     border-color: var(--verde);
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 /* personalização da tela index */
 
 .card{
-    border-radius: 10px;
+    border-radius: 14px;
     background-color: var(--preto-azulado);
 }
 
@@ -281,4 +300,19 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .ms{
     margin-top: 7rem;
+}
+
+/* pag lr */
+.content {
+    font-size: 20px;
+    font-weight: 700;
+    color: #14251c;
+    margin: 0 0 16px;
+}
+
+.tabela {
+    font-size: 20px;
+    font-weight: 600;
+    color: #4b564f;
+    padding: 5px 6px;
 }

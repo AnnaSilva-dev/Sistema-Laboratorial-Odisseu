@@ -4,13 +4,13 @@
 
 {% block content %}
 
-<h1>Rotinas Laboratoriais</h1>
-<p>Pacientes e exames agendados para o dia selecionado</p>
+<h1 id="titulo">Rotinas Laboratoriais</h1>
+<p id="subtitulo">Pacientes e exames agendados para o dia selecionado</p>
 
 
 <!-- FILTRO POR DATA -->
 
-<section class="container bg-light text-dark rounded-2 p-4">
+<section class="container bg-light text-dark rounded-4 p-4">
     <form method="GET" class="form-rotina">
         <section class="row">
             <nav class="col-md-4">
@@ -22,7 +22,7 @@
                     type="date"
                     id="data"
                     name="data"
-                    value="{{ data }}"
+                    value="{{ data|date:'Y-m-d' }}"
                 >
             </nav>
 
@@ -55,25 +55,25 @@
 
     <!-- DATA -->
 
-    <h2 class="text-dark fw-bold">
+    <h2 class="text-dark fw-bold content">
         Pacientes agendados
     </h2>
 
-    <div class="row bg-dark-subtle rounded-1 p-1 m-1">
+    <div class="row bg-dark-subtle rounded-1 p-1 m-1 tabela">
         <nav class="col-md-4">
-            <h5>
+            <h5 class="tabela">
                 Paciente
             </h5>
         </nav>
 
         <nav class="col-md-6">
-            <h5>
+            <h5 class="tabela">
                 Exames agendados 
             </h5>
         </nav>
 
         <nav class="col-md-2">
-            <h5>
+            <h5 class="tabela">
                 Ações
             </h5>
         </nav>
@@ -167,15 +167,12 @@
                         {% endfor %}
                         
                         
-                         <a
-                                        class="link link-primary"
-                                        href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}"
-                                    >
-                                        Ver resultados
-                                    </a>
+                        <a  class="link link-primary"
+                            href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}">
+                            Ver resultados
+                        </a>
                     </section>
                 </nav>
-                
             </div>
 
 
