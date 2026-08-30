@@ -63,7 +63,7 @@ def cadastrar_usuario(request):
             'Administrador': Administrador,
             'Farmaceutico': Farmaceutico,
             'Recepcionista': Recepcionista,
-            'TecnicoLaboratorial': TecnicoLaboratorial}
+            'Tecnicolaboratorial': TecnicoLaboratorial}
             role = ROLES[perfil]
             assign_role(user, role)
             return redirect('index')
@@ -126,7 +126,7 @@ def agendar_exame(request):
     )
 
 @login_required
-@has_permission_decorator('visualizar_rotina')
+@has_permission_decorator('exibir_rotina')
 def rotina(request):
     data = request.GET.get('data') or date.today().strftime('%Y-%m-%d')
 
@@ -156,6 +156,9 @@ def resultados(request):
         'resultados.html',
         {'agendamentos': agendamentos}
     )
+
+@login_required
+@has_permission_decorator('digitar_resultados')
 def digitar_resultados(request, agendamento_id):
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
@@ -197,6 +200,7 @@ def digitar_resultados(request, agendamento_id):
         form = ResultadoForm()
 
     return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
+
 @login_required
 @has_permission_decorator('visualizar_resultados')
 def ver_resultados(request, paciente_id, data):
@@ -328,6 +332,7 @@ def excluir_agendamento(request, agendamento_id):
     return redirect(
         f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )
+
 def rotina_impressao(request):
 
     data = request.GET.get('data')
