@@ -1,9 +1,188 @@
+{%load static%}
 
-{% block title %}Rotina do laboratório{% endblock %}
+<head>
+        <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
 
-{% block content %}
+</head>
 
-<style>
+<body>
+   <style>
+    .acoes {
+        max-width: 100%;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    .acoes button {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 5px;
+
+        background: #008666;
+        color: white;
+
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .acoes button:hover {
+        opacity: 0.85;
+        background-color: #00362a;
+        color: white;
+    }
+    .rotina-impressao {
+        width: 900px;
+        max-width: 100%;
+
+        margin: 30px auto;
+        padding: 35px;
+
+        box-sizing: border-box;
+
+
+        font-family: Arial, sans-serif;
+    }
+
+
+
+    .cabecalho {
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+
+        border-bottom: 2px solid #333;
+    }
+
+
+    .cabecalho h1 {
+        margin: 0 0 8px;
+
+        font-size: 26px;
+    }
+
+
+    .cabecalho p {
+        margin: 0;
+
+        font-size: 14px;
+    }
+
+
+
+    .paciente {
+        margin-bottom: 30px;
+
+        border: 1px solid #d5d5d5;
+        border-radius: 6px;
+
+        overflow: hidden;
+    }
+
+
+    .paciente > h2 {
+        margin: 0;
+
+        padding: 14px 18px;
+
+        background: #91e4d0;
+
+        border-bottom: 1px solid #d5d5d5;
+
+        font-size: 18px;
+    }
+
+
+
+    .exame {
+        padding: 20px;
+
+        border-bottom: 1px solid #ddd;
+    }
+
+
+    .exame:last-child {
+        border-bottom: none;
+    }
+
+
+    .exame h3 {
+        margin: 0 0 18px;
+
+        font-size: 16px;
+    }
+
+
+
+    .secao {
+        margin-top: 18px;
+    }
+
+
+    .secao h4 {
+        margin: 0;
+
+        padding: 9px 12px;
+
+        background: #91e4d0;
+
+        border-bottom: 1px solid #ccc;
+
+        font-size: 13px;
+    }
+
+
+    .parametro {
+        display: flex;
+
+        align-items: center;
+
+        min-height: 42px;
+
+        padding: 0 8px;
+
+        border-bottom: 1px dotted #ccc;
+    }
+
+
+    .nome-parametro {
+        width: 220px;
+
+        font-size: 14px;
+    }
+
+
+    .linha {
+        flex: 1;
+
+        height: 25px;
+
+        border-bottom: 1px solid #777;
+    }
+
+    .observacao {
+        margin-top: 25px;
+
+        padding: 12px;
+
+        border: 1px solid #ccc;
+
+        font-size: 13px;
+    }
+
+
+    .linha-observacao {
+        display: block;
+
+        height: 25px;
+
+        border-bottom: 1px solid #aaa;
+    }
+
+    .separador {
+        margin: 35px 0;
+
+        border: none;
+        border-top: 2px solid #333;
+    }
 
     @media print {
 
@@ -12,26 +191,24 @@
             margin: 15mm;
         }
 
+
         html,
         body {
             background: #ffffff !important;
             color: #000000 !important;
         }
 
-        .rotina-impressao {
-            background: #ffffff !important;
-            color: #000000 !important;
 
+        .rotina-impressao {
             width: 100%;
             max-width: none;
 
             margin: 0;
             padding: 0;
+
+            background: #ffffff !important;
         }
 
-        /*
-        Esconde elementos herdados do base.html
-        */
 
         nav,
         button,
@@ -40,25 +217,26 @@
             display: none !important;
         }
 
+
         .paciente,
         .exame,
         .secao {
             page-break-inside: avoid;
+            break-inside: avoid;
         }
 
     }
 
-</style>
-
+</style> 
+{% block content %}
 
 <div class="rotina-impressao">
 
 
-    
     <div class="cabecalho">
 
         <h1>
-            ROTINA DO LABORATÓRIO
+            ROTINA LABORATORIAL
         </h1>
 
         <p>
@@ -80,7 +258,6 @@
         <div class="paciente">
 
 
-
             <h2>
                 Paciente: {{ grupo.grouper.nome }}
             </h2>
@@ -91,8 +268,6 @@
 
                 <div class="exame">
 
-
-              
 
                     <h3>
                         {{ item.exame.nome }}
@@ -119,8 +294,11 @@
                                     <div class="parametro">
 
                                         <span class="nome-parametro">
+
                                             {{ parametro.nome }}:
+
                                         </span>
+
 
                                         <span class="linha"></span>
 
@@ -139,16 +317,17 @@
                     {% else %}
 
 
-                   
-
                         {% for parametro in item.exame.parametros %}
 
 
                             <div class="parametro">
 
                                 <span class="nome-parametro">
+
                                     {{ parametro.nome }}:
+
                                 </span>
+
 
                                 <span class="linha"></span>
 
@@ -161,12 +340,12 @@
                     {% endif %}
 
 
-              
                     <div class="observacao">
 
                         <strong>
                             Observação:
                         </strong>
+
 
                         <span class="linha-observacao"></span>
 
@@ -199,5 +378,15 @@
 
 
 </div>
+<div class="acoes">
+
+    <button class="btn " onclick="window.print()">
+        Imprimir rotina
+    </button>
+     
+<a href="{%url 'index'%}"> voltar à página inicial</a>
+
+</div>
 
 {% endblock %}
+</body>

@@ -128,13 +128,25 @@ def agendar_exame(request):
 @login_required
 @has_permission_decorator('exibir_rotina')
 def rotina(request):
-    data = request.GET.get('data') or date.today().strftime('%Y-%m-%d')
 
-    if data:
-        agendamentos = Agendamento.objects.filter(data=data)
+    data_str = request.GET.get('data')
+
+    if data_str:
+
+        data = datetime.strptime(
+            data_str,
+            '%Y-%m-%d'
+        ).date()
+
     else:
+
         data = date.today()
-        agendamentos = Agendamento.objects.filter(data=data)
+
+
+    agendamentos = Agendamento.objects.filter(
+        data=data
+    )
+
 
     return render(
         request,
@@ -337,42 +349,51 @@ def excluir_agendamento(request, agendamento_id):
         f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )
 
+
+
 def rotina_impressao(request):
 
-    data = request.GET.get('data')
+    data_str = request.GET.get('data')
 
-    if data:
-        agendamentos = Agendamento.objects.filter(
-            data=data
-        ).select_related(
-            'paciente'
-        ).order_by(
-            'paciente__nome'
-        )
+    if data_str:
+
+        data = datetime.strptime(
+            data_str,
+            '%Y-%m-%d'
+        ).date()
+
     else:
+
         data = date.today()
 
-        agendamentos = Agendamento.objects.filter(
-            data=data
-        ).select_related(
-            'paciente'
-        ).order_by(
-            'paciente__nome'
-        )
+
+    agendamentos = Agendamento.objects.filter(
+        data=data
+    ).select_related(
+        'paciente'
+    ).order_by(
+        'paciente__nome'
+    )
+
 
     exames_impressao = []
 
+
     for agendamento in agendamentos:
 
-        exame = EXAMES.get(agendamento.exame)
+        exame = EXAMES.get(
+            agendamento.exame
+        )
 
         if not exame:
             continue
+
 
         exames_impressao.append({
             'agendamento': agendamento,
             'exame': exame,
         })
+
 
     return render(
         request,
@@ -380,8 +401,8 @@ def rotina_impressao(request):
         {
             'data': data,
             'exames_impressao': exames_impressao,
-        })
-
+        }
+    )
 @login_required
 @has_permission_decorator('liberar_resultado')
 def liberar_resultados(request):
