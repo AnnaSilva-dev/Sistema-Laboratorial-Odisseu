@@ -201,23 +201,26 @@ def digitar_resultados(request, agendamento_id):
 
     return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
 
+from rolepermissions.checkers import has_permission
+
 @login_required
-@has_permission_decorator('visualizar_resultados')
+@has_permission_decorator('ver_resultados')
 def ver_resultados(request, paciente_id, data):
 
     paciente = Paciente.objects.get(id=paciente_id)
     data = datetime.strptime(data, '%Y-%m-%d').date()
+
     resultados = Resultado.objects.filter(
         agendamento__paciente=paciente,
         agendamento__data=data,
-        liberado=True
     )
+
+    if not has_permission(request.user, 'liberar_resultado'):
+        resultados = resultados.filter(liberado=True)
+
     for resultado in resultados:
-
         codigo_exame = resultado.agendamento.exame
-
         exame = EXAMES[codigo_exame]
-
         resultado.agendamento.amostra = exame.get('amostra', '')
         resultado.agendamento.metodo = exame.get('metodo', '')
 
