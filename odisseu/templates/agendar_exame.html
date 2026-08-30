@@ -1,38 +1,43 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Agendar exames{% endblock %}
 {% block content %}
-    <h1>Agendar exames</h1>
-
+    <h1 id="titulo">Agendar exames</h1>
+    <p id="subtitulo">
+        Agende exame(s) para um paciente já cadastrado
+    </p>
     <p>
         <a class="link" href="{% url 'cadastrar_paciente' %}">
-            Cadastrar novo paciente ➤
+            Cadastrar novo paciente
         </a>
     </p>
-
-    <hr>
-
-    <form method="POST" class="forms">
-
+<section class="bg-light text-dark rounded-4 p-4">
+    <form method="POST" class="form-rotina form-exames">
         {% csrf_token %}
-        <div class="row">
-            <nav class="col-md-8 rounded-2">
+        
+        <div class="row p-1 m-2">
+            <nav class="col-md-12 rounded-2">
                 <p>
-                    <strong>Paciente:</strong>
+                    <strong>Buscar paciente:</strong>
                 </p>
                 {{ form.paciente }}
                 {{ form.paciente.errors }}
             </nav>
+            
         </div>
-
-        <br><br>
-
-        <p>
-            <strong>Exames:</strong>
-        </p>
-
-        {{ form.exames }}
-
-        <br>
+        <div class="row p-1 m-2">
+            <nav class="col-md-6">
+                <p>
+                    <strong>Exames:</strong>
+                </p>
+                {{ form.exames }}
+                {{ form.exames.errors }}
+            </nav>
+        </div>
+    
+    </form>
+        
+    </div>
+</section>
 
         <p>
             <strong>Data:</strong>
