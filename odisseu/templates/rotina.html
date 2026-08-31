@@ -11,7 +11,7 @@
 <!-- FILTRO POR DATA -->
 
 <section class="container bg-light text-dark rounded-4 p-4">
-    <form method="GET" class="form-rotina">
+    <form method="GET" action="{% url 'rotina' %}" class="form-rotina">
         <section class="row">
             <nav class="col-md-4">
                 <label for="data">
@@ -32,6 +32,7 @@
                 </button>
             </nav>
         </section>    
+    </form>
             <!-- BOTÃO PARA A PÁGINA DE IMPRESSÃO -->
 
         {% if agendamentos %}
