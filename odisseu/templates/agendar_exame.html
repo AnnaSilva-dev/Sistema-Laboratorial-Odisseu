@@ -33,11 +33,7 @@
                 {{ form.exames.errors }}
             </nav>
         </div>
-    
-    </form>
         
-    </div>
-<form>
         <p>
             <strong>Data:</strong>
         </p>
@@ -49,7 +45,9 @@
         <p> 
             <strong>Solicitante:</strong>
         </p>
-        {{form.solicitante}} 
+        {{ form.solicitante }} 
+        {{ form.solicitante.errors }} 
+
         
         <br><br>
 
@@ -58,6 +56,8 @@
         </button>
 
     </form>
+        
+    </div>
 
 </section>
 
