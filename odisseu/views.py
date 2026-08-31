@@ -38,19 +38,6 @@ def index(request):
         }
     )
 
-def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            auth_login(request, user)
-            return redirect('index')
-        else:
-            return render(request, 'login.html', {'error': 'Usuário ou senha inválidos.'})
-    else:
-        return render(request, 'login.html')
-
 @login_required
 @has_permission_decorator('cadastrar_usuario')
 def cadastrar_usuario(request):

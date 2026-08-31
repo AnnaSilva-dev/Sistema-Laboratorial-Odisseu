@@ -10,6 +10,9 @@ class Administrador(AbstractUserRole):
         'digitar_resultados': True,
         'pdf_resultados': True,
         'imprimir_rotina': True,
+        'liberar_resultados': True,
+        'visualizar_pacientes': True,
+        'consultar_relatorios':True,
     }
 
 class Farmaceutico(AbstractUserRole):

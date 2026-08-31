@@ -19,31 +19,53 @@
                             <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
 
                             <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-door-fill"></span> Início</a></li>
+                            <!-- {% if perms.odisseu.agendar_exame or perms.odisseu.cadastrar_paciente or perms.odisseu.cadastrar_usuario or perms.odisseu.visualizar_pacientes %} -->
                             <h6>Recepção</h6>
+                            <!-- {% endif %} -->
                             <div class="container-fluid mb-2">
+                                <!-- {% if perms.odisseu.agendar_exame %} -->
                                 <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
+                                <!-- {% endif %} -->
+                                <!-- {% if perms.odisseu.cadastrar_paciente %} -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
+                                <!-- {% endif %} -->
+                                <!-- {% if perms.odisseu.cadastrar_usuario %} -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_usuario' %}"><span class="bi bi-person-gear p-2"></span> Cadastrar usuários</a></li>
+                                <!-- {% endif %} -->
+                                <!-- {% if perms.odisseu.visualizar_pacientes %} -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
+                                <!-- {% endif %} -->
                             </div>
+                            
 
+                            <!-- {% if perms.odisseu.exibir_rotina %} -->
                             <h6>Rotina</h6>
                             <div class="container-fluid mb-2">
                                 <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
                             </div>
+                            <!-- {% endif %} -->
+                            
 
+                            <!-- {% if perms.odisseu.digitar_resultados or perms.odisseu.liberar_resultados %} -->
                             <h6>Resultados</h6>
+                            <!-- {% endif %} -->
                             <div class="container-fluid mb-2">
+                                <!-- {% if perms.odisseu.digitar_resultados %} -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes</a></li>
+                                <!-- {% endif %} -->
+                                <!-- {% if perms.odisseu.liberar_resultados %} -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'liberar_resultados' %}"><span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes</a></li>
-
+                                <!-- {% endif %} -->
                             </div>
-
+                            
+                            <!-- {% if perms.odisseu.consultar_relatorios %} -->
                             <h6>Relatórios</h6>
+
                             <div class="container-fluid mb-2">
                                 <!-- sem pagina html apenas exemplo na navbar -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios</a></li>
                             </div>
+                            <!-- {% endif %} -->
 
                             <section class="position-absolute bottom-0 mb-5">
                                 <h6>Configuração</h6>
@@ -51,8 +73,10 @@
                                     <!-- sem pagina html apenas exemplo na navbar -->
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
-                                    <!-- sem logica de logout -->
-                                    <li class="nav-item"><a class="nav-link text-danger" href="{% url 'login' %}"><span class="bi bi-box-arrow-left"></span> Sair</a></li>
+                                     <form method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger w-10"><span class="bi bi-box-arrow-left"></span> Sair</button>
+                                    </form>
                                 </div>
                             </section>
                         </ul>

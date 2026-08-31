@@ -1,10 +1,13 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
+from django.contrib.auth import views as auth_views
+
 
 urlpatterns = [
-    path("", views.login, name='login'),
-    path("index/", views.index, name="index"),
+    path("", views.index, name="index"),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('cadastrar_usuario/', views.cadastrar_usuario, name='cadastrar_usuario'),
     path('cadastrar_paciente', views.cadastrar_paciente, name='cadastrar_paciente'),
     path('agendar_exame', views.agendar_exame, name='agendar_exame' ),
