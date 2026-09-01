@@ -3,55 +3,66 @@
 {% block title %}{{ block.super }}{% endblock %}
 {% block content %}
     <section class="container-fluid">
-        <div class="row gap-2">
-            <div class="card" style="width: 20rem;">
-                <div class="card-body">
-                    <nav class="row">
-                        <section class="col-4 g-3">
-                            <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:70px;">
-                        </section>
-                        <section class="col-8 mt-3">
-                            <h6 class="card-title text-nowrap text-white">
-                                Pacientes agendados<br>
-                                para hoje
-                            </h6>
-                            <h1 class="card-text text-success fw-bold">{{ pacientes_agendados }}</h1>
-                        </section>
-                    </nav>
+        <div class="row row-cols-3">
+            <nav class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'cadastrar_paciente' %}">
+                            <nav class="row">
+                                <section class="col-md-4 g-3">
+                                    <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:70px;">
+                                </section>
+                                <section class="col-md-8 col-sd-12 mt-3">
+                                    <h6 class="card-title">
+                                        Pacientes agendados
+                                        para hoje
+                                    </h6>
+                                    <h1 class="card-text text-success fw-bold">{{ pacientes_agendados }}</h1>
+                                </section>
+                            </nav>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </nav>
+              
+            <nav class="col-4">     
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'resultados' %}">
+                            <nav class="row">
+                                <section class="col-md-4 g-3">
+                                    <img class="border-warning" src="{% static 'odisseu/imgs/logo1.png' %}" style="width:70px;">
+                                </section>
+                                <section class="col-md-8 mt-3 col-sd-12">
+                                    <h6 class="card-title">
+                                        Resultados ainda pendentes
+                                    </h6>
+                                    <h1 class="card-text text-warning fw-bold">{{ resultados_pendentes }}</h1>
+                                </section>
+                            </nav>
+                        </a>
+                    </div>
+                </div>
+            </nav>
 
-            <div class="card" style="width: 20rem;">
-                <div class="card-body">
-                    <nav class="row">
-                        <section class="col-4 g-3">
-                            <img src="{% static 'odisseu/imgs/logo1.png' %}" style="width:70px;">
-                        </section>
-                        <section class="col-8 mt-3">
-                            <h6 class="card-title text-white">
-                                Resultados ainda pendentes
-                            </h6>
-                            <h1 class="card-text text-warning fw-bold">{{ resultados_pendentes }}</h1>
-                        </section>
-                    </nav>
+            <nav class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <a href="{% url 'rotina' %}">
+                            <nav class="row">
+                                <section class="col-md-4 g-3">
+                                    <img class="border-primary" src="{% static 'odisseu/imgs/logo3.png' %}" style="width:70px;">
+                                </section>
+                                <section class="col-md-8 mt-3 col-sd-12">
+                                    <h6 class="card-title">
+                                        Tipos diferentes de exames
+                                    </h6>
+                                    <h1 class="card-text text-primary fw-bold">{{ exames_pendentes }}</h1>
+                                </section>
+                            </nav>
+                        </a>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card" style="width: 20rem;">
-                <div class="card-body">
-                    <nav class="row">
-                        <section class="col-4 g-3">
-                            <img src="{% static 'odisseu/imgs/logo2.png' %}" style="width:70px;">
-                        </section>
-                        <section class="col-8 mt-3">
-                            <h6 class="card-title text-white">
-                                Tipos diferentes de exames
-                            </h6>
-                            <h1 class="card-text text-primary fw-bold">{{ exames_pendentes }}</h1>
-                        </section>
-                    </nav>
-                </div>
-            </div>
         </div>
     </section>
 {% endblock %}

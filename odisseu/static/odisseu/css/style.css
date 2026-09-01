@@ -239,6 +239,24 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .card{
     border-radius: 14px;
     background-color: var(--preto-azulado);
+    box-shadow: 10 4px 15px black;
+    max-width: fit-content;
+}
+
+.card-body a {
+    text-decoration: none;
+    color: var(--branco);
+}       
+
+.card:hover, .card:hover * {
+    background-color: var(--branco);
+    color: var(--preto-azulado); 
+    border-radius: 14px;
+}
+
+.card:hover img { 
+    border: 2px solid var(--verde);
+    border-radius: 20rem;
 }
 
 /* menu */
@@ -316,6 +334,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     color: #4b564f;
     padding: 5px 6px;
 }
+
 /* exames */
 .form-exames select {
     width: 100%;
