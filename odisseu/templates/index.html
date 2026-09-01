@@ -63,6 +63,69 @@
                         </a>
                     </div>
                 </div>
+            </nav>
         </div>
+
+        <section class="row row-cols-3 mt-4 ">
+            <nav class="col-md-8">
+                <div class="bg-preto-azulado p-5 rounded-3">
+                    
+                    <h4><span class="bi bi-bar-chart-line-fill"></span>  Desempenho do mês</h4>
+                    <nav class="bg-light rounded-3 p-4">
+                        <h5 class="text-dark ">
+                            Total de exames realizados
+                        </h5>
+                        <div class="p-2">
+                            <h1 class="text-success fw-bold" style="font-size: 4rem;">
+                                {{ exames_mes }}<i class="bi bi-check2-square" style="font-size: 2rem ;"></i>
+                            </h1>
+
+                            <p class="text-dark ">
+                                {% if variacao > 0 %}
+                                    <h6 class="text-success">+{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-up-right"></i></h6>
+                                {% elif variacao == 0 %}
+                                    <h6 class="text-secondary">Sem variação em relação ao mês anterior</h6>
+                                {% else %}
+                                    <h6 class="text-danger">{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-down-right"></i></h6>
+                                {% endif %}
+                            </p>
+                        </div>
+                        
+                    </nav>
+                </div>
+            </nav>
+
+            <nav class="col-md-4">
+                <div class="bg-preto-azulado p-4 rounded-3" style="height: 100%;">
+                    <h6 class="fw-bold">Ações rápidas</h6>
+                    <div class="p-3">
+                        <a class="btn btn-light text-success fw-bold" href="{% url 'cadastrar_paciente' %}" style="width: 100%;">
+                            <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i>
+                            Novo paciente
+                            <i class="bi bi-caret-right-fill"></i>
+                        </a>
+                        <a class="btn btn-light text-success fw-bold mt-2" href="{% url 'agendar_exame' %}" style="width: 100%;">
+                            <i class="bi bi-calendar3" style="font-size: 1.5rem;"></i>
+                            Agendar exames
+                            <i class="bi bi-caret-right-fill text-end"></i>
+
+                        </a>
+                        <a class="btn btn-light text-success fw-bold mt-2" href="{% url 'resultados' %}" style="width: 100%;">
+                            <i class="bi bi-flask-fill" style="font-size: 1.5rem;"></i>
+                            Digitar resultados
+                            <i class="bi bi-caret-right-fill"></i>
+                        </a>
+
+                        <a class="btn btn-light text-success fw-bold mt-2" style="width: 100%;" 
+                            href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}">
+
+                            <i class="bi bi-printer-fill" style="font-size: 1.5rem;"></i>
+                            Imprimir rotina
+                            <i class="bi bi-caret-right-fill"></i>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </section>
     </section>
 {% endblock %}

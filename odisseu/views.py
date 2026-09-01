@@ -2,7 +2,7 @@ from django.db.models import Count
 from django.shortcuts import render, redirect
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
 from .exames import EXAMES, parametros_do_exame
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.models import User
@@ -28,6 +28,37 @@ def index(request):
         resultado__isnull=True
     ).values('exame').distinct().count()
 
+
+    inicio_mes = hoje.replace(day=1)
+    if hoje.month == 12:
+        inicio_prox_mes = date(hoje.year + 1, 1, 1)
+    else:
+        inicio_prox_mes = date(hoje.year, hoje.month + 1, 1)
+
+    fim_mes_anterior = inicio_mes - timedelta(days=1)
+    inicio_mes_anterior = fim_mes_anterior.replace(day=1)
+
+
+    exames_mes = Agendamento.objects.filter(
+        data__gte=inicio_mes,
+        data__lt=inicio_prox_mes,
+        resultado__isnull=False
+    ).count()
+
+    exames_mes_anterior = Agendamento.objects.filter(
+        data__gte=inicio_mes_anterior,
+        data__lt=inicio_mes,
+        resultado__isnull=False
+    ).count()
+
+    if exames_mes_anterior > 0:
+        variacao = (
+            (exames_mes - exames_mes_anterior)
+            / exames_mes_anterior
+        ) * 100
+    else:
+        variacao = 0
+
     return render(
         request,
         'index.html',
@@ -35,8 +66,12 @@ def index(request):
             'pacientes_agendados': pacientes_agendados,
             'resultados_pendentes': resultados_pendentes,
             'exames_pendentes': exames_pendentes,
+
+            'exames_mes': exames_mes,
+            'variacao': variacao,
         }
     )
+
 
 @login_required
 @has_permission_decorator('cadastrar_usuario')
