@@ -6,6 +6,13 @@
 
 <h1 id="titulo">Rotinas Laboratoriais</h1>
 <p id="subtitulo">Pacientes e exames agendados para o dia selecionado</p>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}       
 
 
 <!-- FILTRO POR DATA -->

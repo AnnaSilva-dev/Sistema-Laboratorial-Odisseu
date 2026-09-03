@@ -11,6 +11,7 @@ from rolepermissions.decorators import has_permission_decorator
 from django.contrib.auth.decorators import login_required
 from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionista
 from django.utils import timezone
+from django.contrib import messages
 
 @login_required
 def index(request):
@@ -88,7 +89,8 @@ def cadastrar_usuario(request):
             'Tecnicolaboratorial': TecnicoLaboratorial}
             role = ROLES[perfil]
             assign_role(user, role)
-            return redirect('index')
+            messages.success(request, 'Usuário cadastrado com sucesso!')
+            return redirect('cadastrar_usuario')
         
     else:
         form = UsuarioForm()
@@ -101,6 +103,7 @@ def cadastrar_paciente(request):
         form= PacienteForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Paciente cadastrado com sucesso!')
             return redirect('cadastrar_paciente')
     else:
         form= PacienteForm()
@@ -133,7 +136,7 @@ def agendar_exame(request):
                     data=data,
                     solicitante=solicitante
                 )
-
+            messages.success(request, 'Exame agendado com sucesso!')
             return redirect('agendar_exame')
 
     else:
@@ -227,7 +230,7 @@ def digitar_resultados(request, agendamento_id):
                         unidade=parametro['unidade'],
                         referencia=parametro['referencia'],
                     )
-
+        messages.success(request, 'Resultado salvo com sucesso!')
         return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     else:
@@ -310,7 +313,7 @@ def editar_paciente(request, paciente_id):
 
         if form.is_valid():
             form.save()
-
+            messages.success(request, 'Paciente editado com sucesso!')
             return redirect('pacientes')
 
     else:
@@ -351,6 +354,7 @@ def editar_resultado(request, resultado_id):
 
         resultado.observacao = request.POST.get('observacao', '')
         resultado.save()
+        messages.success(request, 'Resultado editado com sucesso!')
         return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     return render(request, 'editar_resultado.html', {
@@ -366,7 +370,7 @@ def excluir_agendamento(request, agendamento_id):
     data = agendamento.data
 
     agendamento.delete()
-
+    messages.success(request, 'Agendamento excluido com sucesso!')
     return redirect(
         f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )
@@ -458,9 +462,8 @@ def liberar_resultados(request):
                 'resultados': [],
             }
         agrupado[chave]['resultados'].append(resultado)
-
     grupos = list(agrupado.values())
-
+    messages.success(request, 'Resultado liberado com sucesso!')
     return render(
         request,
         'liberar_resultados.html',

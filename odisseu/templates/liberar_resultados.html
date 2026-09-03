@@ -50,7 +50,13 @@
 
 <h1 id="titulo">Liberar resultados</h1>
 <p id="subtitulo">Revise e libere os resultados dos exames</p>
-
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}       
 <section class="bg-light text-dark rounded-4 p-4">
 
     <form method="POST" class="form-rotina">

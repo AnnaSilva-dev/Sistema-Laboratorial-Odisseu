@@ -5,7 +5,13 @@
     <h1>Pacientes cadastrados</h1>
 
     <!-- PESQUISA -->
-
+    {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+    {% endif %}       
     <form method="GET">
         <input
             class="edit-forms"

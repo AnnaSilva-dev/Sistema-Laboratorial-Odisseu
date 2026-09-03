@@ -5,6 +5,13 @@
     <p id="subtitulo">
         Agende exame(s) para um paciente já cadastrado
     </p>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}       
     <p>
         <a class="link" href="{% url 'cadastrar_paciente' %}">
             Cadastrar novo paciente
