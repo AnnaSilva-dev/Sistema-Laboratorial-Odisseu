@@ -475,6 +475,18 @@ def liberar_resultados(request):
 
 def usuarios(request):
     usuarios= User.objects.all()
+    busca = request.GET.get('busca', '').strip()
+
+    if busca:
+        usuarios = User.objects.filter(
+            first_name__icontains=busca
+        ) | User.objects.filter(
+            last_name__icontains=busca
+        ) | User.objects.filter(
+            username__icontains=busca
+        ) | User.objects.filter(
+            email__icontains=busca
+        )
     for usuario in usuarios:
         if has_role(usuario, Administrador):
             usuario.perfil = 'Administrador'
