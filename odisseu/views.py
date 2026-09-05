@@ -1,5 +1,5 @@
 from django.db.models import Count
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date, datetime, timezone, timedelta
@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionista
 from django.utils import timezone
 from django.contrib import messages
+from rolepermissions.checkers import has_role
 
 @login_required
 def index(request):
@@ -469,3 +470,84 @@ def liberar_resultados(request):
         'liberar_resultados.html',
         {'grupos': grupos}
     )
+
+#usuario
+
+def usuarios(request):
+    usuarios= User.objects.all()
+    for usuario in usuarios:
+        if has_role(usuario, Administrador):
+            usuario.perfil = 'Administrador'
+        elif has_role(usuario, Farmaceutico):
+            usuario.perfil = 'Farmacêutico'
+        elif has_role(usuario, Recepcionista):
+            usuario.perfil = 'Recepcionista'
+        elif has_role(usuario, TecnicoLaboratorial):
+            usuario.perfil = 'Técnico Laboratorial'
+   
+
+    return render(
+        request,
+        'usuarios.html',
+        {
+            'usuarios': usuarios,
+            
+        }
+    )
+
+def inativar_usuario(request, id):
+
+    if request.method == 'POST':
+
+        usuario = get_object_or_404(User, id=id)
+
+        if request.user.id == usuario.id:
+
+            if has_role(request.user, Administrador):
+                administradores_ativos = 0
+
+                for user in User.objects.filter(is_active=True):
+                    if has_role(user, Administrador):
+                        administradores_ativos += 1
+
+                if administradores_ativos == 1:
+                    messages.error(
+                        request,
+                        'Você não pode inativar sua própria conta, pois é o único administrador ativo do sistema.'
+                    )
+                    return redirect('usuarios')
+
+        usuario.is_active = False
+        usuario.save()
+
+    return redirect('usuarios')
+
+def ativar_usuario(request, id):
+
+  if request.method == 'POST':
+
+    usuario = get_object_or_404(User, id=id)
+
+    usuario.is_active = True
+    usuario.save()
+
+    return redirect('usuarios')
+
+
+def editar_usuarios(request, id):
+    usuario = get_object_or_404(User, id=id)
+
+    if request.method == 'POST':
+        usuario.first_name = request.POST.get('first_name')
+        usuario.last_name = request.POST.get('last_name')
+        usuario.email = request.POST.get('email')
+        usuario.save()
+
+        return redirect('usuarios')
+
+    usuarios = User.objects.all()
+
+    return render(request, 'usuarios.html', {
+        'usuarios': usuarios,
+        'usuario_edicao': usuario
+    })

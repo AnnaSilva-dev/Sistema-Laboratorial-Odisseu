@@ -25,4 +25,10 @@ urlpatterns = [
     path('rotina/imprimir/',views.rotina_impressao, name='rotina_impressao'),
     path('logout/', LogoutView.as_view(), name='logout'),
     (path('liberar-resultados/', views.liberar_resultados, name='liberar_resultados')),
+    path('usuarios/', views.usuarios, name='usuarios'),
+
+    path('usuarios/editar/<int:id>/', views.editar_usuarios, name='editar_usuarios'),
+    path('usuarios/inativar/<int:id>/', views.inativar_usuario, name='inativar_usuario'),
+    path('usuarios/ativar/<int:id>/', views.ativar_usuario, name='ativar_usuario'),
+
 ]

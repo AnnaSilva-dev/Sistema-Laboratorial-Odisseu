@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Usuários</h2>
+
+            <p class="text-muted mb-0">
+                Gerencie os usuários cadastrados no sistema.
+            </p>
+        </div>
+
+        <a href="{% url 'cadastrar_usuario' %}" class="btn btn-primary">
+            + Novo usuário
+        </a>
+
+    </div>
+
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Usuário</th>
+                    <th>E-mail</th>
+                    <th>Perfil</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                {% for usuario in usuarios %}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            {{ usuario.first_name }}
+                            {{ usuario.last_name }}
+                        </strong>
+                    </td>
+
+
+                    <td>
+                        {{ usuario.username }}
+                    </td>
+                    <td>
+                        {{ usuario.email }}
+                    </td>
+
+                    <td>
+                        {{ usuario.perfil}}
+                    </td>
+                    <td>
+
+                        {% if usuario.is_active %}
+
+                            <span class="badge bg-success">
+                                Ativo
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                Inativo
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td class="text-end">
+
+                        <a href="{% url 'editar_usuarios' usuario.id %}"
+                           class="btn btn-sm btn-outline-primary">
+
+                            Editar
+
+                        </a>
+
+                        {% if usuario.is_active %}
+
+                            <form method="POST"
+                                  action="{% url 'inativar_usuario' usuario.id %}"
+                                  class="d-inline">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Deseja realmente inativar este usuário?')">
+
+                                    Inativar
+
+                                </button>
+
+                            </form>
+
+                        {% else %}
+
+                            <form method="POST"
+                                  action="{% url 'ativar_usuario' usuario.id %}"
+                                  class="d-inline">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-success">
+
+                                    Ativar
+
+                                </button>
+
+                            </form>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% if usuario_edicao and usuario_edicao.id == usuario.id %}
+
+                <tr>
+
+                    <td colspan="6">
+
+                        <form method="POST">
+
+                            {% csrf_token %}
+
+                            <div class="row g-3 align-items-end">
+
+                                <!-- NOME -->
+                                <div class="col-md-3">
+
+                                    <label class="form-label">
+                                        Nome
+                                    </label>
+
+                                    <input type="text"
+                                           name="first_name"
+                                           class="form-control"
+                                           value="{{ usuario_edicao.first_name }}">
+
+                                </div>
+
+
+                                <!-- SOBRENOME -->
+                                <div class="col-md-3">
+
+                                    <label class="form-label">
+                                        Sobrenome
+                                    </label>
+
+                                    <input type="text"
+                                           name="last_name"
+                                           class="form-control"
+                                           value="{{ usuario_edicao.last_name }}">
+
+                                </div>
+
+
+                                <!-- E-MAIL -->
+                                <div class="col-md-3">
+
+                                    <label class="form-label">
+                                        E-mail
+                                    </label>
+
+                                    <input type="email"
+                                           name="email"
+                                           class="form-control"
+                                           value="{{ usuario_edicao.email }}">
+
+                                </div>
+
+
+                                <!-- BOTÕES -->
+                                <div class="col-md-3">
+
+                                    <button type="submit"
+                                            class="btn btn-success">
+
+                                        Salvar
+
+                                    </button>
+
+                                    <a href="{% url 'usuarios' %}"
+                                       class="btn btn-secondary">
+
+                                        Cancelar
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% endif %}
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6"
+                        class="text-center py-4 text-muted">
+
+                        Nenhum usuário cadastrado.
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
