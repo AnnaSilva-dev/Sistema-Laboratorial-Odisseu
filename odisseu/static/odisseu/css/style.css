@@ -115,7 +115,7 @@ form input.edit-forms{
     border-radius: 4px;
 }
 
-.forms .errorlist {
+.forms .errorlist, .errorlist {
     margin: 5px;
     padding: 5px;
     color: var(--vermelho);
@@ -239,6 +239,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .card{
     border-radius: 14px;
     background-color: var(--preto-azulado);
+    color: var(--preto-azulado); 
     box-shadow: 10 4px 15px black;
     max-width: fit-content;
 }
@@ -248,13 +249,13 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     color: var(--branco);
 }       
 
-.card:hover, .card:hover * {
+.index:hover, .index:hover * {
     background-color: var(--branco);
     color: var(--preto-azulado); 
     border-radius: 14px;
 }
 
-.card:hover img { 
+.index:hover img { 
     border: 2px solid var(--verde);
     border-radius: 20rem;
 }
@@ -354,3 +355,4 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .form-exames select:valid {
     color: black;
 }
+

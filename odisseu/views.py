@@ -90,7 +90,11 @@ def cadastrar_usuario(request):
             'Tecnicolaboratorial': TecnicoLaboratorial}
             role = ROLES[perfil]
             assign_role(user, role)
-            messages.success(request, 'Usuário cadastrado com sucesso!')
+            if form.is_valid():
+                messages.success(request, 'Usuário cadastrado com sucesso!')
+            else:
+                messages.error(request, 'Ocorreu um erro')
+
             return redirect('cadastrar_usuario')
         
     else:
@@ -106,6 +110,9 @@ def cadastrar_paciente(request):
             form.save()
             messages.success(request, 'Paciente cadastrado com sucesso!')
             return redirect('cadastrar_paciente')
+        else:
+            messages.error(request, 'Ocorreu um erro')
+        
     else:
         form= PacienteForm()
 
@@ -138,7 +145,11 @@ def agendar_exame(request):
                     solicitante=solicitante
                 )
             messages.success(request, 'Exame agendado com sucesso!')
+
             return redirect('agendar_exame')
+
+        else:
+            messages.error(request, 'Ocorreu um erro')
 
     else:
         form = AgendamentoForm()
@@ -231,7 +242,11 @@ def digitar_resultados(request, agendamento_id):
                         unidade=parametro['unidade'],
                         referencia=parametro['referencia'],
                     )
-        messages.success(request, 'Resultado salvo com sucesso!')
+            messages.success(request, 'Resultado salvo com sucesso!')
+
+        else:
+            messages.error(request, 'Ocorreu um erro')
+
         return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     else:
@@ -316,6 +331,8 @@ def editar_paciente(request, paciente_id):
             form.save()
             messages.success(request, 'Paciente editado com sucesso!')
             return redirect('pacientes')
+        else:
+            messages.error(request, 'Ocorreu um erro')
 
     else:
 
@@ -356,6 +373,7 @@ def editar_resultado(request, resultado_id):
         resultado.observacao = request.POST.get('observacao', '')
         resultado.save()
         messages.success(request, 'Resultado editado com sucesso!')
+
         return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
 
     return render(request, 'editar_resultado.html', {
@@ -372,6 +390,7 @@ def excluir_agendamento(request, agendamento_id):
 
     agendamento.delete()
     messages.success(request, 'Agendamento excluido com sucesso!')
+
     return redirect(
         f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )

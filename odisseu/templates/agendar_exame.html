@@ -7,7 +7,7 @@
     </p>
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
+                <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -58,14 +58,11 @@
         
         <br><br>
 
-        <button class="confirmar border-0 px-2 p-2" type="submit">
+        <button class="confirmar border-0 px-2 p-2" type="submit" 
+            onclick="return confirm('Tem certeza que os dados estão corretos?')">
             Agendar exames
         </button>
-
     </form>
-        
-    </div>
-
 </section>
 
 {% endblock %}

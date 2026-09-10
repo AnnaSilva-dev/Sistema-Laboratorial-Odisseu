@@ -121,7 +121,10 @@
         {% endfor %}
 
             {% if grupos %}
-                <button class="confirmar p-2 mt-2" type="submit">Liberar selecionados</button>
+                <button class="confirmar p-2 mt-2" type="submit"
+                    onclick="return confirm('Tem certeza que deseja liberar os resultados?')">
+                    Liberar selecionados
+                </button>
             {% endif %}
 
     </form>
