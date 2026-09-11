@@ -2,114 +2,132 @@
 {% block title %}{{ block.super }} - Pacientes{% endblock %}
 {% block content %}
 
-    <h1>Pacientes cadastrados</h1>
+    <div class="row mb-1">
+        <section class="col-md-8">
+            <h1 id="titulo">Pacientes cadastrados</h1>
+            <p id="subtitulo">
+                Gerencie os pacientes cadastrados no sistema.
+            </p>
+        </section>
+        <section class="col-md-4 text-end">
+            <a href="{% url 'cadastrar_paciente' %}" class="btn btn-success">
+                + Novo paciente
+            </a>
+        </section>
+    </div>
+    
+        <!-- PESQUISA -->
+        {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+        {% endif %}
 
-    <!-- PESQUISA -->
-    {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
+        <section class="container rounded-3 bg-white">
+            <form method="GET" class="mb-4">
+                <div class="input-group py-3">
+                    <input class="form-control shadow-lg border border-black"
+                        type="text"
+                        name="busca"
+                        placeholder="Pesquisar por nome, CPF ou CNS"
+                        value="{{ busca }}">
+
+                    <button type="submit" class="btn btn-success">
+                        Pesquisar
+                    </button>
                 </div>
-            {% endfor %}
-    {% endif %}       
-    <form method="GET">
-        <input
-            class="edit-forms"
-            type="text"
-            name="busca"
-            placeholder="Pesquisar por nome, CPF ou CNS"
-            value="{{ busca }}"
-        >
-        <button class="confirmar border-0" type="submit">
-            Pesquisar
-        </button>
-    </form>
+            </form>
 
-    <hr>
+            {% for paciente in pacientes %}
+                <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg">
+                    <section class="row">
+                        <nav class="col-md-8">
+                            <h2 class="text-success fw-bold">{{ paciente.nome }}</h2>
+                        </nav>
+                        <nav class="col-md-4 text-end">
+                            <a href="{% url 'editar_paciente' paciente.id %}" class="btn btn-primary">Editar paciente</a>
+                        </nav>
+                    </section>
+                
+                    <section class="row">
+                        <nav class="col-md-3">
+                            <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
+                            <p><strong>CNS:</strong> {{ paciente.cns }}</p>
+                        </nav>
+                        <nav class="col-md-4">
+                            <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+                            <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
+                        </nav>
+                    </section>
 
-    {% for paciente in pacientes %}
 
-        <div>
+                    {% if paciente_editando.id == paciente.id %}
 
-            <h2>{{ paciente.nome }}</h2>
+                        <hr>
+                        <h3>Editar paciente</h3>
 
-            <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
-            <p><strong>CNS:</strong> {{ paciente.cns }}</p>
-            <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
-            <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
-
-            <a href="{% url 'editar_paciente' paciente.id %}">Editar paciente</a>
-
-            {% if paciente_editando.id == paciente.id %}
-
-                <hr>
-                <h3>Editar paciente</h3>
-
-                <form method="POST">
-                    {% csrf_token %}
-                    {{ form_editar.as_p }}
-                    <button type="submit">Salvar alterações</button>
-                </form>
-
-                <br>
-                <a href="{% url 'pacientes' %}">Cancelar</a>
-                <hr>
-
-            {% endif %}
-
-            <!-- HISTÓRICO DE EXAMES -->
-
-            <h3>Histórico de exames</h3>
-
-            {% for grupo in paciente.historico_agendamentos %}
-
-                <div>
-
-                    <h4>{{ grupo.data|date:"d/m/Y" }}</h4>
-
-                    {% for agendamento in grupo.agendamentos %}
-
-                        <div>
-                            <strong>{{ agendamento.get_exame_display }}</strong>
-
-                            {% if agendamento.resultado %}
-
-                                {% if agendamento.resultado.liberado %}
-                                    ✓ Resultado liberado
-                                {% else %}
-                                    ◷ Aguardando liberação
-                                {% endif %}
-
-                            {% else %}
-                                — Resultado pendente
-                            {% endif %}
-
-                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form_editar.as_p }}
+                            <button type="submit">Salvar alterações</button>
+                        </form>
 
                         <br>
+                        <a href="{% url 'pacientes' %}">Cancelar</a>
+                        <hr>
 
-                    {% endfor %}
-
-                    {% if grupo.tem_liberado %}
-                        <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}">
-                            Ver laudo
-                        </a>
                     {% endif %}
+
+                    <!-- HISTÓRICO DE EXAMES -->
+                    <button class="btn btn-success my-2" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#exames_paciente_{{ paciente.id }}"
+                        aria-expanded="false"
+                        aria-controls="exames_paciente_{{ paciente.id }}">
+                        Ver histórico de exames
+                    </button>
+
+                    <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
+                        {% for grupo in paciente.historico_agendamentos %}
+                            <div class="card card-body bg-white text-dark mb-2">
+                                <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
+
+                                {% for agendamento in grupo.agendamentos %}
+                                    <div class="mb-1">
+                                        <strong>{{ agendamento.get_exame_display }}</strong> — 
+                                        {% if agendamento.resultado %}
+                                            {% if agendamento.resultado.liberado %}
+                                                <span class="text-success">✓ Resultado liberado</span>
+                                            {% else %}
+                                                <span class="text-warning">◷ Aguardando liberação</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-secondary">— Resultado pendente</span>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+
+                                {% if grupo.tem_liberado %}
+                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}" class="btn btn-sm btn-outline-success mt-2 align-self-start">
+                                        Ver laudo
+                                    </a>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <p class="text-muted mt-2">Nenhum exame encontrado para este paciente.</p>
+                        {% endfor %}
+                    </div>
 
                 </div>
 
                 <hr>
 
             {% empty %}
-                <p>Nenhum exame encontrado para este paciente.</p>
+                <p>Nenhum paciente encontrado.</p>
             {% endfor %}
-
-        </div>
-
-        <hr>
-
-    {% empty %}
-        <p>Nenhum paciente encontrado.</p>
-    {% endfor %}
+        </section>      
+    
 
 {% endblock %}
