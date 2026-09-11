@@ -26,10 +26,10 @@ possibilitando o cadastro de pacientes, a marcação de exames e o registro de r
 
 ## Metodologias utilizadas
 <p align="justify">
-
 Para tanto, utilizar-se-á um Sistema de Gerenciamento de Banco de Dados Relacional (SGBDR), responsável por armazenar e organizar as informações dos pacientes e dos exames de forma estruturada e segura. 
 Além disso, o sistema será desenvolvido como uma aplicação web, 
 utilizando o framework Django e a linguagem de programação Python, permitindo maior acessibilidade e integração entre os diferentes componentes do sistema.
+
 </p>
 
 ## Resultados esperados
