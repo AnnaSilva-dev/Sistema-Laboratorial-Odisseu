@@ -15,8 +15,6 @@
         {% endif %}       
 
 
-<!-- FILTRO POR DATA -->
-
 <section class="container bg-light text-dark rounded-4 p-4">
     <form method="GET" action="{% url 'rotina' %}" class="form-rotina">
         <section class="row">
@@ -86,24 +84,17 @@
             </h5>
         </nav>
     </div>
-
+    
     <section id="menusRotina">
-    <!-- AGRUPA OS AGENDAMENTOS PELO PACIENTE -->
         {% regroup agendamentos by paciente as pacientes %}
 
-
         {% for grupo in pacientes %}
-
             <div class="row border-bottom border-secondary p-1 m-2">
-                <!-- NOME DO PACIENTE -->
-
                 <nav class="col-md-4">
                     <h5>
-                        {{ grupo.grouper.nome }}
+                        {{ grupo.grouper.nome|default:grupo.grouper }}
                     </h5>
                 </nav>
-
-                <!-- EXAMES -->
 
                 <nav class="col-md-6">
                     <strong>
@@ -118,8 +109,8 @@
                         class="navbar-toggler border border-2 p-1 rounded-2"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#menuRotina{{ grupo.grouper.id }}"
-                        aria-controls="menuRotina{{ grupo.grouper.id }}"
+                        data-bs-target="#menuRotina{{ forloop.counter }}"
+                        aria-controls="menuRotina{{ forloop.counter }}"
                         aria-expanded="false"
                         aria-label="Abrir menu"
                     >
@@ -128,72 +119,44 @@
 
                     <section
                         class="collapse navbar menu"
-                        id="menuRotina{{ grupo.grouper.id }}"
+                        id="menuRotina{{ forloop.counter }}"
                         data-bs-parent="#menusRotina"
                     >
-
                         {% for agendamento in grupo.list %}
                             <div class="exame-menu">
-
                                 <strong>
                                     {{ agendamento.get_exame_display }}
                                 </strong>
 
                                 {% if agendamento.resultado %}
-
-                                    <a
-                                        class="link"
-                                        href="{% url 'editar_resultado' agendamento.resultado.id %}"
-                                    >
+                                    <a class="link" href="{% url 'editar_resultado' agendamento.resultado.id %}">
                                         Editar resultado
                                     </a>
-
-                                    <a
-                                        class="link"
-                                        href="{% url 'excluir_agendamento' agendamento.id %}"
-                                    >
+                                    <a class="link" href="{% url 'excluir_agendamento' agendamento.id %}">
                                         Excluir agendamento
                                     </a>
-
-                                    <!-- VER RESULTADOS -->
-
-                                
-
-
                                 {% else %}
-
-                                    <a
-                                        class="link"
-                                        href="{% url 'digitar_resultados' agendamento.id %}"
-                                    >
+                                    <a class="link" href="{% url 'digitar_resultados' agendamento.id %}">
                                         Digitar resultado 
                                     </a>
-
                                 {% endif %}
                             </div>
                             <span class="border-bottom"></span>
                         {% endfor %}
                         
-                        
-                        <a  class="link link-primary"
-                            href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}">
+                        <a class="link link-primary"
+                        href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}">
                             Ver resultados
                         </a>
                     </section>
                 </nav>
             </div>
 
-
         {% empty %}
-
             <p>
                 Não existem exames agendados para esta data.
             </p>
-
         {% endfor %}
-
-
         {% endblock %}
     </section>
-
 </section>

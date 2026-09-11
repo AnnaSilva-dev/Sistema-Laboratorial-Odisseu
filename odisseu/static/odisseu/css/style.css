@@ -12,6 +12,7 @@ body{
     color: var(--branco);
 } 
 
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -102,6 +103,8 @@ form input.edit-forms{
     width: 100%;
     border-radius: 4px;
 }
+
+
 
 .errorlist {
     margin: 5px;

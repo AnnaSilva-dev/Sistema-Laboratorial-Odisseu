@@ -4,8 +4,6 @@
 <style>
     .lr-checkbox-label {
         display: flex;
-        align-items: center;
-        gap: 10px;
         cursor: pointer;
         margin-bottom: 6px;
     }
@@ -46,6 +44,16 @@
         color: #8a938c;
         font-size: 14px;
     }
+
+    .grupo_paciente {
+        transition: background-color 0.3s ease, border-radius 0.3s ease;
+        display: block;
+    }
+    
+    .grupo_selecionado {
+        background-color: #e8f5e9 !important;
+        border-radius: 8px;
+    }
 </style>
 
 <h1 id="titulo">Liberar resultados</h1>
@@ -58,7 +66,6 @@
             {% endfor %}
         {% endif %}       
 <section class="bg-light text-dark rounded-4 p-4">
-
     <form method="POST" class="form-rotina">
         {% csrf_token %}
         
@@ -86,42 +93,69 @@
             </nav>
         </div>
 
-        {% for grupo in grupos %}
-            <div class="row border-bottom border-secondary p-1 m-2">
-                <nav class="col-md-4">
-                    <h5>
-                        {{ grupo.paciente.nome }}
-                    </h5>
-                </nav>
+       <section id="menuResultados">
+            {% for grupo in grupos %}
+                <section class="grupo_paciente">
+                    
+                    <div class="row border-bottom border-secondary p-1 m-2">
+                        
+                        <nav class="col-md-4">
+                            
+                            <h5 class="text-success">
+                                <label class="lr-checkbox-label gap-2"> 
+                                    <input type="checkbox" class="selecionar_todos">
+                                    {{ grupo.paciente.nome }}
+                                </label>
+                            </h5>
+                        </nav>
 
-                <nav class="col-md-6">
-                    <strong>
-                        {{ grupo.data|date:"d/m/Y" }}
-                        <div>
-                            {% for resultado in grupo.resultados %}
-                            {{ resultado.agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
-                            <label class="lr-checkbox-label"> 
-                                 <input type="checkbox" name="resultados" value="{{ resultado.id }}">
-                            </label>
-                            {% endfor %}
-                        </div>
-                    </strong>
-                </nav>
+                        <nav class="col-md-6">
+                            <strong>
+                                {{ grupo.data|date:"d/m/Y" }}
+                            </strong>
 
-                <nav class="col-md-2">
-                    <a class="lr-btn-revisar" href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}">
-                        <i class="bi bi-eye"></i> Revisar
-                    </a>
-                </nav>
-            </div>
+                            <button
+                                class="navbar-toggler border border-2 p-1 rounded-2 ms-2"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#resultados{{ forloop.counter }}"
+                                aria-controls="resultados{{ forloop.counter }}"
+                                aria-expanded="false"
+                                aria-label="Abrir menu"
+                            >
+                                Exames <i class="bi bi-chevron-down"></i> 
+                            </button>
 
+                            <div class="collapse mt-2" 
+                                id="resultados{{ forloop.counter }}" 
+                                data-bs-parent="#menuResultados"
+                            >
+                                {% for resultado in grupo.resultados %}
+                                    <div class="d-flex align-items-center gap-2 my-1">
+                                        <span>{{ resultado.agendamento.get_exame_display }}</span>
+                                        <label class="lr-checkbox-label"> 
+                                            <input type="checkbox" name="resultados" value="{{ resultado.id }}">
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </nav>
+
+                        <nav class="col-md-2">
+                            <a class="lr-btn-revisar" href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}">
+                                <i class="bi bi-eye"></i> Revisar
+                            </a>
+                        </nav>
+                    </div>
+                </section>
+                
 
             {% empty %}
-                <tr>
-                    <td colspan="3" class="lr-vazio">Nenhum resultado aguardando liberação.</td>
-                </tr>
-        {% endfor %}
-
+                <div class="p-3 text-center text-muted lr-vazio">
+                    Nenhum resultado aguardando liberação.
+                </div>
+            {% endfor %}
+        </section>
             {% if grupos %}
                 <button class="confirmar p-2 mt-2" type="submit"
                     onclick="return confirm('Tem certeza que deseja liberar os resultados?')">
@@ -130,6 +164,44 @@
             {% endif %}
 
     </form>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mudanças dos checkbox
+        function atualizarEstadoGrupo(grupo) {
+            if (!grupo) return;
 
-</div>
+            const mestre = grupo.querySelector('.selecionar_todos');
+            const exames = grupo.querySelectorAll('input[name="resultados"]');
+            const todosMarcados = exames.length > 0 && Array.from(exames).every(cb => cb.checked);
+            
+            if (mestre) {
+                mestre.checked = todosMarcados;
+            }
+
+            if (todosMarcados) {
+                grupo.classList.add('grupo_selecionado');
+            } else {
+                grupo.classList.remove('grupo_selecionado');
+            }
+        }
+
+        document.querySelectorAll('.selecionar_todos').forEach(checkboxMestre => {
+            checkboxMestre.addEventListener('change', function() {
+                const grupo = this.closest('.grupo_paciente');
+                if (grupo) {
+                    const exames = grupo.querySelectorAll('input[name="resultados"]');
+                    exames.forEach(exame => exame.checked = this.checked);
+                    atualizarEstadoGrupo(grupo);
+                }
+            });
+        });
+
+        document.querySelectorAll('input[name="resultados"]').forEach(exame => {
+            exame.addEventListener('change', function() {
+                const grupo = this.closest('.grupo_paciente');
+                atualizarEstadoGrupo(grupo);
+            });
+        });
+    });
+</script>
 {% endblock %}
