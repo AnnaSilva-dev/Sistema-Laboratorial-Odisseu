@@ -25,18 +25,6 @@ body{
     background: transparent;
 }
 
-#titulo{
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0 0 4px;
-}
-
-#subtitulo {
-    color: gray;
-    font-size: 15px;
-    margin: 0 0 24px;
-}
-
 .bg-preto-azulado{
     background-color: var(--preto-azulado);
 }
@@ -115,7 +103,7 @@ form input.edit-forms{
     border-radius: 4px;
 }
 
-.forms .errorlist, .errorlist {
+.errorlist {
     margin: 5px;
     padding: 5px;
     color: var(--vermelho);
@@ -123,10 +111,6 @@ form input.edit-forms{
     list-style: none;
     text-decoration: underline;
     font-size: 14px;
-}
-
-.forms label::after {
-    content: ":";
 }
 
 .eye{
@@ -150,9 +134,9 @@ form input.edit-forms{
 .cancelar{
     background-color: var(--preto);
     color: var(--branco);
-    border: 1px solid var(--vermelho);
+    border: 0;
+    box-shadow: inset 0 0 0 1px var(--vermelho);
     border-radius: 10px;
-    padding: 5px;
     transition: 0.5s;
 }
 
@@ -229,6 +213,12 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 /* forms rotina */
 .form-rotina input[type="date"], .form-rotina .confirmar {
+    border-style: solid;
+    border-color: var(--verde);
+    border-radius: 10px;
+}
+
+.form-exames input{
     border-style: solid;
     border-color: var(--verde);
     border-radius: 10px;
@@ -356,3 +346,14 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     color: black;
 }
 
+#titulo{
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 4px;
+}
+
+#subtitulo {
+    color: gray;
+    font-size: 15px;
+    margin: 0 0 24px;
+}

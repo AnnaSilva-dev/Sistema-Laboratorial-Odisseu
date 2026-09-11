@@ -18,19 +18,19 @@
         </a>
     </p>
 <section class="bg-light text-dark rounded-4 p-4">
-    <form method="POST" class="form-rotina form-exames">
+    <form method="POST" class="form-exames">
         {% csrf_token %}
         
         <div class="row p-1 m-2">
-            <nav class="col-md-12 rounded-2">
+            <nav class="col-md-12">
                 <p>
                     <strong>Buscar paciente:</strong>
                 </p>
                 {{ form.paciente }}
                 {{ form.paciente.errors }}
             </nav>
-            
         </div>
+
         <div class="row p-1 m-2">
             <nav class="col-md-6">
                 <p>
@@ -40,28 +40,31 @@
                 {{ form.exames.errors }}
             </nav>
         </div>
-        
-        <p>
-            <strong>Data:</strong>
-        </p>
 
-        {{ form.data }}
-        {{ form.data.errors }}
-
-        <br><br>
-        <p> 
-            <strong>Solicitante:</strong>
-        </p>
-        {{ form.solicitante }} 
-        {{ form.solicitante.errors }} 
-
-        
-        <br><br>
-
-        <button class="confirmar border-0 px-2 p-2" type="submit" 
-            onclick="return confirm('Tem certeza que os dados estão corretos?')">
-            Agendar exames
-        </button>
+        <div class="row p-1 m-2">
+            <nav class="col-md-4">
+                <p>
+                    <strong>Data:</strong>
+                </p>
+                {{ form.data }}
+                {{ form.data.errors }}
+            </nav>
+            <nav class="col-md-6 border-0">
+                <p> 
+                    <strong>Solicitante:</strong>
+                </p>
+                {{ form.solicitante }} 
+                {{ form.solicitante.errors }} 
+            </nav>
+        </div>
+        <div class="row">
+            <nav class="col-12 mt-4 text-end">
+                <button class="confirmar border-0 px-2 p-2" type="submit" 
+                    onclick="return confirm('Tem certeza que os dados estão corretos?')">
+                    Agendar exames
+                </button>
+            </nav>
+        </div>
     </form>
 </section>
 

@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Cadastrar Usuário{% endblock %}
 {% block content %}
-    <h4 id="titulo">Cadastrar usuário</h4 id="titulo">
-    <p id="subtitulo">Preencha os campos abaixo para cadastrar um novo</br> usuário no sistema</p>
+    <h1 id="titulo">Cadastrar usuário</h1>
+    <p id="subtitulo">
+        Preencha os campos abaixo para cadastrar um novo</br> usuário no sistema
+    </p>
+
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">
                     {{ message }}
                 </div>
             {% endfor %}
-        {% endif %}       
+        {% endif %}
+
     <nav class="container-fluid">
         <form method="POST" class="forms">
             {% csrf_token %}
@@ -81,15 +85,20 @@
                     {{ form.password2 }}
                     {{ form.password2.errors }}
 
-                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password1', this)">
+                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password2', this)">
                         <i class="bi bi-eye-fill" style="width: 20px;"></i>
                     </button>
                 </div>
             </section>
 
-            <section class="my-5">
-                <button class="cancelar px-2 m-2" type="reset">Cancelar</button>
-                <button class="confirmar p-2 px-4 border-0 m-2 rounded-2" type="submit" onclick="return confirm('Tem certeza que deseja criar este usuário?')"><span class="bi bi-person-plus p-2"></span>Cadastrar usuário</button>
+            <section class="row mt-5">
+                <nav class="col-12 text-end">
+                    <button class="cancelar p-2 me-3 rounded-2" type="reset">Cancelar</button>
+                    <button class="confirmar p-2 border-0 rounded-2" type="submit" 
+                        onclick="return confirm('Tem certeza que deseja criar este usuário?')">
+                        <span class="bi bi-person-plus"></span>Cadastrar usuário
+                    </button>
+                </nav>
             </section>
         </form>
     </nav>
