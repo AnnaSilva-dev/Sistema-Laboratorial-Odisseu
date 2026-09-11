@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
@@ -293,16 +293,13 @@ def pacientes(request):
 
     busca = request.GET.get('busca', '').strip()
 
-    pacientes = Paciente.objects.none()
+    pacientes = Paciente.objects.all()
 
     if busca:
-
-        pacientes = Paciente.objects.filter(
-            nome__icontains=busca
-        ) | Paciente.objects.filter(
-            cpf__icontains=busca
-        ) | Paciente.objects.filter(
-            cns__icontains=busca
+        pacientes = pacientes.filter(
+            Q(nome__icontains=busca) |
+            Q(cpf__icontains=busca) |
+            Q(cns__icontains=busca)
         )
 
     return render(

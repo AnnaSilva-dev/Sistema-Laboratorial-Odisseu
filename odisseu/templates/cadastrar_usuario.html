@@ -14,16 +14,22 @@
             {% endfor %}
         {% endif %}
 
-    <nav class="container-fluid">
+    <nav class="container-fluid p-5 rounded-3 bg-white">
         <form method="POST" class="forms">
             {% csrf_token %}
 
             <section class="row">
                 <div class="col-md-8 col-12 border-0">
                     <label for="{{ form.username.id_for_label }}">
-                        {{ form.username.label }}
+                        Usuário de acesso:
                     </label>
-                    {{ form.username }}
+
+                    {% load widget_tweaks %}
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-person"></i>
+                        {% render_field form.username class="form-control rounded-4 shadow-lg" placeholder="Digite seu usuario" %}
+                    </div>
+
                     {{ form.username.errors }}
                 </div>
             </section>
@@ -31,17 +37,24 @@
             <section class="row">
                 <div class="col-md-4 col-6 rounded-2">
                     <label for="{{ form.first_name.id_for_label }}">
-                        {{ form.first_name.label }}
+                        Primeiro nome:
                     </label>
-                    {{ form.first_name }}
+
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-person"></i>
+                        {% render_field form.first_name class="form-control rounded-4 shadow-lg" placeholder="Digite seu primeiro nome" %}
+                    </div>
                     {{ form.first_name.errors }}
                 </div>
 
                 <div class="col-md-4 col-6 rounded-2">
                     <label for="{{ form.last_name.id_for_label }}">
-                        {{ form.last_name.label }}
+                        Segundo nome:
                     </label>
-                    {{ form.last_name }}
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-person"></i>
+                        {% render_field form.last_name class="form-control rounded-4 shadow-lg" placeholder="Digite seu segundo nome" %}
+                    </div>
                     {{ form.last_name.errors }}
                 </div>
             </section>
@@ -49,18 +62,27 @@
 
             <section class="row">
                 <div class="col-md-6 col-8 rounded-2">
-                   <label for="{{ form.email.id_for_label }}">
-                        {{ form.email.label }}
+                    <label for="{{ form.email.id_for_label }}">
+                        Email:
                     </label>
-                    {{ form.email }}
+
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-envelope"></i>
+                        {% render_field form.email class="form-control rounded-4 shadow-lg" placeholder="exemplo@email.com" %}
+                    </div>
+
                     {{ form.email.errors }}
                 </div>
 
                 <div class="col-md-2 col-4 rounded-2">
                     <label for="{{ form.perfil.id_for_label }}">
-                        {{ form.perfil.label }}
+                        Cargo:
                     </label>
-                    {{ form.perfil}}
+
+                    <div class="mb-3 form_icon">
+                        {% render_field form.perfil class="form-control rounded-4 shadow-lg"%}
+                    </div>
+
                     {{ form.perfil.errors }}
                 </div>
             </section>
@@ -68,26 +90,36 @@
             <section class="row">
                 <div class="col-md-4 rounded-2 position-relative campo">
                     <label for="{{ form.password1.id_for_label }}">
-                        {{ form.password1.label }}
+                        Digite sua senha:
                     </label>
-                    {{ form.password1 }}
+
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-lock"></i>
+                        {% render_field form.password1 class="form-control rounded-4 shadow-lg"%}
+                    </div>
+
                     {{ form.password1.errors }}
 
-                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password1', this)">
+                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" 
+                        onclick="mostrarSenha('id_password1', this)">
                         <i class="bi bi-eye-fill"></i>
-                    </button>
+                    </button> -->
                 </div>
 
                 <div class="col-md-4 rounded-2 position-relative campo">
                     <label for="{{ form.password2.id_for_label }}">
-                    {{ form.password2.label }}
+                        Confirme a senha:
                     </label>
-                    {{ form.password2 }}
+                    <div class="mb-3 form_icon">
+                        <i class="bi bi-lock"></i>
+                        {% render_field form.password2 class="form-control rounded-4 shadow-lg"%}
+                    </div>
                     {{ form.password2.errors }}
 
-                    <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" onclick="mostrarSenha('id_password2', this)">
+                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5"
+                        onclick="mostrarSenha('id_password2', this)">
                         <i class="bi bi-eye-fill" style="width: 20px;"></i>
-                    </button>
+                    </button> -->
                 </div>
             </section>
 
