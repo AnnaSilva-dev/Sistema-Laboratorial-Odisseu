@@ -19,7 +19,7 @@
         height: 18px;
         accent-color: #2f7a52;
         cursor: pointer;
-}
+    }
 
     .lr-btn-revisar {
         background: #ffffff;
@@ -96,13 +96,15 @@
 
                 <nav class="col-md-6">
                     <strong>
-                        {{ grupo.data|date:"d/m/Y" }} 
-                        {% for resultado in grupo.resultados %}
+                        {{ grupo.data|date:"d/m/Y" }}
+                        <div>
+                            {% for resultado in grupo.resultados %}
                             {{ resultado.agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
                             <label class="lr-checkbox-label"> 
                                  <input type="checkbox" name="resultados" value="{{ resultado.id }}">
                             </label>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </strong>
                 </nav>
 

@@ -455,11 +455,23 @@ def liberar_resultados(request):
 
     if request.method == 'POST':
 
-        ids_selecionados = request.POST.getlist('resultados')
+        linhas_afetadas=ids_selecionados = request.POST.getlist('resultados')
 
         Resultado.objects.filter(
             id__in=ids_selecionados
         ).update(liberado=True)
+
+        if ids_selecionados: 
+                linhas_afetadas = Resultado.objects.filter(
+                    id__in=ids_selecionados
+                ).update(liberado=True)
+
+                if linhas_afetadas > 0:
+                    messages.success(request, f'{linhas_afetadas} resultado(s) liberado(s) com sucesso!')
+                else:
+                    messages.warning(request, 'Os resultados selecionados já estavam liberados ou não foram encontrados.')
+        else:
+            messages.error(request, 'Nenhum resultado foi selecionado para liberação.')
 
         return redirect('liberar_resultados')
 
@@ -483,7 +495,7 @@ def liberar_resultados(request):
             }
         agrupado[chave]['resultados'].append(resultado)
     grupos = list(agrupado.values())
-    messages.success(request, 'Resultado liberado com sucesso!')
+
     return render(
         request,
         'liberar_resultados.html',
