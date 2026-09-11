@@ -9,6 +9,13 @@
             <p id="subtitulo">
                 Gerencie os usuários cadastrados no sistema.
             </p>
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}    
         </section>
         <section class="col-md-4 text-end">
             <a href="{% url 'cadastrar_usuario' %}" class="btn btn-success">

@@ -450,7 +450,7 @@ def rotina_impressao(request):
         }
     )
 @login_required
-@has_permission_decorator('liberar_resultado')
+@has_permission_decorator('liberar_resultados')
 def liberar_resultados(request):
 
     if request.method == 'POST':
@@ -550,7 +550,7 @@ def inativar_usuario(request, id):
 
         usuario.is_active = False
         usuario.save()
-
+        messages.success(request, "Usuário inativado com sucesso!")
     return redirect('usuarios')
 
 def ativar_usuario(request, id):
@@ -561,7 +561,7 @@ def ativar_usuario(request, id):
 
     usuario.is_active = True
     usuario.save()
-
+    messages.success(request, "Usuário ativado com sucesso!")
     return redirect('usuarios')
 
 

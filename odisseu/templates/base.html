@@ -1,4 +1,6 @@
 {% load static %}
+{% load permission_tags %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -20,53 +22,53 @@
                             <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
 
                             <li class="nav-item mb-3 mt-3"><a class="botao-inicio" href="{% url 'index' %}"><span class="bi bi-house-door-fill"></span> Início</a></li>
-                            <!-- {% if perms.odisseu.agendar_exame or perms.odisseu.cadastrar_paciente or perms.odisseu.cadastrar_usuario or perms.odisseu.visualizar_pacientes %} -->
+                            {% if user|can:'agendar_exame' or user|can:'cadastrar_paciente' or user|can:'cadastrar_usuario' or user|can:'visualizar_pacientes' %}
                             <h6>Recepção</h6>
-                            <!-- {% endif %} -->
+                            {% endif %}
                             <div class="container-fluid mb-2">
-                                <!-- {% if perms.odisseu.agendar_exame %} -->
+                                {% if user|can:'agendar_exame' %}
                                 <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
-                                <!-- {% endif %} -->
-                                <!-- {% if perms.odisseu.cadastrar_paciente %} -->
+                                {% endif %} 
+                                {% if user|can:'cadastrar_paciente' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
-                                <!-- {% endif %} -->
-                                <!-- {% if perms.odisseu.cadastrar_usuario %} -->
+                                {% endif %}
+                                {% if user|can:'cadastrar_usuario' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'usuarios' %}"><span class="bi bi-person-gear p-2"></span> Usuários</a></li>
-                                <!-- {% endif %} -->
-                                <!-- {% if perms.odisseu.visualizar_pacientes %} -->
+                                {% endif %}
+                                {% if user|can:'visualizar_pacientes' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
-                                <!-- {% endif %} -->
+                                {% endif %}
                             </div>
                             
 
-                            <!-- {% if perms.odisseu.exibir_rotina %} -->
+                            {% if user|can:'exibir_rotina' %}
                             <h6>Rotina</h6>
                             <div class="container-fluid mb-2">
                                 <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
                             </div>
-                            <!-- {% endif %} -->
+                            {% endif %}
                             
 
-                            <!-- {% if perms.odisseu.digitar_resultados or perms.odisseu.liberar_resultados %} -->
+                            {% if user|can:'digitar_resultados' or user|can:'liberar_resultados' %}
                             <h6>Resultados</h6>
-                            <!-- {% endif %} -->
+                            {% endif %}
                             <div class="container-fluid mb-2">
-                                <!-- {% if perms.odisseu.digitar_resultados %} -->
+                                {% if user|can:'digitar_resultados' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes</a></li>
-                                <!-- {% endif %} -->
-                                <!-- {% if perms.odisseu.liberar_resultados %} -->
+                                {% endif %}
+                                {% if user|can:'liberar_resultados' %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'liberar_resultados' %}"><span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes</a></li>
-                                <!-- {% endif %} -->
+                                {% endif %}
                             </div>
                             
-                            <!-- {% if perms.odisseu.consultar_relatorios %} -->
+                            {% if user|can:'consultar_relatorios' %}
                             <h6>Relatórios</h6>
 
                             <div class="container-fluid mb-2">
                                 <!-- sem pagina html apenas exemplo na navbar -->
                                 <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios</a></li>
                             </div>
-                            <!-- {% endif %} -->
+                            {% endif %}
 
                             <section class="position-absolute bottom-0 mb-5">
                                 <h6>Configuração</h6>
@@ -102,35 +104,47 @@
                                         Início
                                     </a>
 
+                                    {% if user|can:'agendar_exame' %}
                                     <a href="{% url 'agendar_exame' %}">
                                         <i class="bi bi-calendar3"></i>
                                         Agendar exames
                                     </a>
+                                    {% endif %}
 
+                                    {% if user|can:'cadastrar_paciente' %}
                                     <a href="{% url 'cadastrar_paciente' %}">
                                         <i class="bi bi-person-plus"></i>
                                         Cadastrar pacientes
                                     </a>
+                                    {% endif %}
 
+                                    {% if user|can:'cadastrar_paciente' %}
                                     <a href="{% url 'cadastrar_usuario' %}">
                                         <i class="bi bi-person-gear"></i>
                                         Cadastrar usuários
                                     </a>
+                                    {% endif %}
 
+                                    {% if user|can:'visualizar_pacientes' %}
                                     <a href="{% url 'pacientes' %}">
                                         <i class="bi bi-people"></i>
                                         Pacientes cadastrados
                                     </a>
+                                    {% endif %}
 
+                                    {% if user|can:'exibir_rotina' %}
                                     <a href="{% url 'rotina' %}">
                                         <i class="bi bi-search"></i>
                                         Consultar rotinas
                                     </a>
+                                    {% endif %}
 
+                                    {% if user|can:'consultar_relatorios' %}
                                     <a href="{% url 'resultados' %}">
                                         <i class="bi bi-file-earmark-medical"></i>
                                         Resultados
                                     </a>
+                                    {% endif %}
 
                                     <a href="{% url 'index' %}">
                                         <i class="bi bi-file-earmark-bar-graph"></i>
