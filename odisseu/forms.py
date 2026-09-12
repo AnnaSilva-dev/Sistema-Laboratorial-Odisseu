@@ -101,20 +101,26 @@ class PacienteForm(forms.ModelForm):
                 'placeholder': '(81) 99999-9999',
             }),
 
-            'data_nascimento': forms.DateInput(attrs={
-                'class': 'data edit-forms',
-                'type': 'date',
-                'value': 'aaaa/mm/dd'
-            }),
+            'data_nascimento': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'class': 'data edit-forms',
+                    'type': 'date'
+                }
+            ),
         }
 
-    def clean_cpf(self):
-        cpf = self.cleaned_data['cpf']
-        return re.sub(r'\D', '', cpf)
+    def clean_nome(self):
+        nome = self.cleaned_data['nome']
+        return nome.title()
 
-    def clean_cns(self):
-        cns = self.cleaned_data['cns']
-        return re.sub(r'\D', '', cns)
+    # def clean_cpf(self):
+    #     cpf = self.cleaned_data['cpf']
+    #     return re.sub(r'\D', '', cpf)
+
+    # def clean_cns(self):
+    #     cns = self.cleaned_data['cns']
+    #     return re.sub(r'\D', '', cns)
 
 
 class AgendamentoForm(forms.Form):

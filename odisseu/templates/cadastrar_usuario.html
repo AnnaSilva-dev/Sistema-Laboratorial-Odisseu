@@ -6,6 +6,12 @@
         Preencha os campos abaixo para cadastrar um novo</br> usuário no sistema
     </p>
 
+    <p>
+        <a class="link" href="{% url 'index' %}">
+            < Voltar
+        </a>
+    </p>
+
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }}">

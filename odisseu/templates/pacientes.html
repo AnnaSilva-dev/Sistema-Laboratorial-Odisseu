@@ -9,6 +9,11 @@
             <p id="subtitulo">
                 Gerencie os pacientes cadastrados no sistema.
             </p>
+            <p>
+                <a class="link" href="{% url 'index' %}">
+                    < Voltar
+                </a>
+            </p>
         </section>
         <section class="col-md-4 text-end">
             <a href="{% url 'cadastrar_paciente' %}" class="btn btn-success">
@@ -36,63 +41,133 @@
                         value="{{ busca }}">
 
                     <button type="submit" class="btn btn-success">
+                        <i class="bi bi-search"></i>
                         Pesquisar
                     </button>
                 </div>
             </form>
 
             {% for paciente in pacientes %}
-                <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg">
+                <div class="container bg-success-subtle text-black rounded-3 border border-success p-3  shadow-lg">
                     <section class="row">
-                        <nav class="col-md-8">
-                            <h2 class="text-success fw-bold">{{ paciente.nome }}</h2>
+                        <nav class="col-6">
+                            <h2 class="fw-bold">{{ paciente.nome }}</h2>
                         </nav>
-                        <nav class="col-md-4 text-end">
-                            <a href="{% url 'editar_paciente' paciente.id %}" class="btn btn-primary">Editar paciente</a>
+                        <nav class="col-6 text-end">
+                            <a href="{% url 'editar_paciente' paciente.id %}" class="btn btn-sm btn-primary">
+                                <i class="bi bi-highlighter"></i>
+                                Editar paciente
+                            </a>
+                            <button class="btn btn-sm btn-success my-2" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#exames_paciente_{{ paciente.id }}"
+                                aria-expanded="false"
+                                aria-controls="exames_paciente_{{ paciente.id }}">
+                                <i class="bi bi-card-checklist"></i>
+                                Histórico de exames
+                            </button>
                         </nav>
+                        <section class="container px-4">
+                            <div class="row">
+                                <nav class="col-3">
+                                    <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
+                                    <p><strong>CNS:</strong> {{ paciente.cns }}</p>
+                                </nav>
+                                <nav class="col-4">
+                                    <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+                                    <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
+                                </nav>
+                            </div>
+                        </section>
                     </section>
-                
-                    <section class="row">
-                        <nav class="col-md-3">
-                            <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
-                            <p><strong>CNS:</strong> {{ paciente.cns }}</p>
-                        </nav>
-                        <nav class="col-md-4">
-                            <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
-                            <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
-                        </nav>
-                    </section>
-
 
                     {% if paciente_editando.id == paciente.id %}
-
                         <hr>
                         <h3>Editar paciente</h3>
 
                         <form method="POST">
                             {% csrf_token %}
-                            {{ form_editar.as_p }}
-                            <button type="submit">Salvar alterações</button>
+                           <section class="row">
+                                <div class="col-md-8 border-0">
+                                    <label for="{{ form.nome.id_for_label }}">
+                                        Nome:
+                                    </label>
+                                    {% load widget_tweaks %}
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-person"></i>
+                                        {% render_field form_editar.nome class="form-control rounded-4 shadow-lg" placeholder="Digite seu nome" %}
+                                    </div>
+                                    {{ form_editar.nome.errors }}
+                                </div>
+                                <div class="col-md-4 rounded-2">
+                                    <label for="{{ form_editar.data_nascimento.id_for_label }}">
+                                        Data de nascimento:
+                                    </label>
+
+                                    <div class="mb-3">
+                                        {% render_field form_editar.data_nascimento class="form-control rounded-4  shadow-lg" %}
+                                    </div>
+                                
+                                    {{ form_editar.data_nascimento.errors }}
+                                </div>
+                            </section>
+                            <section class="row">
+                                <div class="col-md-4">
+                                    <label for="{{ form.cpf.id_for_label }}">
+                                        CPF:
+                                    </label>
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    {% render_field form_editar.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+                                    </div>
+                                    
+                                    {{ form_editar.cpf.errors }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ form.cns.id_for_label }}">
+                                        CNS:
+                                    </label>
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-credit-card"></i>
+                                        {% render_field form_editar.cns class="form-control rounded-4  shadow-lg" placeholder="123 4567 8901 2345" %}
+                                    </div>
+                                    
+                                    {{ form_editar.cns.errors }}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="{{ form.telefone.id_for_label }}">
+                                        Telefone:
+                                    </label>
+
+                                    {% load widget_tweaks %}
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-telephone"></i>
+                                        {% render_field form_editar.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
+                                    </div>
+                                
+                                    {{ form_editar.telefone.errors }}
+                                </div>
+                            </section>
+
+                            <button class="btn btn-sm btn-success" type="submit">
+                                <span class="bi bi-check-all"></span>
+                                Salvar alterações
+                            </button>
+                            <a class="btn btn-sm btn-danger" href="{% url 'pacientes' %}">Cancelar</a>
                         </form>
 
-                        <br>
-                        <a href="{% url 'pacientes' %}">Cancelar</a>
+                        
                         <hr>
 
                     {% endif %}
 
                     <!-- HISTÓRICO DE EXAMES -->
-                    <button class="btn btn-success my-2" type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#exames_paciente_{{ paciente.id }}"
-                        aria-expanded="false"
-                        aria-controls="exames_paciente_{{ paciente.id }}">
-                        Ver histórico de exames
-                    </button>
 
                     <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
                         {% for grupo in paciente.historico_agendamentos %}
-                            <div class="card card-body  bg-white shadow-lg text-dark mb-2">
+                            <div class="card card-body  bg-white shadow-lg text-dark mb-2" style="width: fit-content;">
                                 <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
 
                                 {% for agendamento in grupo.agendamentos %}
@@ -111,7 +186,8 @@
                                 {% endfor %}
 
                                 {% if grupo.tem_liberado %}
-                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}" class="btn btn-sm btn-outline-success mt-2 align-self-start">
+                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}" 
+                                        class="btn btn-sm btn-success mt-2 align-self-start">
                                         Ver laudo
                                     </a>
                                 {% endif %}
