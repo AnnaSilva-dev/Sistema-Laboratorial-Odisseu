@@ -27,16 +27,16 @@
                             {% endif %}
                             <div class="container-fluid mb-2">
                                 {% if user|can:'agendar_exame' %}
-                                <li class="nav-item "><a class="nav-link" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema text-tema" href="{% url 'agendar_exame' %}"><span class="bi bi-calendar3 p-2"></span> Agendar exames</a></li>
                                 {% endif %} 
                                 {% if user|can:'cadastrar_paciente' %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'cadastrar_paciente' %}"><span class="bi bi-person-plus p-2"></span> Cadastrar pacientes</a></li>
                                 {% endif %}
                                 {% if user|can:'cadastrar_usuario' %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'usuarios' %}"><span class="bi bi-person-gear p-2"></span> Usuários</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'usuarios' %}"><span class="bi bi-person-gear p-2"></span> Usuários</a></li>
                                 {% endif %}
                                 {% if user|can:'visualizar_pacientes' %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'pacientes' %}"><span class="bi bi-people p-2"></span> Pacientes cadastrados</a></li>
                                 {% endif %}
                             </div>
                             
@@ -44,7 +44,7 @@
                             {% if user|can:'exibir_rotina' %}
                             <h6>Rotina</h6>
                             <div class="container-fluid mb-2">
-                                <li class="nav-item"><a class="nav-link" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'rotina' %}"><span class="bi bi-search p-2"></span> Consultar rotinas</a></li>
                             </div>
                             {% endif %}
                             
@@ -54,10 +54,10 @@
                             {% endif %}
                             <div class="container-fluid mb-2">
                                 {% if user|can:'digitar_resultados' %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'resultados' %}"><span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'resultados' %}"><span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes</a></li>
                                 {% endif %}
                                 {% if user|can:'liberar_resultados' %}
-                                <li class="nav-item"><a class="nav-link" href="{% url 'liberar_resultados' %}"><span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'liberar_resultados' %}"><span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes</a></li>
                                 {% endif %}
                             </div>
                             
@@ -66,7 +66,7 @@
 
                             <div class="container-fluid mb-2">
                                 <!-- sem pagina html apenas exemplo na navbar -->
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios</a></li>
+                                <li class="nav-item"><a class="nav-link text-tema" href="{% url 'index' %}"><span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios</a></li>
                             </div>
                             {% endif %}
 
@@ -74,8 +74,8 @@
                                 <h6>Configuração</h6>
                                 <div class="container-fluid">
                                     <!-- sem pagina html apenas exemplo na navbar -->
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                    <li class="nav-item"><a class="nav-link text-tema" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
+                                    <li class="nav-item"><a class="nav-link text-tema" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
                                      <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn p-0 text-danger"><span class="bi bi-box-arrow-left"></span> Sair</button>
@@ -170,7 +170,12 @@
                             
                         <!-- aqui vai dados do sistema, como: usuario, data. -->
                         <section class="col-10 col-sd-8 right-0">
-                            <h4>Bom dia, {{ request.user.username }}! <span class="bi bi-brightness-high-fill"></span></h4>
+                            <h4>
+                                <button id="btn-tema" type="button" class="btn btn-success">
+                                    <i class="bi bi-moon"></i>
+                                </button>
+                                Bom dia, {{ request.user.username }}! 
+                            </h4>
                             <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
                         </section>
                         
@@ -186,8 +191,38 @@
         </nav>
     </section>
     
-    <!-- padronização dos forms_cadastros -->
     <script>
+        const btnTema = document.getElementById("btn-tema");
+        const iconeTema = btnTema.querySelector("i");
+
+        const temaSalvo = localStorage.getItem("tema");
+
+        if (temaSalvo === "claro") {
+            document.body.classList.add("modo-claro");
+            iconeTema.classList.replace("bi-moon", "bi-sun");
+        } else {
+            document.body.classList.add("modo-escuro");
+        }
+
+        btnTema.addEventListener("click", function () {
+
+            if (document.body.classList.contains("modo-escuro")) {
+
+                document.body.classList.replace("modo-escuro", "modo-claro");
+
+                iconeTema.classList.replace("bi-moon", "bi-sun");
+
+                localStorage.setItem("tema", "claro");
+
+            } else {
+
+                document.body.classList.replace("modo-claro", "modo-escuro");
+
+                iconeTema.classList.replace("bi-sun", "bi-moon");
+
+                localStorage.setItem("tema", "escuro");
+            }
+        });
 
         const cpf = document.querySelector('.cpf');
 

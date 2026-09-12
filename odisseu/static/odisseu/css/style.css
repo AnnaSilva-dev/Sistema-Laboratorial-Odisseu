@@ -1,15 +1,57 @@
 :root {
     --verde: #005541;
     --verde-claro: #008666;
+    --verde-clarinho:#d1e7dd;
     --branco: #f8f7f3;
     --preto: #010806;
     --preto-azulado: #0b1514;
     --vermelho: #ff3131;
+
+    /* cores do tema */
+    --fundo: var(--preto);
+    --fundo-card: var(--preto-azulado);
+    --texto: var(--branco);
+    --texto-secundario: #999;
+    --fundo-input: var(--branco);
+    --texto-input: #000;
+    --borda: var(--verde-claro);
+}
+
+.modo-claro {
+    --fundo: #f5f5f5;
+    --fundo-card: #ffffff;
+    --texto: #010806;
+    --texto-secundario: #666;
+    --fundo-input: #ffffff;
+    --texto-input: #000;
+    --bg: var(--verde-clarinho);
+    --borda: var(--verde-claro);
+}
+
+.modo-escuro {
+    --fundo: var(--preto);
+    --fundo-card: var(--preto-azulado);
+    --texto: var(--branco);
+    --texto-secundario: #999;
+    --fundo-input: #ffffff;
+    --texto-input: #000;
+    --bg: var(--verde);
+    --borda: var(--verde-claro);
+}
+
+.fundo-tema {
+    background-color: var(--fundo-card);
+    color: var(--texto);
+}
+
+.text-tema{
+    color: var(--texto);
 }
 
 body{ 
-    background-color: var(--preto);
-    color: var(--branco);
+    background-color: var(--fundo);
+    color: var(--texto);
+    transition: background-color 0.3s, color 0.3s;
 } 
 
 
@@ -26,12 +68,11 @@ body{
     background: transparent;
 }
 
-.bg-preto-azulado{
-    background-color: var(--preto-azulado);
+.fundo_card{
+    background-color: var(--fundo-card);
 }
 
 .nav-item{
-    color: var(--branco);
     list-style: none;
 }
 
@@ -56,7 +97,13 @@ body{
 
 .navegacao .nav-link,
 .navegacao .botao-inicio {
+    border-radius: 5rem;
     white-space: nowrap;
+}
+
+.navegacao .nav-link:hover {
+    color: var(--texto);
+    background-color: var(--bg);
 }
 
 .top{
@@ -246,8 +293,8 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .card{
     border-radius: 14px;
-    background-color: var(--preto-azulado);
-    color: var(--preto-azulado); 
+    background-color: var(--fundo-card);
+    color: var(--texto); 
     box-shadow: 10 4px 15px black;
     max-width: fit-content;
 }
@@ -371,7 +418,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }
 
 #subtitulo {
-    color: gray;
+    color: var(--texto-secundario);
     font-size: 15px;
     margin: 0 0 24px;
 }

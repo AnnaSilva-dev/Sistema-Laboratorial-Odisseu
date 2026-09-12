@@ -26,7 +26,7 @@
                 {% endfor %}
         {% endif %}
 
-        <section class="container rounded-3 bg-white">
+        <section class="container rounded-3 bg-white shadow-lg shadow-lg">
             <form method="GET" class="mb-4">
                 <div class="input-group py-3">
                     <input class="form-control shadow-lg border border-black"
@@ -92,7 +92,7 @@
 
                     <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
                         {% for grupo in paciente.historico_agendamentos %}
-                            <div class="card card-body bg-white text-dark mb-2">
+                            <div class="card card-body  bg-white shadow-lg text-dark mb-2">
                                 <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
 
                                 {% for agendamento in grupo.agendamentos %}

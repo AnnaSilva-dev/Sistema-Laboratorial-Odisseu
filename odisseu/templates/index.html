@@ -13,7 +13,7 @@
                                     <img src="{% static 'odisseu/imgs/logo.png' %}" style="width:70px;">
                                 </section>
                                 <section class="col-md-8 col-sd-12 mt-3">
-                                    <h6 class="card-title">
+                                    <h6 class="card-title text-tema">
                                         Pacientes agendados
                                         para hoje
                                     </h6>
@@ -34,7 +34,7 @@
                                     <img class="border-warning" src="{% static 'odisseu/imgs/logo1.png' %}" style="width:70px;">
                                 </section>
                                 <section class="col-md-8 mt-3 col-sd-12">
-                                    <h6 class="card-title">
+                                    <h6 class="card-title text-tema">
                                         Resultados ainda pendentes
                                     </h6>
                                     <h1 class="card-text text-warning fw-bold">{{ resultados_pendentes }}</h1>
@@ -54,7 +54,7 @@
                                     <img class="border-primary" src="{% static 'odisseu/imgs/logo3.png' %}" style="width:70px;">
                                 </section>
                                 <section class="col-md-8 mt-3 col-sd-12">
-                                    <h6 class="card-title">
+                                    <h6 class="card-title text-tema">
                                         Tipos diferentes de exames
                                     </h6>
                                     <h1 class="card-text text-primary fw-bold">{{ exames_pendentes }}</h1>
@@ -68,7 +68,7 @@
 
         <section class="row row-cols-3 mt-4 ">
             <nav class="col-md-8">
-                <div class="bg-preto-azulado p-5 rounded-3">
+                <div class="fundo_card p-5 rounded-3">
                     
                     <h4><span class="bi bi-bar-chart-line-fill"></span>  Desempenho do mês</h4>
                     <nav class="bg-light rounded-3 p-4">
@@ -96,7 +96,7 @@
             </nav>
 
             <nav class="col-md-4">
-                <div class="bg-preto-azulado p-4 rounded-3" style="height: 100%;">
+                <div class="fundo_card p-4 rounded-3" style="height: 100%;">
                     <h6 class="fw-bold">Ações rápidas</h6>
                     <div class="p-3">
                         <a class="btn btn-light text-success fw-bold" href="{% url 'cadastrar_paciente' %}" style="width: 100%;">
