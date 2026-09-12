@@ -1,0 +1,20 @@
+{% block content %}
+<h2>Login do Paciente</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <label>CPF:</label>
+    <input type="text" name="cpf" required>
+
+    <label>Senha:</label>
+    <input type="password" name="senha" required>
+
+    <button type="submit">Entrar</button>
+</form>
+{% endblock %}

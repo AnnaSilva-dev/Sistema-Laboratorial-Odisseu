@@ -1,7 +1,8 @@
 from django.db import models
 from .validators import validate_cpf, validate_cns, validate_nome, validate_telefone
 from django.core.exceptions import ValidationError
-
+from django.contrib.auth.hashers import make_password, check_password
+import secrets, string
 
 class Paciente(models.Model):
     nome = models.CharField(max_length=200, validators=[validate_nome])
@@ -9,6 +10,7 @@ class Paciente(models.Model):
     cns = models.CharField(max_length=18, validators=[validate_cns])
     data_nascimento = models.DateField()
     telefone = models.CharField(max_length=20, validators=[validate_telefone])
+    senha = models.CharField(max_length=6, blank=True) 
 
     def __str__(self):
         return self.nome
@@ -33,6 +35,21 @@ class Paciente(models.Model):
                 agrupado[data]['tem_liberado'] = True
 
         return list(agrupado.values())
+    
+    def gerar_senha(self):
+        senha_texto = ''.join(secrets.choice(string.digits) for _ in range(4))
+        self.senha = make_password(senha_texto)
+        return senha_texto
+
+    def check_senha(self, raw_password):
+        return bool(self.senha) and check_password(raw_password, self.senha)
+
+    def save(self, *args, **kwargs):
+        senha_gerada = None
+        if not self.pk and not self.senha:
+            senha_gerada = self.gerar_senha()
+        super().save(*args, **kwargs)
+        self.senha_gerada = senha_gerada  
 
 
 class Agendamento(models.Model):

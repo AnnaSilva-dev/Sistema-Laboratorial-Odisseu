@@ -1,0 +1,21 @@
+{% block content %}
+<h2>Olá, {{ paciente.nome }}</h2>
+
+{% for grupo in historico %}
+    <h3>{{ grupo.data }}</h3>
+    <ul>
+    {% for agendamento in grupo.agendamentos %}
+        <li>
+            {{ agendamento.get_exame_display }}
+            {% if grupo.tem_liberado and agendamento.resultado.liberado %}
+                — <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}">Ver resultado</a>
+            {% else %}
+                — resultado ainda não liberado
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% empty %}
+    <p>Nenhum exame encontrado.</p>
+{% endfor %}
+{% endblock %}

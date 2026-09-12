@@ -104,22 +104,23 @@ def cadastrar_usuario(request):
 @login_required
 @has_permission_decorator('cadastrar_paciente')
 def cadastrar_paciente(request):
+    senha_gerada = None
     if request.method == 'POST':
-        form= PacienteForm(request.POST)
+        form = PacienteForm(request.POST)
         if form.is_valid():
-            form.save()
+            paciente = form.save()
+            senha_gerada = paciente.senha_gerada
             messages.success(request, 'Paciente cadastrado com sucesso!')
-            return redirect('cadastrar_paciente')
+            form = PacienteForm()  
         else:
             messages.error(request, 'Ocorreu um erro')
-        
     else:
-        form= PacienteForm()
+        form = PacienteForm()
 
     context = {
-        'form': form, 
+        'form': form,
+        'senha_gerada': senha_gerada,
     }
-
     return render(request, 'cadastrar_paciente.html', context)
 
 @login_required
@@ -608,4 +609,30 @@ def editar_usuarios(request, id):
     return render(request, 'usuarios.html', {
         'usuarios': usuarios,
         'usuario_edicao': usuario
+    })
+
+def paciente_login(request):
+    if request.method == 'POST':
+        cpf = request.POST.get('cpf', '').strip()
+        senha = request.POST.get('senha', '').strip()
+
+        paciente = Paciente.objects.filter(cpf=cpf).first()
+
+        if paciente and paciente.check_senha(senha):
+            request.session['paciente_id'] = paciente.id
+            return redirect('paciente_historico')
+        else:
+            messages.error(request, 'CPF ou senha inválidos.')
+
+    return render(request, 'paciente_login.html')
+
+
+def paciente_historico(request):
+    paciente_id = request.session['paciente_id']
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    historico = paciente.historico_agendamentos()
+
+    return render(request, 'paciente_historico.html', {
+        'paciente': paciente,
+        'historico': historico,
     })

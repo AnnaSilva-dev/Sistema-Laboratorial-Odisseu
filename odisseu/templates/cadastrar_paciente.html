@@ -16,6 +16,11 @@
                 </div>
             {% endfor %}
         {% endif %}      
+        {% if senha_gerada %}
+            <div class="alert alert-success">
+                <strong>Senha de acesso do paciente: {{ senha_gerada }}</strong>
+            </div>
+        {% endif %}
     <nav class="container-fluid forms p-5 rounded-3 bg-white shadow-lg">
         <form method="POST">
                 {% csrf_token %}
