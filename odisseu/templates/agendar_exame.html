@@ -1,6 +1,81 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Agendar exames{% endblock %}
 {% block content %}
+<style>
+    /* agendar exame */
+    .exames-container {
+        margin-bottom: 20px;
+    }
+
+    .exames-titulo {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }
+
+    .exames-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .exame-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 12px 15px;
+
+        background-color: var(--branco);
+        color: var(--preto-azulado);
+
+        border: 1px solid #ccc;
+        border-radius: 12px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .exame-item:hover {
+        border-color: var(--verde-claro);
+        background-color: var(--verde-clarinho);
+    }
+
+    .exame-item input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--verde-claro);
+    }
+
+    .exame-item:has(input:checked) {
+        border-color: var(--verde-claro);
+        background-color: var(--verde-clarinho);
+    }
+    .exames-todos {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        margin-bottom: 12px;
+
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .exames-todos input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--verde-claro);
+    }
+
+    .exames-all.grupo_selecionado {
+        border-color: var(--verde-claro);
+    }
+
+</style>
+
     <h1 id="titulo">Agendar exames</h1>
     <p id="subtitulo">
         Agende exame(s) para um paciente já cadastrado
@@ -20,42 +95,59 @@
 <section class="bg-light text-dark rounded-4 p-4">
     <form method="POST" class="form-exames">
         {% csrf_token %}
-        
-        <div class="row p-1 m-2">
-            <nav class="col-md-12">
-                <p>
-                    <strong>Buscar paciente:</strong>
-                </p>
-                {{ form.paciente }}
+        <section class="row">
+            <div class="col-12 border-0">
+                <label>
+                    Selecione o paciente:
+                </label>
+                {% load widget_tweaks %}
+                <div class="mb-3">
+                    {% render_field form.paciente class="form-control rounded-4 shadow-lg" id="paciente" %} 
+                </div>
                 {{ form.paciente.errors }}
-            </nav>
+            </div>
+        </section>
+        
+        <div class="exames-container">
+            <label class="exames-titulo">Exames:</label>
+            <section class="exames-all">
+                <label class="exames-todos">
+                    <input type="checkbox" class="selecionar_todos">
+                    <span>Selecionar todos</span>
+                </label>
+
+                <div class="exames-grid">
+                    {% for checkbox in form.exames %}
+                        <label class="exame-item">
+                            {{ checkbox.tag }}
+                            <span>{{ checkbox.choice_label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </section>
+            {{ form.exames.errors }}
+
         </div>
 
-        <div class="row p-1 m-2">
-            <nav class="col-md-6">
-                <p>
-                    <strong>Exames:</strong>
-                </p>
-                {{ form.exames }}
-                {{ form.exames.errors }}
-            </nav>
-        </div>
-
-        <div class="row p-1 m-2">
-            <nav class="col-md-4">
-                <p>
+        <div class="row"> 
+            <div class="col-6 border-0">
+                <p> 
                     <strong>Data:</strong>
                 </p>
-                {{ form.data }}
+                <div class="mb-3">
+                    {% render_field form.data class="form-control rounded-4 shadow-lg"  %} 
+                </div>
                 {{ form.data.errors }}
-            </nav>
-            <nav class="col-md-6 border-0">
+            </div>
+            <div class="col-6 border-0">
                 <p> 
                     <strong>Solicitante:</strong>
                 </p>
-                {{ form.solicitante }} 
-                {{ form.solicitante.errors }} 
-            </nav>
+                <div class="mb-3">
+                    {% render_field form.solicitante class="form-control rounded-4 shadow-lg"  %} 
+                </div>
+                {{ form.solitante.errors }}
+            </div>
         </div>
         <div class="row">
             <nav class="col-12 mt-4 text-end">
@@ -67,5 +159,57 @@
         </div>
     </form>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+
+<script>
+    new TomSelect("#paciente", {
+        placeholder: "Digite o nome do paciente",
+        searchField: ["text"],
+        create: false
+    });
+    
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const grupo = document.querySelector('.exames-all');
+
+        if (!grupo) return;
+
+        const mestre = grupo.querySelector('.selecionar_todos');
+        const exames = grupo.querySelectorAll('input[name="exames"]');
+
+        // Selecionar todos
+        mestre.addEventListener('change', function() {
+            exames.forEach(exame => {
+                exame.checked = this.checked;
+            });
+
+            atualizarEstado();
+        });
+
+        // Atualizar o "Selecionar todos" quando um exame for marcado/desmarcado
+        exames.forEach(exame => {
+            exame.addEventListener('change', () => {
+                atualizarEstado();
+            });
+        });
+
+        function atualizarEstado() {
+            const todosMarcados =
+                exames.length > 0 &&
+                Array.from(exames).every(exame => exame.checked);
+
+            mestre.checked = todosMarcados;
+
+            if (todosMarcados) {
+                grupo.classList.add('grupo_selecionado');
+            } else {
+                grupo.classList.remove('grupo_selecionado');
+            }
+        }
+
+    });
+
+</script>
 
 {% endblock %}

@@ -8,7 +8,7 @@
 <p id="subtitulo">Pacientes e exames agendados para o dia selecionado</p>
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
+                <div class="alert {% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif % message.tags }}">
                     {{ message }}
                 </div>
             {% endfor %}

@@ -17,7 +17,7 @@
             </p>
             {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
+                <div class="alert {% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif % message.tags }}">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -31,19 +31,19 @@
     </div>
     <section class="container rounded-3  bg-white shadow-lg">
         <form method="GET" class="mb-4">
-                <div class="input-group py-3 ">
-                    <input type="text"
-                        name="busca"
-                        class="form-control shadow-lg border border-black"
-                        placeholder="Pesquisar usuário..."
-                        value="{{ busca }}">
+            <div class="input-group py-3 ">
+                <input type="text"
+                    name="busca"
+                    class="form-control shadow-lg border border-black"
+                    placeholder="Pesquisar usuário..."
+                    value="{{ busca }}">
 
-                    <button type="submit" class="btn btn-success">
-                        Pesquisar
-                    </button>
-                </div>
+                <button type="submit" class="btn btn-success">
+                    Pesquisar
+                </button>
+            </div>
 
-            </form>
+        </form>
 
             <div class="table-responsive">
 
