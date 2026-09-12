@@ -24,11 +24,11 @@
     
         <!-- PESQUISA -->
         {% if messages %}
-                {% for message in messages %}
-                    <div class="alert {% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif % message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
 
         <section class="container rounded-3 bg-white shadow-lg shadow-lg">

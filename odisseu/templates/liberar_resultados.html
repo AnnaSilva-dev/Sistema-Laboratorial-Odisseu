@@ -60,11 +60,11 @@
 <p id="subtitulo">Revise e libere os resultados dos exames</p>
         {% if messages %}
             {% for message in messages %}
-                <div class="alert {% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif % message.tags }}">
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
                     {{ message }}
                 </div>
             {% endfor %}
-        {% endif %}       
+        {% endif %}           
 <section class="bg-light text-dark rounded-4 p-4">
     <form method="POST" class="form-rotina">
         {% csrf_token %}

@@ -6,13 +6,13 @@
 
 <h1 id="titulo">Rotinas Laboratoriais</h1>
 <p id="subtitulo">Pacientes e exames agendados para o dia selecionado</p>
-        {% if messages %}
+       {% if messages %}
             {% for message in messages %}
-                <div class="alert {% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif % message.tags }}">
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
                     {{ message }}
                 </div>
             {% endfor %}
-        {% endif %}       
+        {% endif %}         
 
 
 <section class="container bg-light text-dark rounded-4 p-4">
