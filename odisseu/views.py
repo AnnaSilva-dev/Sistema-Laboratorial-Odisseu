@@ -197,13 +197,31 @@ def rotina(request):
 @has_permission_decorator('visualizar_resultados')
 def resultados(request):
     agendamentos = Agendamento.objects.filter(
-        resultado__isnull=True
+    resultado__isnull=True
+    ).select_related('paciente').order_by(
+        'paciente__nome',
+        'data'
     )
+
+    agrupado = {}
+
+    for agendamento in agendamentos:
+        paciente_id = agendamento.paciente_id
+
+        if paciente_id not in agrupado:
+            agrupado[paciente_id] = {
+                'paciente': agendamento.paciente,
+                'agendamentos': []
+            }
+
+        agrupado[paciente_id]['agendamentos'].append(agendamento)
+
+    grupos = list(agrupado.values())
 
     return render(
         request,
         'resultados.html',
-        {'agendamentos': agendamentos}
+        {'grupos': grupos}
     )
 
 @login_required

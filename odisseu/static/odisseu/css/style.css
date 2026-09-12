@@ -411,7 +411,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     color: black;
 }
 
-#titulo{
+#titulo {
     font-size: 28px;
     font-weight: 700;
     margin: 0 0 4px;

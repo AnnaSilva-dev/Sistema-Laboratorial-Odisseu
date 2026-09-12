@@ -1,44 +1,70 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Resultados{% endblock %}
 {% block content %}
+    <h1 id="titulo">Digitar resultados</h1>
+    <p id="subtitulo">
+        Realize os resultados de exames disponíveis
+    </p>
+    <p>
+        <a class="link" href="{% url 'agendar_exame' %}">
+            + Agendar exame
+        </a>
+    </p>
 
-    <h1>Digitar resultados</h1>
+    <section class="container bg-light rounded-3 shadow-lg text-dark p-5">
+        <div class="row">
+            <nav class="col-12 gap-2">
+                {% if grupos %}
+                    {% for grupo in grupos %}
 
-    {% if agendamentos %}
+                        <h4>
+                            <strong>Paciente:</strong>
+                            {{ grupo.paciente.nome }}
+                        </h4>
 
-        {% for agendamento in agendamentos %}
+                        <nav class="container-fluid mb-5 bg-white shadow-lg border rounded-3 p-4">
+                            {% for agendamento in grupo.agendamentos %}
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <strong>Data:</strong>
+                                            {{ agendamento.data }}
+                                        </div>
+                                    </div>
 
-            <div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <strong>Exame:</strong>
+                                            {{ agendamento.get_exame_display }}
+                                        </div>
+                                    </div>
 
-                <strong>Paciente:</strong>
-                {{ agendamento.paciente.nome }}
+                                    <div class="row text-end">
+                                        <nav class="col-12">
+                                            <button class="btn btn-primary">
+                                                <a class="text-white nav-link"
+                                                href="{% url 'digitar_resultados' agendamento.id %}">
+                                                    Digitar resultado
+                                                </a>
+                                            </button>
+                                        </nav>
+                                    </div>
 
-                <br>
+                                <hr>
+                            
+                            {% endfor %}
+                        </nav>
+                    {% endfor %}
 
-                <strong>Exame:</strong>
-                {{ agendamento.get_exame_display }}
+                {% else %}
 
-                <br>
+                    <p>Não existem resultados pendentes de digitação.</p>
 
-                <strong>Data:</strong>
-                {{ agendamento.data }}
-
-                <br><br>
-
-                <a href="{% url 'digitar_resultados' agendamento.id %}">
-                    Digitar resultado
-                </a>
-
-            </div>
-
-            <hr>
-
-        {% endfor %}
-
-    {% else %}
-
-        <p>Não existem resultados pendentes de digitação.</p>
-
-    {% endif %}
+                {% endif %}
+            </nav>
+            
+        </div>
+        
+    </section>
+    
 
 {% endblock %}

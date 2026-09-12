@@ -4,71 +4,104 @@
 
     <h1 id="titulo">Digitar resultado</h1>
     <p id="subtitulo">Preencha os resultados do exame realizado.</p>
-    <section>
-        <div class="row bg-success-subtle text-dark rounded-2 p-2">
-            <nav class="col-md-4">
-                <h4 class="text-success">
+    <p>
+        <a class="link" href="{% url 'resultados' %}">
+            < Resultados pendentes
+        </a>
+    </p>
+    <section class="container">
+        <div class="row bg-white text-dark rounded-2 p-4 shadow-lg">
+            <nav class="col-6">
+                <h4 class="fw-bold">
                     {{ agendamento.paciente.nome }}
                 </h4>
             </nav>
-            <nav class="col-md-4">
+            <nav class="col-6 text-end">
                 <h6>
                     <strong>Data da coleta:</strong>
                     {{ agendamento.data|date:"d/m/Y" }}
                 </h6>
+                <h6>
+                    <strong>Exame:</strong>
+                    {{ agendamento.get_exame_display }}
+                </h6>
             </nav>
-            <p>
-                <strong>Exame:</strong>
-                {{ agendamento.get_exame_display }}
-            </p>
-        </div>
-    </section>
 
-    <hr>
-    <section>
-        <section class="row text-dark bg-light rounded-2 p-2">
-            <form method="POST">
-                {% csrf_token %}
-                <h2>{{ exame.nome }}</h2>
+            <hr>
 
-                {% if exame.secoes %}
-                    {% for secao in exame.secoes %}
-                        <h3>{{ secao.nome }}</h3>
-                        {% for parametro in secao.parametros %}
-                            <div>
-                                <label><strong>{{ parametro.nome }}</strong></label>
+            <section class="container text-dark bg-light rounded-2 p-4 shadow-lg">
+                <form method="POST">
+                    {% csrf_token %}
+                    <h2 id="titulo">{{ exame.nome }}</h2>
+
+                    <hr>
+
+                    <section class="container">
+                        {% if exame.secoes %}
+                            {% for secao in exame.secoes %}
+                                <h3>{{ secao.nome }}</h3>
+                                <nav class="row mb-5 mt-3">
+                                    <div class="col-12 border rounded-3 shadow-lg">
+                                            <div class="container p-2">
+                                                <nav class="row">
+                                                    {% for parametro in secao.parametros %}
+                                                        <div class="col-6">     
+                                                            <label><strong>{{ parametro.nome }}</strong></label>
+                                                            <section class="container mb-4">
+                                                                <input type="text" name="{{ parametro.nome }}"
+                                                                    class="form-control rounded-3">
+                                                        
+                                                                {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
+                                                                <small>Valor de referência: {{ parametro.referencia }}</small>
+                                                            </section>
+                        
+                                                        </div>
+                                                    {% endfor %}
+                                                </nav>
+                                            </div>
+                                            <br>
+                                    </div>
+                                </nav>
+                                
+                            {% endfor %}
+                        {% else %}
+                            {% for parametro in exame.parametros %}
+                                <div>
+                                    <label><strong>{{ parametro.nome }}</strong></label>
+                                    <input type="text" name="{{ parametro.nome }}"
+                                        class="form-control rounded-4 shadow-lg">
+
+                                        {{ parametro.unidade }}
+                                    <small>Valor de referência: {{ parametro.referencia }}</small>
+                                </div>
                                 <br>
-                                <input type="text" name="{{ parametro.nome }}">
-                                {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
-                                <br>
-                                <small>Valor de referência: {{ parametro.referencia }}</small>
-                            </div>
-                            <br>
-                        {% endfor %}
-                    {% endfor %}
-                {% else %}
-                    {% for parametro in exame.parametros %}
-                        <div>
-                            <label><strong>{{ parametro.nome }}</strong></label>
-                            <br>
-                            <input type="text" name="{{ parametro.nome }}">
-                                {{ parametro.unidade }}
-                            <br>
-                            <small>Valor de referência: {{ parametro.referencia }}</small>
-                        </div>
+                            {% endfor %}
+                        {% endif %}
+                    </section>  
+
+                    <div>
+                        <h4 for="id_observacao"><strong>Observação:</strong></h4>
                         <br>
-                    {% endfor %}
-                {% endif %}
+                        {% load widget_tweaks %}
+                        <div class="mb-3">
+                            {% render_field form.observacao class="form-control rounded-4 shadow-lg" placeholder="Observações sobre o resultado..." %}
+                        </div>
+                    </div>
+                    <section class="text-end mt-4">
+                        <a href="{% url 'resultados' %}"
+                            class="btn btn-danger"
+                            onclick="return cancel('Tem certeza que deseja cancelar? \n (Suas alterações não serão salvas!)')">
+                                <span class="bi bi-x-circle"></span> Cancelar
+                        </a>
 
-                <div>
-                    <label for="id_observacao"><strong>Observação:</strong></label>
-                    <br>
-                    {{ form.observacao }}
-                </div>
-                <br>
-                <button type="submit" class="confirmar px-3" onclick="return confirm('Tem certeza que deseja salvar o resultado?')">Salvar resultado <span class="bi bi-caret-right-fill"></span></button>
-            </form>
-        </section>
+                        <button type="submit" class="btn btn-success px-4 py-1" 
+                            onclick="return confirm('Tem certeza que deseja salvar o resultado?')">
+                            <span class="bi bi-check-all"></span> Salvar resultado
+                        </button>
+                    </section>
+                </form>
+            </section>
+        </div>
     </section>
 
 
