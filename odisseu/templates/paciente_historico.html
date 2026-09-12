@@ -1,21 +1,52 @@
-{% block content %}
-<h2>Olá, {{ paciente.nome }}</h2>
 
-{% for grupo in historico %}
-    <h3>{{ grupo.data }}</h3>
-    <ul>
-    {% for agendamento in grupo.agendamentos %}
-        <li>
-            {{ agendamento.get_exame_display }}
-            {% if grupo.tem_liberado and agendamento.resultado.liberado %}
-                — <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}">Ver resultado</a>
-            {% else %}
-                — resultado ainda não liberado
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-{% empty %}
-    <p>Nenhum exame encontrado.</p>
-{% endfor %}
-{% endblock %}
+<div class="container py-4">
+    <div class="row mb-3">
+        <section class="col-md-8">
+            <h1 id="titulo">Olá, {{ paciente.nome }}</h1>
+            <p id="subtitulo">Aqui está o histórico dos seus exames.</p>
+        </section>
+        <section class="col-md-4 text-end">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
+        </section>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <section class="container rounded-3 bg-white shadow-lg p-4">
+        {% for grupo in historico %}
+            <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg mb-3">
+                <h5 class="fw-bold">
+                    <i class="bi bi-calendar-event"></i> {{ grupo.data|date:"d/m/Y" }}
+                </h5>
+
+                <ul class="list-unstyled ms-2">
+                    {% for agendamento in grupo.agendamentos %}
+                        <li class="mb-1">
+                            <i class="bi bi-clipboard2-pulse"></i>
+                            <strong>{{ agendamento.get_exame_display }}</strong> —
+                            {% if grupo.tem_liberado and agendamento.resultado.liberado %}
+                                <span class="badge bg-success">Liberado</span>
+                                <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}"
+                                   class="btn btn-sm btn-success ms-2">
+                                    <i class="bi bi-file-earmark-text"></i> Ver resultado
+                                </a>
+                            {% else %}
+                                <span class="badge bg-secondary">Aguardando liberação</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% empty %}
+            <p class="text-muted">Nenhum exame encontrado.</p>
+        {% endfor %}
+    </section>
+</div>
+

@@ -1,20 +1,62 @@
-{% block content %}
-<h2>Login do Paciente</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    <section class="container">
+        <nav class="row">
+            <div class="col-md-8 mt-5 text-center">
+                <img src="{% static '' %}" style="width: 40rem;">
+                <p class="text-secondary text-center">2026 ODISSEU - Todos os direitos reservados</p>
+            </div>
+            <div class="col-md-4 base-login ms">
+                <form method="post">
+                    {% csrf_token %}
+                    <section class="card bg-light py-5">
+                        <h4 class="card-title text-center fw-bold text-dark">
+                            Bem-vindo(a)!
+                        </h4>
+                        
+                        <span class="border-2 border-bottom border-success d-flex mx-auto" style="width: 25%;"></span>
+                    
+                        <p class="text-secondary-emphasis text">Área do paciente</p>
+                        <section class="card-body">
+                            <div class="login-form">
+                                <label>CPF</label>
+                                <i class="bi bi-person"></i>
+                                <input class="edit-forms bi bi-person" type="text" name="cpf" placeholder="Digite seu cpf">
+                            </div>
+                            <div class="login-form">
+                                <label>Senha</label>
+                                <input class="edit-forms" type="password" name="senha" placeholder="senha">
+                                <i class="bi bi-lock"></i>
+                            </div>
+                            <div>
+                                {{ form.non_field_errors }}
+                            </div>
+                            <div class="my-5">
+                                <button class="confirmar border-0 px-5 mt-3" type="submit" style="width:100%;"><span class="bi bi-door-open-fill"></span> Entrar</button>
+                            </div> 
 
-{% if messages %}
-  {% for message in messages %}
-    <p>{{ message }}</p>
-  {% endfor %}
-{% endif %}
+                        </section>
+                    </section>
+                </form>
+            </div>
+            
+        </nav>
+    </section>
+</body>
+</html>
 
-<form method="post">
-    {% csrf_token %}
-    <label>CPF:</label>
-    <input type="text" name="cpf" required>
-
-    <label>Senha:</label>
-    <input type="password" name="senha" required>
-
-    <button type="submit">Entrar</button>
-</form>
-{% endblock %}
