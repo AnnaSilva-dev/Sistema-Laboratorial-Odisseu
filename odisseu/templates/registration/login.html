@@ -4,12 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>{% block title %}Odisseu - Login de Usuarios{% endblock %} </title>
+    <link rel="icon" type="image/png" href="{% static 'odisseu/imgs/favicon.png' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
+    <style>
+        .separador {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .separador::before,
+        .separador::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--verde-claro);
+        }
+
+        .separador span {
+            color: var(--verde-claro);
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+
+    {% block mensagens %}
+    {% endblock mensagens %}
+
+
     <section class="container">
         <nav class="row">
             <div class="col-md-8 mt-5 text-center">
@@ -19,34 +47,40 @@
             <div class="col-md-4 base-login ms">
                 <form method="post">
                     {% csrf_token %}
-                    <section class="card bg-light py-5">
-                        <h4 class="card-title text-center fw-bold">
-                            Bem-vindo(a)!
+                    <section class="card bg-light py-5 shadow-lg">
+                        <h4 class="card-title text-center fw-bold text-dark">
+                            Bem-vindo(a)! 
                         </h4>
                         
                         <span class="border-2 border-bottom border-success d-flex mx-auto" style="width: 25%;"></span>
                     
-                        <p class="text-secondary-emphasis text">Faça o login para acessar o sistema</p>
-                        <section class="card-body">
-                            <div class="login-form">
-                                <label>Usuário</label>
-                                <i class="bi bi-person"></i>
-                                <input class="edit-forms bi bi-person" type="text" name="username" placeholder="Username">
+                        <p class="text-secondary-emphasis text">{% block p %}Entre para acessar o sistema {% endblock p %}</p>
+                        <section class="card-body text-dark">
+                            <div class="form_icon">
+                                <label >{% block label %}Usuário:{% endblock label %}</label>
+                                {% block input %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="text" name="username" placeholder="Digite seu Username...">{% endblock input %}
+                                {% block icon %}<i class="bi bi-person pt-4"></i>{% endblock icon %}
                             </div>
-                            <div class="login-form">
+                            <div class="form_icon">
                                 <label>Senha</label>
-                                <input class="edit-forms" type="password" name="password" placeholder="Password">
+                                <input class="form-control rounded-4 shadow-lg border-dark border-1" type="password" name="password" placeholder="Digite sua senha...">
                                 <i class="bi bi-lock"></i>
+                                <div class="row mt-2">
+                                    <a class="text-danger text-end" style="font-size: small; text-decoration: underline;" href="{% url 'password_reset' %}">Esqueci minha senha</a> 
+                                </div>
                             </div>
-                            <div>
+                            <div style="font-size: small;">
                                 {{ form.non_field_errors }}
+                                {% block input_errors %}{% endblock input_errors %}
                             </div>
-                            <div class="my-5">
-                                <button class="confirmar border-0 px-5 mt-3" type="submit" style="width:100%;"><span class="bi bi-door-open-fill"></span> Entrar</button>
+                            <div class="my-4">
+                                <button class="rounded-3 border-0 btn bg-success text-white" type="submit" style="width:100%;">Entrar</button>
+                                <div class="separador"> <span>OU</span> </div>
+                                {% block link %}
+                                    <a class="btn btn-primary text-dark text-white" href="{% url 'paciente_login' %}" style="width:100%"> Acessar área do paciente → </a>
+                                {% endblock link %}
+                            
                             </div> 
-                           <a class="nav-link text-dark" href="{% url 'paciente_login' %}"> area do paciente! Quer invadir???? </a>
-                           <a class="nav-link text-dark" href="{% url 'password_reset' %}">Esqueci minha senha</a>
-
                         </section>
                     </section>
                 </form>

@@ -221,25 +221,6 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     width: 95%;
 }
 
-.login-form {
-    position: relative;
-    width: 20rem;
-}
-
-.login-form input {
-    width: 100%;
-    padding-right: 40px;
-}
-
-.login-form i {
-    position: absolute;
-    right: 15px;
-    top: 70%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: gray;
-}
-
 .form_icon {
     position: relative;
 }
@@ -254,11 +235,6 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 .form_icon input {
     padding-left: 40px;
-}
-
-.login-form input {
-    border: 1px solid gray;
-    padding: 4px;
 }
 
 .base-login .card{
