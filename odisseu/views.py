@@ -706,3 +706,8 @@ def paciente_historico(request):
         'paciente': paciente,
         'historico': historico,
     })
+def paciente_logout(request):
+    request.session.pop('paciente_id', None)
+
+
+    return redirect('paciente_login')  

@@ -3,12 +3,11 @@
     <div class="row mb-3">
         <section class="col-md-8">
             <h1 id="titulo">Olá, {{ paciente.nome }}</h1>
-            <p id="subtitulo">Aqui está o histórico dos seus exames.</p>
+            <p id="subtitulo">Vê ai o que tu fez.</p>
+
+            <a href="{% url 'logout_paciente'%}"> SAIR</a>
         </section>
-        <section class="col-md-4 text-end">
-                <i class="bi bi-box-arrow-right"></i> Sair
-            </a>
-        </section>
+       
     </div>
 
     {% if messages %}

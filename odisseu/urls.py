@@ -39,8 +39,7 @@ urlpatterns = [
     path('pacientes',views.pacientes,name='pacientes'),
     path('editar_paciente/<int:paciente_id>',views.editar_paciente, name='editar_paciente'),
     path('editar_resultado/<int:resultado_id>',views.editar_resultado, name='editar_resultado'),
-    path(
-        'excluir_agendamento/<int:agendamento_id>/',views.excluir_agendamento, name='excluir_agendamento'
+    path('excluir_agendamento/<int:agendamento_id>/',views.excluir_agendamento, name='excluir_agendamento'
     ),
     path('rotina/imprimir/',views.rotina_impressao, name='rotina_impressao'),
     (
@@ -53,5 +52,6 @@ urlpatterns = [
 
     path('paciente/login/', views.paciente_login, name='paciente_login'),
     path('paciente/historico/', views.paciente_historico, name='paciente_historico'),
+    path('paciente_historico/', views.paciente_logout, name='logout_paciente')
 ]
 
