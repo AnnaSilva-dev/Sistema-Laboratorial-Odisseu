@@ -10,7 +10,7 @@ class Paciente(models.Model):
     cns = models.CharField(max_length=18, unique=True, validators=[validate_cns])
     data_nascimento = models.DateField()
     telefone = models.CharField(max_length=20, validators=[validate_telefone])
-    senha = models.CharField(max_length=6, blank=True) 
+    senha = models.CharField(max_length=128, blank=True) 
 
     def __str__(self):
         return self.nome

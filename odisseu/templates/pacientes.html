@@ -152,11 +152,16 @@
                                     {{ form_editar.telefone.errors }}
                                 </div>
                             </section>
-
+                            <button class="btn btn-sm btn-warning"type="submit" name="gerar_senha"
+                                onclick="return confirm('Gerar nova senha para {{ paciente.nome }}? A senha anterior deixará de funcionar.');">
+                                 Gerar nova senha
+                            </button>
                             <button class="btn btn-sm btn-success" type="submit">
                                 <span class="bi bi-check-all"></span>
                                 Salvar alterações
                             </button>
+                            
+
                             <a class="btn btn-sm btn-danger" href="{% url 'pacientes' %}">Cancelar</a>
                         </form>
 

@@ -372,6 +372,11 @@ def editar_paciente(request, paciente_id):
     busca = request.GET.get('busca', '').strip()
 
     if request.method == 'POST':
+        if 'gerar_senha' in request.POST:
+            senha_texto = paciente.gerar_senha()
+            paciente.save()
+            messages.success(request, f'Nova senha gerada para {paciente.nome}: {senha_texto}')
+            return redirect('editar_paciente', paciente_id=paciente.id)
 
         form = PacienteForm(
             request.POST,
