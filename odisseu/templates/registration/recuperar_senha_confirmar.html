@@ -1,0 +1,13 @@
+
+<h1>Definir nova senha</h1>
+
+{% if validlink %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Redefinir senha</button>
+    </form>
+{% else %}
+    <p>O link de redefinição é inválido ou já expirou. Solicite um novo.</p>
+    <a href="{% url 'password_reset' %}">Solicitar novo link</a>
+{% endif %}

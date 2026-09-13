@@ -167,15 +167,14 @@ def agendar_exame(request):
 @login_required
 @has_permission_decorator('exibir_rotina')
 def rotina(request):
-
     data_str = request.GET.get('data')
 
     if data_str:
-
-        data = datetime.strptime(
-            data_str,
-            '%Y-%m-%d'
-        ).date()
+        try:
+            data = datetime.strptime(data_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'Data inválida, exibindo rotina de hoje.')
+            data = date.today()
 
     else:
 
@@ -186,24 +185,37 @@ def rotina(request):
         data=data
     )
 
+    paginator = Paginator(agendamentos, 5)
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request,
         'rotina.html',
         {
-            'agendamentos': agendamentos,
             'data': data,
+            'page_obj': page_obj,
         }
     )
 @login_required
 @has_permission_decorator('visualizar_resultados')
 def resultados(request):
+    busca = request.GET.get('busca', '').strip()
+
     agendamentos = Agendamento.objects.filter(
-    resultado__isnull=True
+        resultado__isnull=True
     ).select_related('paciente').order_by(
         'paciente__nome',
         'data'
     )
+
+    if busca:
+        agendamentos = agendamentos.filter(
+            Q(paciente__nome__icontains=busca) |
+            Q(paciente__cpf__icontains=busca) |
+            Q(paciente__cns__icontains=busca)
+        )
 
     agrupado = {}
 
@@ -220,10 +232,15 @@ def resultados(request):
 
     grupos = list(agrupado.values())
 
+    paginator = Paginator(grupos, 5)
+    pag_number = request.GET.get('page')
+    page_obj = paginator.get_page(pag_number)
+
     return render(
         request,
         'resultados.html',
-        {'grupos': grupos}
+         {'busca': busca, 
+         'page_obj': page_obj}
     )
 
 @login_required
@@ -481,10 +498,6 @@ def liberar_resultados(request):
 
         linhas_afetadas=ids_selecionados = request.POST.getlist('resultados')
 
-        Resultado.objects.filter(
-            id__in=ids_selecionados
-        ).update(liberado=True)
-
         if ids_selecionados: 
                 linhas_afetadas = Resultado.objects.filter(
                     id__in=ids_selecionados
@@ -508,6 +521,11 @@ def liberar_resultados(request):
         'agendamento__data'
     )
 
+    busca = request.GET.get('busca', '').strip()
+    if busca:
+        resultados_pendentes = resultados_pendentes.filter(
+        agendamento__paciente__nome__icontains=busca
+    )
     agrupado = {}
     for resultado in resultados_pendentes:
         chave = (resultado.agendamento.paciente_id, resultado.agendamento.data)
@@ -520,10 +538,15 @@ def liberar_resultados(request):
         agrupado[chave]['resultados'].append(resultado)
     grupos = list(agrupado.values())
 
+    paginator = Paginator(grupos, 5)
+    
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         'liberar_resultados.html',
-        {'grupos': grupos}
+        {'busca': busca, 'page_obj': page_obj}
     )
 
 #usuario

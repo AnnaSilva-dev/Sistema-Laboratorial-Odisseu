@@ -125,7 +125,13 @@ STATIC_URL = 'static/'
 
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        "OPTIONS": {
+            "host": "smtp.gmail.com",
+            "use_tls": True,
+            "username": "seu-email-real@gmail.com",
+            "password": "sua-senha-de-app-de-16-digitos",
+        },
     },
 }
 

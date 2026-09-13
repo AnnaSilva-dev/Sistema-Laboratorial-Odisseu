@@ -64,14 +64,29 @@
                     {{ message }}
                 </div>
             {% endfor %}
-        {% endif %}           
+        {% endif %}
+
+        
 <section class="bg-light text-dark rounded-4 p-4">
+        <h3 class="text-dark fw-bold content">
+            Exames aguardando liberação ({{ page_obj.paginator.count }})
+        </h3>
+        <form method="GET" class="mb-4">
+            <div class="input-group py-3 ">
+                <input type="text"
+                    name="busca"
+                    class="form-control shadow-lg border border-black"
+                    placeholder="Pesquisar usuário..."
+                    value="{{ busca }}">
+
+                <button type="submit" class="btn btn-success">
+                    Pesquisar
+                </button>
+            </div>
+
+        </form>
     <form method="POST" class="form-rotina">
         {% csrf_token %}
-        
-        <h3 class="text-dark fw-bold content">
-            Exames aguardando liberação ({{ grupos|length }})
-        </h3>
 
         <div class="row bg-dark-subtle rounded-1 p-1 m-1">
             <nav class="col-md-4">
@@ -94,7 +109,7 @@
         </div>
 
        <section id="menuResultados">
-            {% for grupo in grupos %}
+            {% for grupo in page_obj %}
                 <section class="grupo_paciente">
                     
                     <div class="row border-bottom border-secondary p-1 m-2">
@@ -142,7 +157,8 @@
                         </nav>
 
                         <nav class="col-md-2">
-                            <a class="lr-btn-revisar" href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}">
+                            <a class="lr-btn-revisar"
+                                href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}?busca={{ busca|urlencode }}">
                                 <i class="bi bi-eye"></i> Revisar
                             </a>
                         </nav>
@@ -156,7 +172,7 @@
                 </div>
             {% endfor %}
         </section>
-            {% if grupos %}
+            {% if page_obj %}
                 <button class="confirmar p-2 mt-2" type="submit"
                     onclick="return confirm('Tem certeza que deseja liberar os resultados?')">
                     Liberar selecionados
@@ -164,6 +180,23 @@
             {% endif %}
 
     </form>
+    <div class="paginacao">
+        {% if page_obj.has_previous %}
+            <a href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
+                 Anterior
+            </a>
+        {% endif %}
+
+        <span>
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
+            Próxima
+        </a>
+        {% endif %}
+    </div>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Mudanças dos checkbox

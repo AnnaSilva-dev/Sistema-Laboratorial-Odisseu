@@ -40,7 +40,7 @@
     </form>
             <!-- BOTÃO PARA A PÁGINA DE IMPRESSÃO -->
 
-        {% if agendamentos %}
+        {% if page_obj %}
 
             <a
                 href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
@@ -86,7 +86,7 @@
     </div>
     
     <section id="menusRotina">
-        {% regroup agendamentos by paciente as pacientes %}
+        {% regroup page_obj by paciente as pacientes %}
 
         {% for grupo in pacientes %}
             <div class="row border-bottom border-secondary p-1 m-2">
@@ -157,6 +157,18 @@
                 Não existem exames agendados para esta data.
             </p>
         {% endfor %}
+        <div class="paginacao">
+            {% if page_obj.has_previous %}
+                <a href="?data={{ data|date:'Y-m-d' }}&page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
+
+            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?data={{ data|date:'Y-m-d' }}&page={{ page_obj.next_page_number }}">Próxima</a>
+            {% endif %}
+        </div>
         {% endblock %}
+        </div>
     </section>
 </section>
