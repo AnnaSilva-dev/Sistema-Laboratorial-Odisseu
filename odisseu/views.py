@@ -356,6 +356,9 @@ def pacientes(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    for paciente in page_obj:
+        paciente.form_editar = PacienteForm(instance=paciente)
+
     return render(
         request,
         'pacientes.html',
@@ -369,14 +372,19 @@ def pacientes(request):
 @has_permission_decorator('editar_paciente')
 def editar_paciente(request, paciente_id):
     paciente = get_object_or_404(Paciente, id=paciente_id)
-    busca = request.GET.get('busca', '').strip()
 
     if request.method == 'POST':
+
         if 'gerar_senha' in request.POST:
             senha_texto = paciente.gerar_senha()
             paciente.save()
-            messages.success(request, f'Nova senha gerada para {paciente.nome}: {senha_texto}')
-            return redirect('editar_paciente', paciente_id=paciente.id)
+
+            messages.success(
+                request,
+                f'Nova senha gerada para {paciente.nome}: {senha_texto}'
+            )
+
+            return redirect('pacientes')
 
         form = PacienteForm(
             request.POST,
@@ -385,32 +393,19 @@ def editar_paciente(request, paciente_id):
 
         if form.is_valid():
             form.save()
-            messages.success(request, 'Paciente editado com sucesso!')
-            return redirect('pacientes')
+
+            messages.success(
+                request,
+                'Paciente editado com sucesso!'
+            )
+
         else:
-            messages.error(request, 'Ocorreu um erro')
+            messages.error(
+                request,
+                'Ocorreu um erro ao editar o paciente.'
+            )
 
-    else:
-
-        form = PacienteForm(
-            instance=paciente
-        )
-
-    pacientes = Paciente.objects.all()
-    paginator = Paginator(pacientes, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    
-    return render(
-        request,
-        'pacientes.html',
-        {
-            'page_obj': page_obj,
-            'busca': busca,
-            'paciente_editando': paciente,
-            'form_editar': form,
-        }
-    )
+    return redirect('pacientes')
 
 @login_required
 @has_permission_decorator('editar_resultado')

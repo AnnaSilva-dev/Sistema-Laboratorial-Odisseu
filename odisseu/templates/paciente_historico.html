@@ -1,51 +1,69 @@
+{% load static %}
 
-<div class="container py-4">
-    <div class="row mb-3">
-        <section class="col-md-8">
-            <h1 id="titulo">Olá, {{ paciente.nome }}</h1>
-            <p id="subtitulo">Vê ai o que tu fez.</p>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisseu - Àrea de Pacientes</title>
+    <link rel="icon" type="image/png" href="{% static 'odisseu/imgs/favicon.png' %}">
+    <script src="{% static 'odisseu/js/bootstrap.bundle.min.js' %}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
+</head>
+<body>
+    <div class="container py-4 mt-5">
+        <div class="row mb-3">
+            <section class="col-md-8">
+                <h1 id="titulo">Olá, {{ paciente.nome }}</h1>
+                <p id="subtitulo">Veja seu Histórico de Exames</p>
+            </section>
+        
+        </div>
 
-            <a href="{% url 'logout_paciente'%}"> SAIR</a>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <section class="container rounded-3 bg-white shadow-lg p-4" style="min-height: 70vh;">
+            {% for grupo in historico %}
+                <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg mb-3">
+                    <h5 class="fw-bold">
+                        <i class="bi bi-calendar-event"></i> {{ grupo.data|date:"d/m/Y" }}
+                    </h5>
+
+                    <ul class="list-unstyled ms-2">
+                        {% for agendamento in grupo.agendamentos %}
+                            <li class="mb-1">
+                                <i class="bi bi-clipboard2-pulse"></i>
+                                <strong>{{ agendamento.get_exame_display }}</strong> —
+                                {% if grupo.tem_liberado and agendamento.resultado.liberado %}
+                                    <span class="badge bg-success">Liberado</span>
+                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}"
+                                    class="btn btn-sm btn-success ms-2">
+                                        <i class="bi bi-file-earmark-text"></i> Ver resultado
+                                    </a>
+                                {% else %}
+                                    <span class="badge bg-secondary">Aguardando liberação</span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% empty %}
+                <p class="text-muted">Nenhum exame encontrado.</p>
+            {% endfor %}
+
+            <a class="py-5 text-danger position-absolute bottom-0 mb-5" href="{% url 'logout_paciente'%}"><span class="bi bi-box-arrow-left"></span> SAIR</a>
         </section>
-       
     </div>
+</body>
+</html>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    <section class="container rounded-3 bg-white shadow-lg p-4">
-        {% for grupo in historico %}
-            <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg mb-3">
-                <h5 class="fw-bold">
-                    <i class="bi bi-calendar-event"></i> {{ grupo.data|date:"d/m/Y" }}
-                </h5>
-
-                <ul class="list-unstyled ms-2">
-                    {% for agendamento in grupo.agendamentos %}
-                        <li class="mb-1">
-                            <i class="bi bi-clipboard2-pulse"></i>
-                            <strong>{{ agendamento.get_exame_display }}</strong> —
-                            {% if grupo.tem_liberado and agendamento.resultado.liberado %}
-                                <span class="badge bg-success">Liberado</span>
-                                <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}"
-                                   class="btn btn-sm btn-success ms-2">
-                                    <i class="bi bi-file-earmark-text"></i> Ver resultado
-                                </a>
-                            {% else %}
-                                <span class="badge bg-secondary">Aguardando liberação</span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% empty %}
-            <p class="text-muted">Nenhum exame encontrado.</p>
-        {% endfor %}
-    </section>
-</div>
 

@@ -54,11 +54,21 @@
                             <h2 class="fw-bold">{{ paciente.nome }}</h2>
                         </nav>
                         <nav class="col-6 text-end">
-                            <a href="{% url 'editar_paciente' paciente.id %}?busca={{ busca|urlencode }}&page={{ page_obj.number }}"
+                            <button
+                                class="btn btn-sm btn-primary"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#editar_paciente_{{ paciente.id }}"
+                                aria-expanded="false"
+                                aria-controls="editar_paciente_{{ paciente.id }}">
+                                <i class="bi bi-highlighter"></i>
+                                Editar paciente
+                            </button>
+                            <!-- <a href="?busca={{ busca|urlencode }}&page={{ page_obj.number }}&editar={{ paciente.id }}"
                                 class="btn btn-sm btn-primary">
-                                    <i class="bi bi-highlighter"></i>
-                                    Editar paciente
-                            </a>
+                                <i class="bi bi-highlighter"></i>
+                                Editar paciente
+                            </a> -->
                             <button class="btn btn-sm btn-success my-2" type="button"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#exames_paciente_{{ paciente.id }}"
@@ -82,12 +92,127 @@
                         </section>
                     </section>
                     
+                    <div class="collapse mt-2" id="editar_paciente_{{ paciente.id }}">
 
-                    {% if paciente_editando.id == paciente.id %}
+                        <hr>
+
+                        <h3>Editar paciente</h3>
+
+                        <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
+                            {% csrf_token %}
+
+                            <section class="row">
+
+                                <div class="col-md-8 border-0">
+                                    <label>
+                                        Nome:
+                                    </label>
+
+                                    {% load widget_tweaks %}
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-person"></i>
+
+                                        {% render_field paciente.form_editar.nome class="form-control rounded-4 shadow-lg" placeholder="Digite seu nome" %}
+                                    </div>
+
+                                    {{ paciente.form_editar.nome.errors }}
+                                </div>
+
+                                <div class="col-md-4 rounded-2">
+                                    <label>
+                                        Data de nascimento:
+                                    </label>
+
+                                    <div class="mb-3">
+                                        {% render_field paciente.form_editar.data_nascimento class="form-control rounded-4 shadow-lg" %}
+                                    </div>
+
+                                    {{ paciente.form_editar.data_nascimento.errors }}
+                                </div>
+
+                            </section>
+
+                            <section class="row">
+
+                                <div class="col-md-4">
+                                    <label>
+                                        CPF:
+                                    </label>
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-file-earmark-text"></i>
+
+                                        {% render_field paciente.form_editar.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+                                    </div>
+
+                                    {{ paciente.form_editar.cpf.errors }}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>
+                                        CNS:
+                                    </label>
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-credit-card"></i>
+
+                                        {% render_field paciente.form_editar.cns class="form-control rounded-4 shadow-lg" placeholder="123 4567 8901 2345" %}
+                                    </div>
+
+                                    {{ paciente.form_editar.cns.errors }}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>
+                                        Telefone:
+                                    </label>
+
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-telephone"></i>
+
+                                        {% render_field paciente.form_editar.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
+                                    </div>
+
+                                    {{ paciente.form_editar.telefone.errors }}
+                                </div>
+
+                            </section>
+
+                            <button
+                                class="btn btn-sm btn-warning"
+                                type="submit"
+                                name="gerar_senha"
+                                onclick="return confirm('Gerar nova senha para {{ paciente.nome }}? A senha anterior deixará de funcionar.');">
+                                Gerar nova senha
+                            </button>
+
+                            <button
+                                class="btn btn-sm btn-success"
+                                type="submit">
+                                <span class="bi bi-check-all"></span>
+                                Salvar alterações
+                            </button>
+
+                            <button
+                                class="btn btn-sm btn-danger"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#editar_paciente_{{ paciente.id }}">
+                                Cancelar
+                            </button>
+
+                        </form>
+
+                        <hr>
+
+                    </div>
+                    <!-- {% if paciente_editando.id == paciente.id %}
                         <hr>
                         <h3>Editar paciente</h3>
 
                         <form method="POST">
+                            <input type="hidden" name="paciente_id" value="{{ paciente.id }}">
                             {% csrf_token %}
                            <section class="row">
                                 <div class="col-md-8 border-0">
@@ -166,7 +291,7 @@
                         </form>
 
                         
-                        <hr>
+                        <hr> -->
 
                     {% endif %}
 
