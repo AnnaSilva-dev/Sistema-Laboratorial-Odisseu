@@ -8,6 +8,13 @@
         <a class="link" href="{% url 'resultados' %}">
             < Resultados pendentes
         </a>
+             {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}  
     </p>
     <section class="container">
         <div class="row bg-white text-dark rounded-2 p-4 shadow-lg">

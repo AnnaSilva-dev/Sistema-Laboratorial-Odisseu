@@ -258,9 +258,18 @@ def digitar_resultados(request, agendamento_id):
     exame = EXAMES[agendamento.exame]
 
     if request.method == 'POST':
+        
         form = ResultadoForm(request.POST)
 
         if form.is_valid():
+
+            for parametro in parametros_do_exame(exame):
+                valor = request.POST.get(parametro['nome'], '')
+
+                if not valor:
+                    messages.error(request, f'O campo "{parametro["nome"]}" não pode ficar em branco.')
+                    return redirect('digitar_resultados', agendamento_id=agendamento.id)
+
             resultado = form.save(commit=False)
             resultado.agendamento = agendamento
             resultado.save()
