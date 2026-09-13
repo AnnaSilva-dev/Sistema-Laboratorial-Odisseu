@@ -593,7 +593,7 @@ def usuarios(request):
         elif has_role(usuario, TecnicoLaboratorial):
             usuario.perfil = 'Técnico Laboratorial'
 
-    paginator = Paginator(usuarios, 1)
+    paginator = Paginator(usuarios, 5)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
