@@ -114,7 +114,11 @@ def cadastrar_paciente(request):
             messages.success(request, 'Paciente cadastrado com sucesso!')
             form = PacienteForm()  
         else:
-            messages.error(request, 'Ocorreu um erro')
+            if 'cpf' in form.errors:
+                messages.error(request, 'Este CPF já foi cadastrado.')
+            if 'cns' in form.errors:
+                messages.error(request, 'O CNS informado já foi cadastrado.')
+    
     else:
         form = PacienteForm()
 

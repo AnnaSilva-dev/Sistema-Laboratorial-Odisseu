@@ -24,3 +24,4 @@ def validate_telefone(value):
     telefone = value.replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
     if not telefone.isdigit() or len(telefone) < 11 or len(telefone) > 14:
         raise ValidationError("O telefone deve conter apenas números e ter entre 11 e 14 dígitos.")
+

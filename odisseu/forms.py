@@ -122,13 +122,13 @@ class PacienteForm(forms.ModelForm):
         nome = self.cleaned_data['nome']
         return nome.title()
 
-    # def clean_cpf(self):
-    #     cpf = self.cleaned_data['cpf']
-    #     return re.sub(r'\D', '', cpf)
+    def clean_cpf(self):
+        cpf = self.cleaned_data['cpf']
+        return re.sub(r'\D', '', cpf)
 
-    # def clean_cns(self):
-    #     cns = self.cleaned_data['cns']
-    #     return re.sub(r'\D', '', cns)
+    def clean_cns(self):
+        cns = self.cleaned_data['cns']
+        return re.sub(r'\D', '', cns)
 
 
 class AgendamentoForm(forms.Form):
