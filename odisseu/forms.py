@@ -72,7 +72,15 @@ class UsuarioForm(UserCreationForm):
             'class': 'senha edit-forms',
             'placeholder': 'Confirme sua senha',
         })
-
+class UsuarioEdicaoForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        labels = {
+            'first_name': 'Nome',
+            'last_name': 'Sobrenome',
+            'email': 'E-mail',
+        }
         
 class PacienteForm(forms.ModelForm):
 

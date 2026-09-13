@@ -37,7 +37,7 @@ class Paciente(models.Model):
         return list(agrupado.values())
     
     def gerar_senha(self):
-        senha_texto = ''.join(secrets.choice(string.digits) for _ in range(4))
+        senha_texto = ''.join(secrets.choice(string.digits) for _ in range(8))
         self.senha = make_password(senha_texto)
         return senha_texto
 

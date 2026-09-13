@@ -47,16 +47,17 @@
                 </div>
             </form>
 
-            {% for paciente in pacientes %}
+            {% for paciente in page_obj %}
                 <div class="container bg-success-subtle text-black rounded-3 border border-success p-3  shadow-lg">
                     <section class="row">
                         <nav class="col-6">
                             <h2 class="fw-bold">{{ paciente.nome }}</h2>
                         </nav>
                         <nav class="col-6 text-end">
-                            <a href="{% url 'editar_paciente' paciente.id %}" class="btn btn-sm btn-primary">
-                                <i class="bi bi-highlighter"></i>
-                                Editar paciente
+                            <a href="{% url 'editar_paciente' paciente.id %}?busca={{ busca|urlencode }}&page={{ page_obj.number }}"
+                                class="btn btn-sm btn-primary">
+                                    <i class="bi bi-highlighter"></i>
+                                    Editar paciente
                             </a>
                             <button class="btn btn-sm btn-success my-2" type="button"
                                 data-bs-toggle="collapse"
@@ -80,6 +81,7 @@
                             </div>
                         </section>
                     </section>
+                    
 
                     {% if paciente_editando.id == paciente.id %}
                         <hr>
@@ -205,6 +207,24 @@
                 <p>Nenhum paciente encontrado.</p>
             {% endfor %}
         </section>      
-</div>    
+</div>   
+<div class="paginacao">
+    {% if page_obj.has_previous %}
+        <a href="?busca={{ busca }}&page={{ page_obj.previous_page_number }}">
+            Anterior
+        </a>
+     {% endif %}
+
+    <span>
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?busca={{ busca }}&page={{ page_obj.next_page_number }}">
+         Próxima
+    </a>
+    {% endif %}
+
+</div>
 
 {% endblock %}

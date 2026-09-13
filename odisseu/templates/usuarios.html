@@ -27,6 +27,13 @@
             <a href="{% url 'cadastrar_usuario' %}" class="btn btn-success">
                 + Novo usuário
             </a>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
         </section>
     </div>
     <section class="container rounded-3  bg-white shadow-lg">
@@ -63,7 +70,7 @@
 
                     <tbody>
 
-                        {% for usuario in usuarios %}
+                        {% for usuario in page_obj %}
 
                         <tr>
 
@@ -105,7 +112,7 @@
 
                             <td class="text-end">
 
-                                <a href="{% url 'editar_usuarios' usuario.id %}"
+                                <a href="{% url 'editar_usuarios' usuario.id %}?busca={{ busca|urlencode }}&page={{ page_obj.number }}"
                                 class="btn btn-sm btn-outline-primary">
 
                                     Editar
@@ -265,5 +272,24 @@
     </section>
   
 </div>
+<div class="paginacao">
+    {% if page_obj.has_previous %}
+        <a href="?busca={{ busca }}&page={{ page_obj.previous_page_number }}">
+            Anterior
+        </a>
+     {% endif %}
+
+    <span>
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?busca={{ busca }}&page={{ page_obj.next_page_number }}">
+         Próxima
+    </a>
+    {% endif %}
+
+</div>
+
 
 {% endblock %}

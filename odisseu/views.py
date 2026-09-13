@@ -1,6 +1,6 @@
 from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm
+from .forms import PacienteForm, AgendamentoForm, ResultadoForm, UsuarioForm, UsuarioEdicaoForm
 from .models import Paciente, Agendamento, Resultado, ResultadoParametro
 from datetime import date, datetime, timezone, timedelta
 from .exames import EXAMES, parametros_do_exame
@@ -13,6 +13,7 @@ from .roles import Farmaceutico, Administrador, TecnicoLaboratorial, Recepcionis
 from django.utils import timezone
 from django.contrib import messages
 from rolepermissions.checkers import has_role
+from django.core.paginator import Paginator
 
 @login_required
 def index(request):
@@ -309,7 +310,6 @@ def ver_resultados(request, paciente_id, data):
 @login_required
 @has_permission_decorator('visualizar_pacientes')
 def pacientes(request):
-
     busca = request.GET.get('busca', '').strip()
 
     pacientes = Paciente.objects.all()
@@ -321,11 +321,16 @@ def pacientes(request):
             Q(cns__icontains=busca)
         )
 
+    paginator = Paginator(pacientes, 5)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         'pacientes.html',
         {
-            'pacientes': pacientes,
+            'page_obj': page_obj,
             'busca': busca,
         }
     )
@@ -333,8 +338,8 @@ def pacientes(request):
 @login_required
 @has_permission_decorator('editar_paciente')
 def editar_paciente(request, paciente_id):
-
-    paciente = Paciente.objects.get(id=paciente_id)
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    busca = request.GET.get('busca', '').strip()
 
     if request.method == 'POST':
 
@@ -357,13 +362,16 @@ def editar_paciente(request, paciente_id):
         )
 
     pacientes = Paciente.objects.all()
-
+    paginator = Paginator(pacientes, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     return render(
         request,
         'pacientes.html',
         {
-            'pacientes': pacientes,
-            'busca': '',
+            'page_obj': page_obj,
+            'busca': busca,
             'paciente_editando': paciente,
             'form_editar': form,
         }
@@ -543,14 +551,17 @@ def usuarios(request):
             usuario.perfil = 'Recepcionista'
         elif has_role(usuario, TecnicoLaboratorial):
             usuario.perfil = 'Técnico Laboratorial'
-   
 
+    paginator = Paginator(usuarios, 1)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(
         request,
         'usuarios.html',
         {
             'usuarios': usuarios,
-            
+            'page_obj': page_obj
         }
     )
 
@@ -595,20 +606,38 @@ def ativar_usuario(request, id):
 
 def editar_usuarios(request, id):
     usuario = get_object_or_404(User, id=id)
+    busca = request.GET.get('busca', '').strip()
 
     if request.method == 'POST':
-        usuario.first_name = request.POST.get('first_name')
-        usuario.last_name = request.POST.get('last_name')
-        usuario.email = request.POST.get('email')
-        usuario.save()
-
-        return redirect('usuarios')
+        form = UsuarioEdicaoForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Usuário editado com sucesso!")
+            return redirect('usuarios')
+        else:
+            messages.error(request, "Ocorreu um erro ao editar o usuário")
+            form_edicao = form  
+    else:
+        form_edicao = UsuarioEdicaoForm(instance=usuario)
 
     usuarios = User.objects.all()
 
+    if busca:
+        usuarios = usuarios.filter(
+            Q(first_name__icontains=busca) |
+            Q(last_name__icontains=busca) |
+            Q(email__icontains=busca)
+        )
+
+    paginator = Paginator(usuarios, 1)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'usuarios.html', {
-        'usuarios': usuarios,
-        'usuario_edicao': usuario
+        'page_obj': page_obj,
+        'usuario_edicao': usuario,
+        'form_edicao': form_edicao,
+        'busca': busca,
     })
 
 def paciente_login(request):
