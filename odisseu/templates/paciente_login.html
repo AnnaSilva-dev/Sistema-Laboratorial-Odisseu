@@ -1,25 +1,23 @@
 {% extends "registration/login.html" %}
 {% load static %}
 {% block title %}Odisseu - Login Paciente{% endblock %}
-{% block mensages %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %} 
-{% endblock %}
+{% csrf_token %}
 {% block p %}Área do paciente{% endblock %}
 {% block label %}CPF:{% endblock %}
 {% block icon %}<i class="bi bi-file-earmark-text pt-4"></i>{% endblock %}
 {% block input %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="text" name="cpf" placeholder="Digite seu CPF...">{% endblock %}
 {% block link %}<a class="btn btn-primary text-dark text-white" href="{% url 'login' %}" style="width:100%"> Acessar área do usuário → </a>{% endblock %}
 {% block input_errors %}
-    {% if form.cpf.errors %}
-        <div class="text-danger mt-1">
-            {% for error in form.cpf.errors %}
-                <small>{{ error }}</small>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <div class="text-danger mt-1">
+            <small>
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %} 
+            </small>
+    </div>
 {% endblock input_errors %}
+{% block submit %}<button class="rounded-3 border-0 btn bg-success text-white" type="submit" style="width:100%;">Entrar</button>{% endblock submit %}
+{% block senha %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="password" name="senha" placeholder="Digite sua senha...">{% endblock senha %}
 

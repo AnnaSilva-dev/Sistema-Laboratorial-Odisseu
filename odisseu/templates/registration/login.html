@@ -34,8 +34,8 @@
         }
     </style>
 
-    {% block mensagens %}
-    {% endblock mensagens %}
+    {% block mensages %}
+    {% endblock mensages %}
 
 
     <section class="container">
@@ -62,19 +62,24 @@
                                 {% block icon %}<i class="bi bi-person pt-4"></i>{% endblock icon %}
                             </div>
                             <div class="form_icon">
-                                <label>Senha</label>
-                                <input class="form-control rounded-4 shadow-lg border-dark border-1" type="password" name="password" placeholder="Digite sua senha...">
+                                <label>Senha:</label>
+                                {% block senha %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="password" name="password" placeholder="Digite sua senha...">{% endblock senha %}
                                 <i class="bi bi-lock"></i>
                                 <div class="row mt-2">
                                     <a class="text-danger text-end" style="font-size: small; text-decoration: underline;" href="{% url 'password_reset' %}">Esqueci minha senha</a> 
                                 </div>
                             </div>
-                            <div style="font-size: small;">
-                                {{ form.non_field_errors }}
-                                {% block input_errors %}{% endblock input_errors %}
+                            <div>
+                                {% block input_errors %}
+                                    <div class="text-danger mt-1">
+                                            <small>
+                                                {{ form.non_field_errors }}
+                                            </small>
+                                    </div>
+                                {% endblock input_errors %}
                             </div>
                             <div class="my-4">
-                                <button class="rounded-3 border-0 btn bg-success text-white" type="submit" style="width:100%;">Entrar</button>
+                                {% block submit %}<button class="rounded-3 border-0 btn bg-success text-white" type="submit" style="width:100%;">Entrar</button>{% endblock submit %}
                                 <div class="separador"> <span>OU</span> </div>
                                 {% block link %}
                                     <a class="btn btn-primary text-dark text-white" href="{% url 'paciente_login' %}" style="width:100%"> Acessar área do paciente → </a>
