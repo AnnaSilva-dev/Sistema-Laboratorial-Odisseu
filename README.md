@@ -68,7 +68,7 @@ tecnologias digitais na modernização dos serviços laboratoriais, contribuindo
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/devwenderson" title="Paula">
+      <a href="https://github.com/Paula-Dias17" title="Paula">
         <img src="https://avatars.githubusercontent.com/Paula-Dias17" width="100px;" alt="collaborators pictures"/><br>
         <sub>
           <b>Paula Dias </b>
