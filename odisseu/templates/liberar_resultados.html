@@ -180,23 +180,58 @@
             {% endif %}
 
     </form>
-    <div class="paginacao">
-        {% if page_obj.has_previous %}
-            <a href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
-                 Anterior
-            </a>
-        {% endif %}
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center">
 
-        <span>
-            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-        </span>
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                    href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
+                        Anterior
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Anterior</a>
+                </li>
+            {% endif %}
 
-        {% if page_obj.has_next %}
-        <a href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
-            Próxima
-        </a>
-        {% endif %}
-    </div>
+
+            {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <a class="page-link">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link"
+                        href="?busca={{ busca|urlencode }}&page={{ num }}">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                    href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
+                        Próxima
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Próxima</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Mudanças dos checkbox

@@ -207,93 +207,6 @@
                         <hr>
 
                     </div>
-                    <!-- {% if paciente_editando.id == paciente.id %}
-                        <hr>
-                        <h3>Editar paciente</h3>
-
-                        <form method="POST">
-                            <input type="hidden" name="paciente_id" value="{{ paciente.id }}">
-                            {% csrf_token %}
-                           <section class="row">
-                                <div class="col-md-8 border-0">
-                                    <label for="{{ form.nome.id_for_label }}">
-                                        Nome:
-                                    </label>
-                                    {% load widget_tweaks %}
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-person"></i>
-                                        {% render_field form_editar.nome class="form-control rounded-4 shadow-lg" placeholder="Digite seu nome" %}
-                                    </div>
-                                    {{ form_editar.nome.errors }}
-                                </div>
-                                <div class="col-md-4 rounded-2">
-                                    <label for="{{ form_editar.data_nascimento.id_for_label }}">
-                                        Data de nascimento:
-                                    </label>
-
-                                    <div class="mb-3">
-                                        {% render_field form_editar.data_nascimento class="form-control rounded-4  shadow-lg" %}
-                                    </div>
-                                
-                                    {{ form_editar.data_nascimento.errors }}
-                                </div>
-                            </section>
-                            <section class="row">
-                                <div class="col-md-4">
-                                    <label for="{{ form.cpf.id_for_label }}">
-                                        CPF:
-                                    </label>
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-file-earmark-text"></i>
-                                    {% render_field form_editar.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
-                                    </div>
-                                    
-                                    {{ form_editar.cpf.errors }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="{{ form.cns.id_for_label }}">
-                                        CNS:
-                                    </label>
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-credit-card"></i>
-                                        {% render_field form_editar.cns class="form-control rounded-4  shadow-lg" placeholder="123 4567 8901 2345" %}
-                                    </div>
-                                    
-                                    {{ form_editar.cns.errors }}
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="{{ form.telefone.id_for_label }}">
-                                        Telefone:
-                                    </label>
-
-                                    {% load widget_tweaks %}
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-telephone"></i>
-                                        {% render_field form_editar.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
-                                    </div>
-                                
-                                    {{ form_editar.telefone.errors }}
-                                </div>
-                            </section>
-                            <button class="btn btn-sm btn-warning"type="submit" name="gerar_senha"
-                                onclick="return confirm('Gerar nova senha para {{ paciente.nome }}? A senha anterior deixará de funcionar.');">
-                                 Gerar nova senha
-                            </button>
-                            <button class="btn btn-sm btn-success" type="submit">
-                                <span class="bi bi-check-all"></span>
-                                Salvar alterações
-                            </button>
-                            
-
-                            <a class="btn btn-sm btn-danger" href="{% url 'pacientes' %}">Cancelar</a>
-                        </form>
-
-                        
-                        <hr> -->
-
-                    {% endif %}
 
                     <!-- HISTÓRICO DE EXAMES -->
 
@@ -337,24 +250,59 @@
                 <p>Nenhum paciente encontrado.</p>
             {% endfor %}
         </section>      
-</div>   
-<div class="paginacao">
-    {% if page_obj.has_previous %}
-        <a href="?busca={{ busca }}&page={{ page_obj.previous_page_number }}">
-            Anterior
-        </a>
-     {% endif %}
-
-    <span>
-        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
-    </span>
-
-    {% if page_obj.has_next %}
-    <a href="?busca={{ busca }}&page={{ page_obj.next_page_number }}">
-         Próxima
-    </a>
-    {% endif %}
-
 </div>
+
+    <nav aria-label="Paginação">
+        <ul class="pagination justify-content-center">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                    href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
+                        Anterior
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Anterior</a>
+                </li>
+            {% endif %}
+
+
+            {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <a class="page-link">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link"
+                        href="?busca={{ busca|urlencode }}&page={{ num }}">
+                            {{ num }}
+                        </a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                    href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
+                        Próxima
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Próxima</a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </nav>
 
 {% endblock %}

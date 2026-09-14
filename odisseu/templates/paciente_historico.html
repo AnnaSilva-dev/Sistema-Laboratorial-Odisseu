@@ -14,11 +14,17 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
+    {% csrf_token %}
+
     <div class="container py-4 mt-5">
         <div class="row mb-3">
             <section class="col-md-8">
                 <h1 id="titulo">Olá, {{ paciente.nome }}</h1>
                 <p id="subtitulo">Veja seu Histórico de Exames</p>
+                <a class="py-5 text-danger" href="{% url 'logout_paciente' %}">
+                    <span class="bi bi-box-arrow-left"></span>
+                    SAIR
+                </a>
             </section>
         
         </div>
@@ -32,35 +38,83 @@
         {% endif %}
 
         <section class="container rounded-3 bg-white shadow-lg p-4" style="min-height: 70vh;">
+
             {% for grupo in historico %}
+
                 <div class="container bg-success-subtle text-black rounded-3 border border-success p-3 shadow-lg mb-3">
+
                     <h5 class="fw-bold">
-                        <i class="bi bi-calendar-event"></i> {{ grupo.data|date:"d/m/Y" }}
+                        <i class="bi bi-calendar-event"></i>
+                        {{ grupo.data|date:"d/m/Y" }}
                     </h5>
 
-                    <ul class="list-unstyled ms-2">
+                    <ul class="list-unstyled ms-2 p-2">
+
                         {% for agendamento in grupo.agendamentos %}
-                            <li class="mb-1">
+
+                            <li class="mb-2">
                                 <i class="bi bi-clipboard2-pulse"></i>
-                                <strong>{{ agendamento.get_exame_display }}</strong> —
-                                {% if grupo.tem_liberado and agendamento.resultado.liberado %}
-                                    <span class="badge bg-success">Liberado</span>
-                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}"
-                                    class="btn btn-sm btn-success ms-2">
-                                        <i class="bi bi-file-earmark-text"></i> Ver resultado
-                                    </a>
+
+                                <strong>
+                                    {{ agendamento.get_exame_display }}
+                                </strong>
+                                —
+
+                                {% if agendamento.resultado %}
+
+                                    {% if agendamento.resultado.liberado %}
+                                        <span class="badge bg-success">
+                                            Liberado
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark">
+                                            Aguardando liberação
+                                        </span>
+                                    {% endif %}
+
                                 {% else %}
-                                    <span class="badge bg-secondary">Aguardando liberação</span>
+
+                                    <span class="badge bg-secondary">
+                                        Resultado pendente
+                                    </span>
+
                                 {% endif %}
                             </li>
+
+                        {% empty %}
+
+                            <p class="text-muted">
+                                Nenhum exame encontrado.
+                            </p>
+
                         {% endfor %}
+
                     </ul>
+
+                    {% if grupo.tem_liberado %}
+                        <div class="text-end">
+                            <a
+                                href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}"
+                                class="btn btn-sm btn-success m-0"
+                            >
+                                <i class="bi bi-file-earmark-text"></i>
+                                Ver resultado
+                            </a>
+                        </div>
+                    {% endif %}
+
                 </div>
+
             {% empty %}
-                <p class="text-muted">Nenhum exame encontrado.</p>
+
+                <p class="text-muted">
+                    Nenhum exame encontrado.
+                </p>
+
             {% endfor %}
 
-            <a class="py-5 text-danger position-absolute bottom-0 mb-5" href="{% url 'logout_paciente'%}"><span class="bi bi-box-arrow-left"></span> SAIR</a>
+            
+
         </section>
     </div>
 </body>
