@@ -46,3 +46,34 @@ tecnologias digitais na modernização dos serviços laboratoriais, contribuindo
 ![javascript][javascript__BADGE]
 ![bootstrap][BOOTSTRAP_BADGE]
 
+## Colaboradores
+### Alunos
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/AnnaSilva-dev" title="Anna Vitória">
+        <img src="https://avatars.githubusercontent.com/AnnaSilva-dev" width="100px;" alt="collaborators pictures"/><br>
+        <sub>
+          <b>Anna Silva </b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/izipora" title="Camily Zipora">
+        <img src="https://avatars.githubusercontent.com/izipora" width="100px;" alt="collaborators pictures"/><br>
+        <sub>
+          <b>Zipóra Souza</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/devwenderson" title="Paula">
+        <img src="https://avatars.githubusercontent.com/Paula-Dias17" width="100px;" alt="collaborators pictures"/><br>
+        <sub>
+          <b>Paula Dias </b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
