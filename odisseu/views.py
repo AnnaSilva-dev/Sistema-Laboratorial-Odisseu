@@ -306,9 +306,19 @@ def digitar_resultados(request, agendamento_id):
 
 from rolepermissions.checkers import has_permission
 
-@login_required
-@has_permission_decorator('ver_resultados')
 def ver_resultados(request, paciente_id, data):
+
+    paciente_sessao = request.session.get('paciente_id')
+
+    if paciente_sessao:
+        #nao mexe pra o paciente nao ir pra outro resultado pela url
+        if int(paciente_sessao) != int(paciente_id):
+            return redirect('paciente_login')
+    else:
+        if not request.user.is_authenticated:
+            return redirect('login')  
+        if not has_permission(request.user, 'ver_resultados'):
+            return redirect('index')  
 
     paciente = Paciente.objects.get(id=paciente_id)
     data = datetime.strptime(data, '%Y-%m-%d').date()
@@ -318,9 +328,8 @@ def ver_resultados(request, paciente_id, data):
         agendamento__data=data,
     )
 
-    if not has_permission(request.user, 'liberar_resultado'):
+    if paciente_sessao or not has_permission(request.user, 'liberar_resultado'):
         resultados = resultados.filter(liberado=True)
-
     for resultado in resultados:
         codigo_exame = resultado.agendamento.exame
         exame = EXAMES[codigo_exame]
