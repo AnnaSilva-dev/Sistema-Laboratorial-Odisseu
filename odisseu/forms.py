@@ -2,7 +2,7 @@ from django import forms
 from .models import Paciente, Agendamento, Resultado
 from .exames import EXAMES
 from .validators import validate_future_date
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
 from datetime import date
 import re
@@ -176,3 +176,14 @@ class ResultadoForm(forms.ModelForm):
     class Meta:
         model = Resultado
         fields = ['observacao']
+
+class RecuperarSenhaForm(PasswordResetForm):
+
+    email = forms.EmailField(
+        label='E-mail',
+        widget=forms.EmailInput(attrs={
+            'class': 'email edit-forms',
+            'placeholder': 'Digite seu e-mail...',
+            'autocomplete': 'email',
+        })
+    )

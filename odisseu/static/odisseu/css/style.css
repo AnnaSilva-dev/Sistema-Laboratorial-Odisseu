@@ -398,3 +398,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     font-size: 15px;
     margin: 0 0 24px;
 }
+
+#recuperar-senha {
+    margin-top: 25vh;
+}
