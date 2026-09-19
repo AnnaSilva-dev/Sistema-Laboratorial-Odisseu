@@ -704,11 +704,28 @@ def paciente_login(request):
 def paciente_historico(request):
     paciente_id = request.session['paciente_id']
     paciente = get_object_or_404(Paciente, id=paciente_id)
+
     historico = paciente.historico_agendamentos()
+
+    data_str = request.GET.get('data')
+
+    if data_str:
+        try:
+            data = datetime.strptime(data_str, '%Y-%m-%d').date()
+        except ValueError:
+            messages.error(request, 'Data inválida.')
+            data = None
+
+        if data:
+            historico = [
+                grupo for grupo in historico
+                if grupo['data'] == data
+            ]
 
     return render(request, 'paciente_historico.html', {
         'paciente': paciente,
         'historico': historico,
+        'data_filtro': data if data_str and data else None,
     })
 def paciente_logout(request):
     request.session.pop('paciente_id', None)
