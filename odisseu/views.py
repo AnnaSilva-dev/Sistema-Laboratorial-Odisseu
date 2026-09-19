@@ -715,3 +715,6 @@ def paciente_logout(request):
 
 
     return redirect('paciente_login')  
+
+def ajuda(request):
+    return render(request, 'ajuda.html')

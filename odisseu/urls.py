@@ -52,6 +52,8 @@ urlpatterns = [
 
     path('paciente/login/', views.paciente_login, name='paciente_login'),
     path('paciente/historico/', views.paciente_historico, name='paciente_historico'),
-    path('paciente_historico/', views.paciente_logout, name='logout_paciente')
+    path('paciente_historico/', views.paciente_logout, name='logout_paciente'),
+
+    path('ajuda', views.ajuda, name='ajuda')
 ]
 
