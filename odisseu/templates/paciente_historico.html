@@ -18,7 +18,13 @@
             <div class="col-8">
                 <img class="navbar-brand m-2" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
             </div>
-            <div class="col-2 text-end mt-5">
+            <div class="col-1 text-end mt-5">
+                <a class="nav-link text-tema" href="{% url 'paciente_historico' %}">
+                    <span class="bi bi-house"></span>
+                    Início
+                </a>
+            </div>
+            <div class="col-1 text-end mt-5">
                 <a class="nav-link text-tema" href="{% url 'ajuda' %}">
                     <span class="bi bi-question-circle"></span>
                     Ajuda
@@ -78,9 +84,12 @@
 
                     <nav class="col-md-4 mt-4 p-2">
                         <button class="confirmar px-3 py-2 shadow-lg border-5" type="submit">
+                            <i class="bi bi-search"></i>
+                            <!--  flask-florence-fill measuring-cup-fill -->
                             Filtrar
                         </button>
                         <a href="{% url 'paciente_historico' %}" class="btn btn-sm btn-danger fw-bold rounded-3 px-3 py-2 shadow-lg">
+                           <i class="bi bi-trash3-fill"></i>
                             Remover Filtro
                         </a>
                     </nav>
@@ -119,7 +128,19 @@
                         {% for agendamento in grupo.agendamentos %}
                             <section class="row mb-2 p-2 rounded-2 bg-light border text-dark shadow-lg ">
                                 <div class="col-4">
-                                    <i class="bi bi-clipboard2-pulse" style="font-size: xx-large;"></i>
+                                    {% if agendamento.get_exame_display == 'Hemograma' or agendamento.get_exame_display == 'Grupo Sanguíneo e fator RH' %}
+                                        <i class="bi bi-droplet-fill" style="font-size: xx-large;"></i>
+                                    {% elif agendamento.get_exame_display == 'Glicemia' %}
+                                        <i class="bi bi-droplet-half" style="font-size: xx-large;"></i>
+                                    {% elif agendamento.get_exame_display == 'Colesterol Total' or agendamento.get_exame_display == 'Proteína C reativa'  %}
+                                        <i class="bi bi-heart-pulse" style="font-size: xx-large;"></i>
+                                    {% elif agendamento.get_exame_display == 'Antiestreptolisina O' %}
+                                        <i class="bi bi-virus" style="font-size: xx-large;"></i>
+                                    {% elif agendamento.get_exame_display == 'Sumário de Urina' %}
+                                        <i class="bi bi-beaker" style="font-size: xx-large;"></i>
+                                    {% else %}
+                                        <i class="bi bi-activity" style="font-size: xx-large;"></i>
+                                    {% endif %}
 
                                     <strong style="font-size: large;">
                                         {{ agendamento.get_exame_display }}
@@ -135,6 +156,7 @@
                                                     Liberado
                                                 </span>
                                             </section>
+
                                         {% else %}
                                             <section class="col-8 text-end mt-3">
                                                 <span class="badge p-2 rounded-4 bg-warning text-dark">

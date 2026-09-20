@@ -76,7 +76,12 @@
                                 <div class="container-fluid">
                                     <!-- sem pagina html apenas exemplo na navbar -->
                                     <li class="nav-item"><a class="nav-link text-tema" href="{% url 'index' %}"><span class="bi bi-gear"></span> Configuração</a></li>
-                                    <li class="nav-item"><a class="nav-link text-tema" href="{% url 'index' %}"><span class="bi bi-question-circle"></span> Suporte</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-tema" href="{% url 'ajuda' %}">
+                                            <i class="bi bi-question-circle"></i>
+                                            Ajuda
+                                        </a>
+                                    </li>
                                     <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
                                         <button type="submit" class="btn p-0 text-danger"><span class="bi bi-box-arrow-left"></span> Sair</button>
@@ -157,9 +162,9 @@
                                         Configuração
                                     </a>
 
-                                    <a href="{% url 'index' %}">
+                                    <a class="nav-link text-tema" href="{% url 'ajuda' %}">
                                         <i class="bi bi-question-circle"></i>
-                                        Suporte
+                                        Ajuda
                                     </a>
 
                                     <a href="{% url 'logout' %}" class="btn btn-danger">
