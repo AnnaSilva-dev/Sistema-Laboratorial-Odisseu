@@ -83,7 +83,6 @@ body{
 
 .navegacao{
     border-right: 2px solid var(--verde-claro);
-    min-height: 100vh;
     align-items: flex-start;
 } 
 
@@ -401,4 +400,15 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 #recuperar-senha {
     margin-top: 25vh;
+}
+
+/* responsividade */
+@media (min-width: 800px) {
+    .navegacao {
+        overflow-x: hidden;
+    }
+
+    .navegacao .nav-link {
+        white-space: nowrap;
+    }
 }
