@@ -4,13 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Odisseu - Login de Usuarios{% endblock %} </title>
+    <title>{% block title %}Odisseu - Login de Usuarios{% endblock %}</title>
     <link rel="icon" type="image/png" href="{% static 'odisseu/imgs/favicon.png' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
+
 <body>
+
     <style>
         .separador {
             display: flex;
@@ -37,60 +39,141 @@
     {% block mensages %}
     {% endblock mensages %}
 
-
     <section class="container">
-        <nav class="row">
-            <div class="col-md-8 mt-5 text-center">
-                <img src="{% static 'odisseu/imgs/pag-inicio.png' %}" style="width: 40rem;">
-                <p class="text-secondary text-center">2026 ODISSEU - Todos os direitos reservados</p>
+
+        <nav class="row align-items-center min-vh-100">
+
+            <div class="col-12 col-md-8 mt-3 mt-md-5 text-center">
+
+                <img
+                    src="{% static 'odisseu/imgs/pag-inicio.png' %}"
+                    class="img-fluid"
+                    style="max-width: 40rem; width: 100%;"
+                >
+
+                <p class="text-secondary text-center mt-2">
+                    2026 ODISSEU - Todos os direitos reservados
+                </p>
+
             </div>
-            <div class="col-md-4 base-login ms">
+
+            <div class="col-12 col-md-4 base-login">
+
                 <form method="post">
                     {% csrf_token %}
-                    <section class="card bg-light py-5 shadow-lg">
+
+                    <section class="card bg-light py-4 py-md-5 shadow-lg">
+
                         <h4 class="card-title text-center fw-bold text-dark">
-                            Bem-vindo(a)! 
+                            Bem-vindo(a)!
                         </h4>
-                        
-                        <span class="border-2 border-bottom border-success d-flex mx-auto" style="width: 25%;"></span>
-                    
-                        <p class="text-secondary-emphasis text">{% block p %}Entre para acessar o sistema {% endblock p %}</p>
+
+                        <span
+                            class="border-2 border-bottom border-success d-flex mx-auto"
+                            style="width: 25%;"
+                        ></span>
+
+                        <p class="text-secondary-emphasis text px-3">
+                            {% block p %}
+                                Entre para acessar o sistema
+                            {% endblock p %}
+                        </p>
+
                         <section class="card-body text-dark">
+
                             <div class="form_icon">
-                                <label >{% block label %}Usuário:{% endblock label %}</label>
-                                {% block input %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="text" name="username" placeholder="Digite seu Username...">{% endblock input %}
-                                {% block icon %}<i class="bi bi-person pt-4"></i>{% endblock icon %}
+
+                                <label>
+                                    {% block label %}
+                                        Usuário:
+                                    {% endblock label %}
+                                </label>
+
+                                {% block input %}
+                                    <input
+                                        class="form-control rounded-4 shadow-lg border-dark border-1"
+                                        type="text"
+                                        name="username"
+                                        placeholder="Digite seu Username..."
+                                    >
+                                {% endblock input %}
+
+                                {% block icon %}
+                                    <i class="bi bi-person pt-4"></i>
+                                {% endblock icon %}
+
                             </div>
+
                             <div class="form_icon">
+
                                 <label>Senha:</label>
-                                {% block senha %}<input class="form-control rounded-4 shadow-lg border-dark border-1" type="password" name="password" placeholder="Digite sua senha...">{% endblock senha %}
+
+                                {% block senha %}
+                                    <input
+                                        class="form-control rounded-4 shadow-lg border-dark border-1"
+                                        type="password"
+                                        name="password"
+                                        placeholder="Digite sua senha..."
+                                    >
+                                {% endblock senha %}
+
                                 <i class="bi bi-lock"></i>
+
                                 <div class="row mt-2">
-                                    <a class="text-danger text-end" style="font-size: small; text-decoration: underline;" href="{% url 'password_reset' %}">Esqueci minha senha</a> 
+
+                                    <a
+                                        class="text-danger text-end"
+                                        style="font-size: small; text-decoration: underline;"
+                                        href="{% url 'password_reset' %}"
+                                    >
+                                        Esqueci minha senha
+                                    </a>
+
                                 </div>
+
                             </div>
+
                             <div>
                                 {% block input_errors %}
                                     <div class="text-danger mt-1">
-                                            <small>
-                                                {{ form.non_field_errors }}
-                                            </small>
+                                        <small>
+                                            {{ form.non_field_errors }}
+                                        </small>
                                     </div>
                                 {% endblock input_errors %}
                             </div>
+
                             <div class="my-4">
-                                {% block submit %}<button class="rounded-3 border-0 btn bg-success text-white" type="submit" style="width:100%;">Entrar</button>{% endblock submit %}
-                                <div class="separador"> <span>OU</span> </div>
+
+                                {% block submit %}
+                                    <button
+                                        class="rounded-3 border-0 btn bg-success text-white"
+                                        type="submit"
+                                        style="width:100%;"
+                                    >
+                                        Entrar
+                                    </button>
+                                {% endblock submit %}
+
+                                <div class="separador">
+                                    <span>OU</span>
+                                </div>
+
                                 {% block link %}
-                                    <a class="btn btn-primary text-dark text-white" href="{% url 'paciente_login' %}" style="width:100%"> Acessar área do paciente → </a>
+                                    <a
+                                        class="btn btn-primary text-white"
+                                        href="{% url 'paciente_login' %}"
+                                        style="width:100%;"
+                                    >
+                                        Acessar área do paciente →
+                                    </a>
                                 {% endblock link %}
-                            
-                            </div> 
+
+                            </div>
                         </section>
                     </section>
                 </form>
             </div>
-            
         </nav>
     </section>
 </body>
