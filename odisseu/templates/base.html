@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
+{% if request.user.is_authenticated %}
     <section  class="container-fluid base">
         <nav class="container-fluid">
             <section class="row g-2">
@@ -196,7 +197,12 @@
             </section>  
         </nav>
     </section>
-    
+{% else %}
+    {% block help %}{% endblock help %}
+{% endif %}
+
+
+
     <script>
         const btnTema = document.getElementById("btn-tema");
         const iconeTema = btnTema.querySelector("i");
