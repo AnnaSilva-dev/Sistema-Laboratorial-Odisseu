@@ -12,49 +12,60 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
+
 <body>
     <nav class="border-bottom border-success container-fluid">
-        <section class="row m-2">
-            <div class="col-8">
-                <img class="navbar-brand m-2" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+        <section class="row align-items-center p-2">
+
+            <div class="col-6 col-md-6 col-lg-7">
+                <img class="navbar-brand m-2 img-fluid" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
             </div>
-            <div class="col-1 text-end mt-5">
+
+            <div class="col-2 col-md-2 col-lg-1 text-center mt-0 mt-lg-5">
                 <a class="nav-link text-tema" href="{% url 'paciente_historico' %}">
                     <span class="bi bi-house"></span>
-                    Início
+                    <span class="d-none d-md-inline">Início</span>
                 </a>
             </div>
-            <div class="col-1 text-end mt-5">
+
+            <div class="col-2 col-md-2 col-lg-1 text-center mt-0 mt-lg-5">
                 <a class="nav-link text-tema" href="{% url 'ajuda' %}">
                     <span class="bi bi-question-circle"></span>
-                    Ajuda
+                    <span class="d-none d-md-inline">Ajuda</span>
                 </a>
             </div>
-            <div class="col-2 text-end mt-5">
+
+            <div class="col-2 col-md-2 col-lg-3 text-center mt-0 mt-lg-5">
                 <form method="post" action="{% url 'logout_paciente' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn p-0 text-danger border border-danger p-2">
-                        SAIR
-                        <span class="bi bi-box-arrow-right"></span> 
+                    <button type="submit" class="btn p-1 p-md-2 text-danger border border-danger">
+                        <span class="d-none d-md-inline">SAIR</span>
+                        <span class="bi bi-box-arrow-right"></span>
                     </button>
                 </form>
             </div>
+
         </section>
     </nav>
-    <div class="container py-4 mt-5">
-        <div class="row mb-3">
-            <section class="col-md-1 mb-2">
+
+    <div class="container py-4 mt-3 mt-lg-5">
+
+        <div class="row mb-3 align-items-center">
+
+            <section class="col-12 col-md-1 text-center text-md-start mb-2 mb-md-0">
                 <i class="bi bi-person-circle" style="font-size: 4rem;"></i>
             </section>
-            <section class="col-md-10">
-                <h1 id="titulo" style="font-size: xx-large;">Olá, {{ paciente.nome }}</h1>
-                <p id="subtitulo" style="font-size: x-large;">Veja seu Histórico de Exames</p>
-                <!-- <a class="py-5 text-danger" href="{% url 'logout_paciente' %}">
-                    <span class="bi bi-box-arrow-left"></span>
-                    SAIR
-                </a> -->
+
+            <section class="col-12 col-md-10 text-center text-md-start">
+                <h1 id="titulo" class="fs-2 fs-lg-1">
+                    Olá, {{ paciente.nome }}
+                </h1>
+
+                <p id="subtitulo" class="fs-4 fs-lg-3">
+                    Veja seu Histórico de Exames
+                </p>
             </section>
-        
+
         </div>
 
         {% if messages %}
@@ -65,14 +76,18 @@
             {% endfor %}
         {% endif %}
 
-        <section class="container rounded-3 bg-white shadow-lg p-4" style="min-height: 70vh;">
+        <section class="container rounded-3 bg-white shadow-lg p-3 p-md-4" style="min-height: 70vh;">
+
             <form method="GET" action="{% url 'paciente_historico' %}">
                 {% csrf_token %}
-                <section class="row">
-                    <nav class="col-md-4 mb-3">
+
+                <section class="row align-items-end">
+
+                    <nav class="col-12 col-md-5 col-lg-4 mb-3">
                         <label for="data" class="text-dark">
                             Data do exame
                         </label>
+
                         <input
                             class="data edit-forms form-control shadow-lg rounded-3 border-2"
                             type="date"
@@ -82,62 +97,77 @@
                         >
                     </nav>
 
-                    <nav class="col-md-4 mt-4 p-2">
-                        <button class="confirmar px-3 py-2 shadow-lg border-5" type="submit">
-                            <i class="bi bi-search"></i>
-                            <!--  flask-florence-fill measuring-cup-fill -->
-                            Filtrar
-                        </button>
-                        <a href="{% url 'paciente_historico' %}" class="btn btn-sm btn-danger fw-bold rounded-3 px-3 py-2 shadow-lg">
-                           <i class="bi bi-trash3-fill"></i>
-                            Remover Filtro
-                        </a>
+                    <nav class="col-12 col-md-7 col-lg-8 mb-3">
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="confirmar px-3 py-2 shadow-lg border-5" type="submit">
+                                <i class="bi bi-search"></i>
+                                Filtrar
+                            </button>
+
+                            <a href="{% url 'paciente_historico' %}" class="btn btn-sm btn-danger fw-bold rounded-3 px-3 py-2 shadow-lg">
+                                <i class="bi bi-trash3-fill"></i>
+                                Remover Filtro
+                            </a>
+                        </div>
                     </nav>
-                </section>    
+
+                </section>
             </form>
 
             <hr class="text-success">
 
             {% for grupo in historico %}
 
-                <div class="container text-black rounded-3 p-3 shadow-lg mb-3">
-                    <section class="row">
-                        <div class="col-8">
-                            <h5 class="fw-bold text-success">
+                <div class="container-fluid text-black rounded-3 p-3 shadow-lg mb-3">
+
+                    <section class="row align-items-center">
+
+                        <div class="col-7 col-md-8">
+                            <h5 class="fw-bold text-success mb-0">
                                 <i class="bi bi-calendar-fill" style="font-size: xx-large;"></i>
                                 {{ grupo.data|date:"d/m/Y" }}
                             </h5>
                         </div>
-                        
-                        <div class="col-4 text-end">
+
+                        <div class="col-5 col-md-4 text-end">
                             <button
-                                class="navbar-toggler text-success" type="button"
+                                class="navbar-toggler text-success"
+                                type="button"
                                 data-bs-toggle="collapse"
                                 data-bs-target="#exames{{ forloop.counter }}"
                                 aria-controls="exames{{ forloop.counter }}"
                                 aria-expanded="false"
-                                >
-                                Ver detalhes
+                            >
+                                <span class="d-none d-sm-inline">Ver detalhes</span>
                                 <i class="bi bi-arrow-down-square" style="font-size: 20px;"></i>
                             </button>
                         </div>
-                        
+
                     </section>
 
-                    <section class="container ms-2 p-2 collapse" data-bs-parent="#menuHistorico" id="exames{{ forloop.counter }}">
+                    <section class="container-fluid ms-0 mt-2 p-2 collapse" data-bs-parent="#menuHistorico" id="exames{{ forloop.counter }}">
+
                         {% for agendamento in grupo.agendamentos %}
-                            <section class="row mb-2 p-2 rounded-2 bg-light border text-dark shadow-lg ">
-                                <div class="col-4">
+
+                            <section class="row mb-2 p-2 rounded-2 bg-light border text-dark shadow-lg align-items-center">
+
+                                <div class="col-12 col-md-7 mb-2 mb-md-0">
+
                                     {% if agendamento.get_exame_display == 'Hemograma' or agendamento.get_exame_display == 'Grupo Sanguíneo e fator RH' %}
                                         <i class="bi bi-droplet-fill" style="font-size: xx-large;"></i>
+
                                     {% elif agendamento.get_exame_display == 'Glicemia' %}
                                         <i class="bi bi-droplet-half" style="font-size: xx-large;"></i>
-                                    {% elif agendamento.get_exame_display == 'Colesterol Total' or agendamento.get_exame_display == 'Proteína C reativa'  %}
+
+                                    {% elif agendamento.get_exame_display == 'Colesterol Total' or agendamento.get_exame_display == 'Proteína C reativa' %}
                                         <i class="bi bi-heart-pulse" style="font-size: xx-large;"></i>
+
                                     {% elif agendamento.get_exame_display == 'Antiestreptolisina O' %}
                                         <i class="bi bi-virus" style="font-size: xx-large;"></i>
+
                                     {% elif agendamento.get_exame_display == 'Sumário de Urina' %}
                                         <i class="bi bi-beaker" style="font-size: xx-large;"></i>
+
                                     {% else %}
                                         <i class="bi bi-activity" style="font-size: xx-large;"></i>
                                     {% endif %}
@@ -145,39 +175,46 @@
                                     <strong style="font-size: large;">
                                         {{ agendamento.get_exame_display }}
                                     </strong>
+
                                 </div>
-                                    
-                                    {% if agendamento.resultado %}
 
-                                        {% if agendamento.resultado.liberado %}
-                                            <section class="col-8 text-end mt-3">
-                                                <span class="badge p-2 rounded-4 bg-success">
-                                                    <i class="bi bi-check"></i>
-                                                    Liberado
-                                                </span>
-                                            </section>
+                                {% if agendamento.resultado %}
 
-                                        {% else %}
-                                            <section class="col-8 text-end mt-3">
-                                                <span class="badge p-2 rounded-4 bg-warning text-dark">
-                                                    <i class="bi bi-clock-history"></i>
-                                                    Aguardando liberação
-                                                </span>
-                                            </section>
-                                            
-                                        {% endif %}
+                                    {% if agendamento.resultado.liberado %}
 
-                                    {% else %}
-                                        <section class="col-8 text-end mt-3">
-                                            <span class="badge p-2 rounded-4 bg-secondary">
-                                                <i class="bi bi-hourglass-split"></i>
-                                                Resultado pendente
+                                        <section class="col-12 col-md-5 text-start text-md-end">
+                                            <span class="badge p-2 rounded-4 bg-success">
+                                                <i class="bi bi-check"></i>
+                                                Liberado
                                             </span>
                                         </section>
+
+                                    {% else %}
+
+                                        <section class="col-12 col-md-5 text-start text-md-end">
+                                            <span class="badge p-2 rounded-4 bg-warning text-dark">
+                                                <i class="bi bi-clock-history"></i>
+                                                Aguardando liberação
+                                            </span>
+                                        </section>
+
                                     {% endif %}
+
+                                {% else %}
+
+                                    <section class="col-12 col-md-5 text-start text-md-end">
+                                        <span class="badge p-2 rounded-4 bg-secondary">
+                                            <i class="bi bi-hourglass-split"></i>
+                                            Resultado pendente
+                                        </span>
+                                    </section>
+
+                                {% endif %}
+
                             </section>
+
                         {% endfor %}
-                        
+
                         {% if grupo.tem_liberado %}
                             <div class="text-end">
                                 <a
@@ -189,28 +226,31 @@
                                 </a>
                             </div>
                         {% endif %}
-                    
+
+                    </section>
+
+                </div>
+
+            {% empty %}
+
+                <div class="container-fluid">
+                    <section class="row bg-success-subtle rounded-3 text-success p-2">
+
+                        <h4>
+                            <i class="bi bi-exclamation-circle-fill"></i>
+                            Nenhum exame encontrado
+                        </h4>
+
+                        <p>
+                            Quando houver exames cadastrados, eles aparecerão aqui
+                        </p>
+
                     </section>
                 </div>
-                
-
-                {% empty %}
-                    <div class="container">
-                        <section class="row bg-success-subtle rounded-3 text-success p-2">
-                            <h4>
-                                <i class="bi bi-exclamation-circle-fill"></i>
-                                Nenhum exame encontrado
-                            </h4>
-                            <p>
-                                Quando houver exames cadastrados, eles aparecerão aqui
-                            </p>
-                        </section>
-                    </div>
 
             {% endfor %}
+
         </section>
     </div>
 </body>
 </html>
-
-

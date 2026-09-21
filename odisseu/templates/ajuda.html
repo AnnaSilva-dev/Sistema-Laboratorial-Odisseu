@@ -1,75 +1,112 @@
 {% extends "base.html" %}
 {% load static %}
 {% load permission_tags %}
+
 {% block title %}Odisseu - Ajuda{% endblock %}
+
 {% block help %}
     <nav class="border-bottom border-success container-fluid">
-        <section class="row m-2">
-                <div class="col-8">
-                    <img class="navbar-brand m-2" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
-                </div>
-                <div class="col-1 text-end mt-5">
-                    <a class="nav-link text-tema" href="{% url 'paciente_historico' %}">
-                        <span class="bi bi-house"></span>
-                        Início
-                    </a>
-                </div>
-                <div class="col-1 text-end mt-5">
-                    <a class="nav-link text-tema" href="{% url 'ajuda' %}">
-                        <span class="bi bi-question-circle"></span>
-                        Ajuda
-                    </a>
-                </div>
-                <div class="col-2 text-end mt-5">
-                    <form method="post" action="{% url 'logout_paciente' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn p-0 text-danger border border-danger p-2">
-                            SAIR
-                            <span class="bi bi-box-arrow-right"></span> 
-                        </button>
-                    </form>
-                </div>
+        <section class="row align-items-center p-2">
+
+            <div class="col-6 col-md-6 col-lg-8">
+                <img
+                    class="navbar-brand m-2 img-fluid"
+                    src="{% static 'odisseu/imgs/odisseu-logo.png' %}"
+                >
+            </div>
+
+            <div class="col-2 col-md-2 col-lg-1 text-center mt-0 mt-lg-5">
+                <a class="nav-link text-tema" href="{% url 'paciente_historico' %}">
+                    <span class="bi bi-house"></span>
+                    <span class="d-none d-md-inline">Início</span>
+                </a>
+            </div>
+
+            <div class="col-2 col-md-2 col-lg-1 text-center mt-0 mt-lg-5">
+                <a class="nav-link text-tema" href="{% url 'ajuda' %}">
+                    <span class="bi bi-question-circle"></span>
+                    <span class="d-none d-md-inline">Ajuda</span>
+                </a>
+            </div>
+
+            <div class="col-2 col-md-2 col-lg-2 text-center mt-0 mt-lg-5">
+                <form method="post" action="{% url 'logout_paciente' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn p-1 p-md-2 text-danger border border-danger">
+                        <span class="d-none d-md-inline">SAIR</span>
+                        <span class="bi bi-box-arrow-right"></span>
+                    </button>
+                </form>
+            </div>
         </section>
     </nav>
-{% endblock %}
-{% block content %}
-    <section class="container p-2 mt-5">
-            <nav class="row">
-                <div class="col">
-                    <h1 id="Título">Centro de Ajuda</h1>
-                    <p id="subtitulo">Essa pagina é dedicada a dúvidas quanto ao uso do sistema</p>
+    
+    {% block content %}
+        <section class="container py-4 py-md-5">
+
+            <div class="row">
+                <div class="col-12">
+
+                    <h1 id="Título" class="fs-2 fs-md-1">
+                        Centro de Ajuda
+                    </h1>
+
+                    <p id="subtitulo" class="fs-5">
+                        Essa pagina é dedicada a dúvidas quanto ao uso do sistema
+                    </p>
+
                 </div>
-            </nav>
-            <nav class="row">
-                <div class="col">
-                    <h4 class="text-success">Perguntas Frequentes</h4>
+            </div>
 
-                    <section class="container p-2 mt-3">
-                        <div class="row">
-                            <nav class="col">
-                                <p>Área do Paciente</p>
+            <div class="row mt-4">
+                <div class="col-12">
 
-                                <ul>
-                                    <li><a href="#">link</a></li>
-                                    <li><a href="#">link</a></li>
-                                    <li><a href="#">link</a></li>
-                                </ul>
+                    <h4 class="text-success">
+                        Perguntas Frequentes
+                    </h4>
+
+                    <section class="container-fluid p-0 mt-3">
+
+                        <div class="row g-3">
+
+                            <nav class="col-12 col-md-6">
+                                <div class="p-3 border rounded-3 h-100">
+
+                                    <p class="fw-bold mb-2">
+                                        Área do Paciente
+                                    </p>
+
+                                    <ul class="mb-0">
+                                        <li><a href="#">link</a></li>
+                                        <li><a href="#">link</a></li>
+                                        <li><a href="#">link</a></li>
+                                    </ul>
+
+                                </div>
                             </nav>
-                            <nav class="col">
-                                <p>Utilizando o sistema</p>
 
-                                <ul>
-                                    <li><a href="#">link</a></li>
-                                    <li><a href="#">link</a></li>
-                                    <li><a href="#">link</a></li>
-                                </ul>
+                            <nav class="col-12 col-md-6">
+                                <div class="p-3 border rounded-3 h-100">
+
+                                    <p class="fw-bold mb-2">
+                                        Utilizando o sistema
+                                    </p>
+
+                                    <ul class="mb-0">
+                                        <li><a href="#">link</a></li>
+                                        <li><a href="#">link</a></li>
+                                        <li><a href="#">link</a></li>
+                                    </ul>
+
+                                </div>
                             </nav>
+
                         </div>
-                    </section>
-                    
-                    
-                </div>
-            </nav>
-    </section>
-{% endblock %}
 
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+{% endblock %}
