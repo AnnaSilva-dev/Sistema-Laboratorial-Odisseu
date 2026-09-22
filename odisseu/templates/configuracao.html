@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Configuração{% endblock %}
+{% block config %} 
+    <section class="mt-5">
+        <h1 id="titulo"><i class="bi bi-gear-fill" style="font-size: xx-large;"></i> Configuração</h1>
+        <p id="subtitulo">Nesta página ajustar informações e suas preferências do sistema.</p>
+        <nav class="row row-gap-3 p-4">
+            <div class="row bg-light text-dark rounded-3">
+                <div class="col-1">
+                    <span class="bi bi-person-fill text-success" style="font-size: 10vh;"></span>
+                </div>
+                <div class="col-2 mt-4 ms-3">
+                    <h6 class="text-secondary">Informações:</h6>
+                    <section class="px-3 mb-5">
+                        <h4>{{ request.user.username }}</h4>
+                        <span class="btn btn-sm btn-outline-primary rounded=3"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                            {{ perfil }}
+                        </span>
+                    </section>
+                </div>
+                <div class="col-2 mt-4">
+                    <!-- <h6 class="text-secondary">Email:</h6> -->
+                </div>
+            </div>
+            <div class="col-4 bg-light text-dark rounded-3">
+                bleh
+            </div>
+            <div class="ms-auto text-end col-7 bg-light text-dark rounded-3">
+                bleh
+            </div>
+        </nav>
+    </section>          
+{% endblock config %}
