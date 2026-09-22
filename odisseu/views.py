@@ -738,5 +738,22 @@ def relatorios(request):
 def ajuda(request):
     return render(request, 'ajuda.html')
 def config(request):
-    return render(request, 'configuracao.html')
+    if has_role(request.user, Administrador):
+        perfil = 'Administrador'
+
+    elif has_role(request.user, Farmaceutico):
+        perfil = 'Farmacêutico'
+
+    elif has_role(request.user, Recepcionista):
+        perfil = 'Recepcionista'
+
+    elif has_role(request.user, TecnicoLaboratorial):
+        perfil = 'Técnico Laboratorial'
+
+    else:
+        perfil = 'Sem perfil'
+
+    return render(request, 'configuracao.html', {
+        'perfil': perfil
+    })
 
