@@ -106,7 +106,7 @@
 
                         <div class="container-fluid mb-2">
                             <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'index' %}">
+                                <a class="nav-link text-tema" href="{% url 'relatorios' %}">
                                     <span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios
                                 </a>
                             </li>
@@ -118,7 +118,7 @@
 
                             <div class="container-fluid">
                                 <li class="nav-item">
-                                    <a class="nav-link text-tema" href="{% url 'index' %}">
+                                    <a class="nav-link text-tema" href="{% url 'configuracao' %}">
                                         <span class="bi bi-gear"></span> Configuração
                                     </a>
                                 </li>
@@ -202,12 +202,12 @@
                                 </a>
                                 {% endif %}
 
-                                <a href="{% url 'index' %}">
+                                <a href="{% url 'relatorios' %}">
                                     <i class="bi bi-file-earmark-bar-graph"></i>
                                     Relatórios
                                 </a>
 
-                                <a href="{% url 'index' %}">
+                                <a href="{% url 'configuracao' %}">
                                     <i class="bi bi-gear"></i>
                                     Configuração
                                 </a>

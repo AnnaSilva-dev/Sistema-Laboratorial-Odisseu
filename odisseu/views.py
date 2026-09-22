@@ -733,5 +733,10 @@ def paciente_logout(request):
 
     return redirect('paciente_login')  
 
+def relatorios(request):
+    return render(request, 'relatorios.html')
 def ajuda(request):
     return render(request, 'ajuda.html')
+def config(request):
+    return render(request, 'configuracao.html')
+
