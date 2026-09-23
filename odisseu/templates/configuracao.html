@@ -1,34 +1,134 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block title %}{{ block.super }} - Configuração{% endblock %}
-{% block config %} 
-    <section class="mt-5">
-        <h1 id="titulo"><i class="bi bi-gear-fill" style="font-size: xx-large;"></i> Configuração</h1>
-        <p id="subtitulo">Nesta página ajustar informações e suas preferências do sistema.</p>
-        <nav class="row row-gap-3 p-4">
-            <div class="row bg-light text-dark rounded-3">
-                <div class="col-1">
-                    <span class="bi bi-person-fill text-success" style="font-size: 10vh;"></span>
-                </div>
-                <div class="col-2 mt-4 ms-3">
-                    <h6 class="text-secondary">Informações:</h6>
-                    <section class="px-3 mb-5">
-                        <h4>{{ request.user.username }}</h4>
-                        <span class="btn btn-sm btn-outline-primary rounded=3"
-                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                            {{ perfil }}
-                        </span>
-                    </section>
-                </div>
-                <div class="col-2 mt-4">
-                    <!-- <h6 class="text-secondary">Email:</h6> -->
-                </div>
+
+{% block config %}
+<style>
+    #btn-tema-claro:hover, #btn-tema-escuro:hover {
+        color: black;
+    }
+</style>
+
+<section class="mt-5">
+
+    <h1 id="titulo">
+        <i class="bi bi-gear-fill" style="font-size: xx-large;"></i>
+        Configuração
+    </h1>
+
+    <p id="subtitulo">
+        Nesta página ajustar informações e suas preferências do sistema.
+    </p>
+
+    <nav class="row row-gap-3 p-4">
+
+        <!-- INFORMAÇÕES DO USUÁRIO -->
+        <div class="row bg-light text-dark rounded-3 p-3 shadow-lg ">
+
+            <div class="col-1">
+                <span class="bi bi-person-fill text-success" style="font-size: 10vh;"></span>
             </div>
-            <div class="col-4 bg-light text-dark rounded-3">
-                bleh
+
+            <div class="col-2 mt-4 ms-3">
+
+                <h6 class="text-secondary">Informações:</h6>
+
+                <section class="px-3 mb-5">
+
+                    <h4>{{ request.user.username }}</h4>
+
+                    <span class="btn btn-sm btn-outline-primary rounded-3"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                        {{ perfil }}
+                    </span>
+
+                </section>
+
             </div>
-            <div class="ms-auto text-end col-7 bg-light text-dark rounded-3">
-                bleh
+
+            <div class="col-2 mt-4">
+                <!-- Email futuramente -->
             </div>
-        </nav>
-    </section>          
+
+        </div>
+
+
+        <section class="row bg-light text-dark rounded-3 pb-4 shadow-lg ">
+
+            <div class="col-1">
+                <span class="bi bi-palette-fill text-success" style="font-size: 10vh;"></span>
+            </div>
+
+            <div class="col-10 mt-4 ms-3">
+
+                <h6 class="text-secondary">Tema do sistema:</h6>
+
+                <section class="row">
+                    <div class="col-md-5 card border border-primary rounded-3 bg-white shadow-lg mt-4 ms-3">
+                        <div class="card-body text-center">
+
+                            <nav class="row text-center">
+
+                                <i class="bi bi-sun text-dark" style="font-size: xx-large;"></i>
+
+                                <h3 class="text-dark" style="font-size: small;">
+                                    Claro
+                                </h3>
+
+                                <button id="btn-tema-claro" type="button" class="btn btn-sm border-0">
+                                    <i class="bi bi-circle"></i>
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+
+
+                    <!-- TEMA ESCURO -->
+                    <div class="col-md-5 card border border-primary rounded-3 bg-white shadow-lg mt-4 ms-3">
+
+                        <div class="card-body text-center">
+
+                            <nav class="row text-center">
+
+                                <i class="bi bi-moon text-dark" style="font-size: xx-large;"></i>
+
+                                <h3 class="text-dark" style="font-size: small;">
+                                    Escuro
+                                </h3>
+
+                                <button id="btn-tema-escuro" type="button" class="btn btn-sm border-0">
+                                    <i class="bi bi-circle"></i>
+                                </button>
+
+                            </nav>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </section>
+
+
+        <div class="col-md-4 px-3 bg-light text-dark rounded-3">
+
+            <nav class="col-12 p-3">
+
+                <h1></h1>
+
+            </nav>
+
+        </div>
+
+
+        <div class="ms-auto text-end col-md-7 bg-light text-dark rounded-3 p-3">
+            
+        </div>
+    </nav>
+</section>
+
 {% endblock config %}

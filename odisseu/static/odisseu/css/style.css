@@ -96,7 +96,7 @@ body{
 
 .navegacao .nav-link,
 .navegacao .botao-inicio {
-    border-radius: 5rem;
+    border-radius: 1rem;
     white-space: nowrap;
 }
 

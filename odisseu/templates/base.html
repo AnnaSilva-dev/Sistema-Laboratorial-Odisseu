@@ -15,332 +15,241 @@
     <link rel="stylesheet" href="{% static 'odisseu/css/style.css' %}">
 </head>
 <body>
-{% if request.user.is_authenticated %}
-    <section class="container-fluid base">
-        <nav class="container-fluid">
-            <section class="row g-2">
-                <div class="col-md-3 navegacao d-none d-md-block position-relative" style="min-height: 100vh;">
-                    <ul>
-                        <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
+    {% if request.user.is_authenticated %}
+        <section class="container-fluid base">
+            <nav class="container-fluid">
+                <section class="row g-2">
+                    <div class="col-md-3 navegacao d-none d-md-block position-relative" style="min-height: 100vh;">
+                        <ul>
+                            <img class="navbar-brand" src="{% static 'odisseu/imgs/odisseu-logo.png' %}">
 
-                        <li class="nav-item mb-3 mt-3">
-                            <a class="botao-inicio" href="{% url 'index' %}">
-                                <span class="bi bi-house-door-fill"></span> Início
-                            </a>
-                        </li>
-
-                        {% if user|can:'agendar_exame' or user|can:'cadastrar_paciente' or user|can:'cadastrar_usuario' or user|can:'visualizar_pacientes' %}
-                        <h6>Recepção</h6>
-                        {% endif %}
-
-                        <div class="container-fluid mb-2">
-                            {% if user|can:'agendar_exame' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'agendar_exame' %}">
-                                    <span class="bi bi-calendar3 p-2"></span> Agendar exames
+                            <li class="nav-item mb-3 mt-3">
+                                <a class="botao-inicio" href="{% url 'index' %}">
+                                    <span class="bi bi-house-door-fill"></span> Início
                                 </a>
                             </li>
+
+                            {% if user|can:'agendar_exame' or user|can:'cadastrar_paciente' or user|can:'cadastrar_usuario' or user|can:'visualizar_pacientes' %}
+                            <h6>Recepção</h6>
                             {% endif %}
 
-                            {% if user|can:'cadastrar_paciente' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'cadastrar_paciente' %}">
-                                    <span class="bi bi-person-plus p-2"></span> Cadastrar pacientes
-                                </a>
-                            </li>
-                            {% endif %}
-
-                            {% if user|can:'cadastrar_usuario' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'usuarios' %}">
-                                    <span class="bi bi-person-gear p-2"></span> Usuários
-                                </a>
-                            </li>
-                            {% endif %}
-
-                            {% if user|can:'visualizar_pacientes' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'pacientes' %}">
-                                    <span class="bi bi-people p-2"></span> Pacientes cadastrados
-                                </a>
-                            </li>
-                            {% endif %}
-                        </div>
-
-                        {% if user|can:'exibir_rotina' %}
-                        <h6>Rotina</h6>
-
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'rotina' %}">
-                                    <span class="bi bi-search p-2"></span> Consultar rotinas
-                                </a>
-                            </li>
-                        </div>
-                        {% endif %}
-
-                        {% if user|can:'digitar_resultados' or user|can:'liberar_resultados' %}
-                        <h6>Resultados</h6>
-                        {% endif %}
-
-                        <div class="container-fluid mb-2">
-                            {% if user|can:'digitar_resultados' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'resultados' %}">
-                                    <span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes
-                                </a>
-                            </li>
-                            {% endif %}
-
-                            {% if user|can:'liberar_resultados' %}
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'liberar_resultados' %}">
-                                    <span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes
-                                </a>
-                            </li>
-                            {% endif %}
-                        </div>
-
-                        {% if user|can:'consultar_relatorios' %}
-                        <h6>Relatórios</h6>
-
-                        <div class="container-fluid mb-2">
-                            <li class="nav-item">
-                                <a class="nav-link text-tema" href="{% url 'relatorios' %}">
-                                    <span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios
-                                </a>
-                            </li>
-                        </div>
-                        {% endif %}
-
-                        <section class="position-absolute bottom-0 ticky-lg-bottom mb-5">
-                            <h6>Configuração</h6>
-
-                            <div class="container-fluid">
+                            <div class="container-fluid mb-2">
+                                {% if user|can:'agendar_exame' %}
                                 <li class="nav-item">
-                                    <a class="nav-link text-tema" href="{% url 'configuracao' %}">
-                                        <span class="bi bi-gear"></span> Configuração
+                                    <a class="nav-link text-tema" href="{% url 'agendar_exame' %}">
+                                        <span class="bi bi-calendar3 p-2"></span> Agendar exames
                                     </a>
                                 </li>
+                                {% endif %}
 
+                                {% if user|can:'cadastrar_paciente' %}
                                 <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'cadastrar_paciente' %}">
+                                        <span class="bi bi-person-plus p-2"></span> Cadastrar pacientes
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% if user|can:'cadastrar_usuario' %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'usuarios' %}">
+                                        <span class="bi bi-person-gear p-2"></span> Usuários
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% if user|can:'visualizar_pacientes' %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'pacientes' %}">
+                                        <span class="bi bi-people p-2"></span> Pacientes cadastrados
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </div>
+
+                            {% if user|can:'exibir_rotina' %}
+                            <h6>Rotina</h6>
+
+                            <div class="container-fluid mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'rotina' %}">
+                                        <span class="bi bi-search p-2"></span> Consultar rotinas
+                                    </a>
+                                </li>
+                            </div>
+                            {% endif %}
+
+                            {% if user|can:'digitar_resultados' or user|can:'liberar_resultados' %}
+                            <h6>Resultados</h6>
+                            {% endif %}
+
+                            <div class="container-fluid mb-2">
+                                {% if user|can:'digitar_resultados' %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'resultados' %}">
+                                        <span class="bi bi-clipboard2-plus p-2"></span> Resultados de pacientes
+                                    </a>
+                                </li>
+                                {% endif %}
+
+                                {% if user|can:'liberar_resultados' %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'liberar_resultados' %}">
+                                        <span class="bi bi-clipboard2-check p-2"></span> Liberar resultados pendentes
+                                    </a>
+                                </li>
+                                {% endif %}
+                            </div>
+
+                            {% if user|can:'consultar_relatorios' %}
+                            <h6>Relatórios</h6>
+
+                            <div class="container-fluid mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link text-tema" href="{% url 'relatorios' %}">
+                                        <span class="bi bi-clipboard2-data p-2"></span> Consultar relatórios
+                                    </a>
+                                </li>
+                            </div>
+                            {% endif %}
+
+                            <section class="position-absolute bottom-0 ticky-lg-bottom mb-5">
+                                <h6>Configuração</h6>
+
+                                <div class="container-fluid">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-tema" href="{% url 'configuracao' %}">
+                                            <span class="bi bi-gear"></span> Configuração
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-tema" href="{% url 'ajuda' %}">
+                                            <i class="bi bi-question-circle"></i>
+                                            Ajuda
+                                        </a>
+                                    </li>
+
+                                    <form method="post" action="{% url 'logout' %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn p-0 text-danger">
+                                            <span class="bi bi-box-arrow-left"></span> Sair
+                                        </button>
+                                    </form>
+                                </div>
+                            </section>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-9 px-3">
+                        <div class="row p-3 top">
+                            <section class="col-2 d-md-none">
+                                <button class="navbar-toggler" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#menuMobile"
+                                        aria-controls="navbarNav"
+                                        aria-expanded="false"
+                                        aria-label="Abrir menu">
+                                    <i class="bi bi-list" style="font-size: 40px;"></i>
+                                </button>
+
+                                <div class="collapse menu navbar" id="menuMobile">
+
+                                    <a href="{% url 'index' %}">
+                                        <i class="bi bi-house-fill"></i>
+                                        Início
+                                    </a>
+
+                                    {% if user|can:'agendar_exame' %}
+                                    <a href="{% url 'agendar_exame' %}">
+                                        <i class="bi bi-calendar3"></i>
+                                        Agendar exames
+                                    </a>
+                                    {% endif %}
+
+                                    {% if user|can:'cadastrar_paciente' %}
+                                    <a href="{% url 'cadastrar_paciente' %}">
+                                        <i class="bi bi-person-plus"></i>
+                                        Cadastrar pacientes
+                                    </a>
+                                    {% endif %}
+
+                                    {% if user|can:'cadastrar_paciente' %}
+                                    <a href="{% url 'cadastrar_usuario' %}">
+                                        <i class="bi bi-person-gear"></i>
+                                        Cadastrar usuários
+                                    </a>
+                                    {% endif %}
+
+                                    {% if user|can:'visualizar_pacientes' %}
+                                    <a href="{% url 'pacientes' %}">
+                                        <i class="bi bi-people"></i>
+                                        Pacientes cadastrados
+                                    </a>
+                                    {% endif %}
+
+                                    {% if user|can:'exibir_rotina' %}
+                                    <a href="{% url 'rotina' %}">
+                                        <i class="bi bi-search"></i>
+                                        Consultar rotinas
+                                    </a>
+                                    {% endif %}
+
+                                    {% if user|can:'consultar_relatorios' %}
+                                    <a href="{% url 'resultados' %}">
+                                        <i class="bi bi-file-earmark-medical"></i>
+                                        Resultados
+                                    </a>
+                                    {% endif %}
+
+                                    <a href="{% url 'relatorios' %}">
+                                        <i class="bi bi-file-earmark-bar-graph"></i>
+                                        Relatórios
+                                    </a>
+
+                                    <a href="{% url 'configuracao' %}">
+                                        <i class="bi bi-gear"></i>
+                                        Configuração
+                                    </a>
+
                                     <a class="nav-link text-tema" href="{% url 'ajuda' %}">
                                         <i class="bi bi-question-circle"></i>
                                         Ajuda
                                     </a>
-                                </li>
 
-                                <form method="post" action="{% url 'logout' %}">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn p-0 text-danger">
-                                        <span class="bi bi-box-arrow-left"></span> Sair
+                                    <a href="{% url 'logout' %}" class="btn btn-danger">
+                                        <i class="bi bi-box-arrow-left"></i>
+                                        Sair
+                                    </a>
+                                </div>
+                            </section>
+
+                            <section class="col-10 col-md-10 right-0">
+                                <h4>
+                                    <button id="btn-tema" type="button" class="btn btn-outline-success">
+                                        <i class="bi bi-moon"></i>
                                     </button>
-                                </form>
-                            </div>
-                        </section>
-                    </ul>
-                </div>
+                                    Bom dia, {{ request.user.username }}! 
+                                </h4>
+                                <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
+                            </section>
+                        </div>
+                        {% block config %}{% endblock config %}
 
-                <div class="col-md-9 px-3">
-                    <div class="row p-3 top">
-                        <section class="col-2 d-md-none">
-                            <button class="navbar-toggler" type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#menuMobile"
-                                    aria-controls="navbarNav"
-                                    aria-expanded="false"
-                                    aria-label="Abrir menu">
-                                <i class="bi bi-list" style="font-size: 40px;"></i>
-                            </button>
+                        <div class="row p-5">
+                            {% block content %}{% endblock content %}
+                        </div>
+                        
 
-                            <div class="collapse menu navbar" id="menuMobile">
-
-                                <a href="{% url 'index' %}">
-                                    <i class="bi bi-house-fill"></i>
-                                    Início
-                                </a>
-
-                                {% if user|can:'agendar_exame' %}
-                                <a href="{% url 'agendar_exame' %}">
-                                    <i class="bi bi-calendar3"></i>
-                                    Agendar exames
-                                </a>
-                                {% endif %}
-
-                                {% if user|can:'cadastrar_paciente' %}
-                                <a href="{% url 'cadastrar_paciente' %}">
-                                    <i class="bi bi-person-plus"></i>
-                                    Cadastrar pacientes
-                                </a>
-                                {% endif %}
-
-                                {% if user|can:'cadastrar_paciente' %}
-                                <a href="{% url 'cadastrar_usuario' %}">
-                                    <i class="bi bi-person-gear"></i>
-                                    Cadastrar usuários
-                                </a>
-                                {% endif %}
-
-                                {% if user|can:'visualizar_pacientes' %}
-                                <a href="{% url 'pacientes' %}">
-                                    <i class="bi bi-people"></i>
-                                    Pacientes cadastrados
-                                </a>
-                                {% endif %}
-
-                                {% if user|can:'exibir_rotina' %}
-                                <a href="{% url 'rotina' %}">
-                                    <i class="bi bi-search"></i>
-                                    Consultar rotinas
-                                </a>
-                                {% endif %}
-
-                                {% if user|can:'consultar_relatorios' %}
-                                <a href="{% url 'resultados' %}">
-                                    <i class="bi bi-file-earmark-medical"></i>
-                                    Resultados
-                                </a>
-                                {% endif %}
-
-                                <a href="{% url 'relatorios' %}">
-                                    <i class="bi bi-file-earmark-bar-graph"></i>
-                                    Relatórios
-                                </a>
-
-                                <a href="{% url 'configuracao' %}">
-                                    <i class="bi bi-gear"></i>
-                                    Configuração
-                                </a>
-
-                                <a class="nav-link text-tema" href="{% url 'ajuda' %}">
-                                    <i class="bi bi-question-circle"></i>
-                                    Ajuda
-                                </a>
-
-                                <a href="{% url 'logout' %}" class="btn btn-danger">
-                                    <i class="bi bi-box-arrow-left"></i>
-                                    Sair
-                                </a>
-                            </div>
-                        </section>
-
-                        <section class="col-10 col-md-10 right-0">
-                            <h4>
-                                <button id="btn-tema" type="button" class="btn btn-success">
-                                    <i class="bi bi-moon"></i>
-                                </button>
-                                Bom dia, {{ request.user.username }}! 
-                            </h4>
-                            <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
-                        </section>
                     </div>
-                    {% block config %}{% endblock config %}
-
-                    <div class="row p-5">
-                        {% block content %}{% endblock content %}
-                    </div>
-                    
-
-                </div>
-            </section>  
-        </nav>
-    </section>
-{% else %}
-    {% block help %}{% endblock help %}
-{% endif %}
-
-<script>
-    const btnTema = document.getElementById("btn-tema");
-    const iconeTema = btnTema.querySelector("i");
-
-    const temaSalvo = localStorage.getItem("tema");
-
-    if (temaSalvo === "claro") {
-        document.body.classList.add("modo-claro");
-        iconeTema.classList.replace("bi-moon", "bi-sun");
-    } else {
-        document.body.classList.add("modo-escuro");
-    }
-
-    btnTema.addEventListener("click", function () {
-
-        if (document.body.classList.contains("modo-escuro")) {
-
-            document.body.classList.replace("modo-escuro", "modo-claro");
-
-            iconeTema.classList.replace("bi-moon", "bi-sun");
-
-            localStorage.setItem("tema", "claro");
-
-        } else {
-
-            document.body.classList.replace("modo-claro", "modo-escuro");
-
-            iconeTema.classList.replace("bi-sun", "bi-moon");
-
-            localStorage.setItem("tema", "escuro");
-        }
-    });
-
-    const cpf = document.querySelector('.cpf');
-
-    if (cpf) {
-        cpf.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, '');
-            v = v.replace(/^(\d{3})(\d)/, '$1.$2');
-            v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-            v = v.replace(/\.(\d{3})(\d)/, '.$1-$2');
-            e.target.value = v.slice(0, 14);
-        });
-    }
-
-    const cns = document.querySelector('.cns');
-
-    if (cns) {
-        cns.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, '').slice(0, 15);
-            v = v.replace(/(\d{3})(\d)/, '$1 $2');
-            v = v.replace(/(\d{3}) (\d{4})(\d)/, '$1 $2 $3');
-            v = v.replace(/(\d{3}) (\d{4}) (\d{4})(\d)/, '$1 $2 $3 $4');
-            e.target.value = v;
-        });
-    }
-
-    const telefone = document.querySelector('.telefone');
-
-    if (telefone) {
-        telefone.addEventListener('input', (e) => {
-            let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-
-            if (v.length <= 2) {
-                v = '(' + v;
-            } 
-            else if (v.length <= 7) {
-                v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
-            } 
-            else {
-                v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
-            }
-
-            e.target.value = v;
-        });
-    }
-
-    function mostrarSenha(id, botao) {
-        const campo = document.getElementById(id);
-        const icone = botao.querySelector('i');
-
-        if (campo.type === 'password') {
-            campo.type = 'text';
-            icone.classList.remove('bi-eye-fill');
-            icone.classList.add('bi-eye-slash-fill');
-        } else {
-            campo.type = 'password';
-            icone.classList.remove('bi-eye-slash-fill');
-            icone.classList.add('bi-eye-fill');
-        }
-    }
-</script>
+                </section>  
+            </nav>
+        </section>
+    {% else %}
+        {% block help %}{% endblock help %}
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <script src="{% static 'odisseu/js/script.js' %}"></script>
 
 </body>
 </html>

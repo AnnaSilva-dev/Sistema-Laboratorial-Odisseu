@@ -232,44 +232,5 @@
 
         </ul>
     </nav>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Mudanças dos checkbox
-        function atualizarEstadoGrupo(grupo) {
-            if (!grupo) return;
 
-            const mestre = grupo.querySelector('.selecionar_todos');
-            const exames = grupo.querySelectorAll('input[name="resultados"]');
-            const todosMarcados = exames.length > 0 && Array.from(exames).every(cb => cb.checked);
-            
-            if (mestre) {
-                mestre.checked = todosMarcados;
-            }
-
-            if (todosMarcados) {
-                grupo.classList.add('grupo_selecionado');
-            } else {
-                grupo.classList.remove('grupo_selecionado');
-            }
-        }
-
-        document.querySelectorAll('.selecionar_todos').forEach(checkboxMestre => {
-            checkboxMestre.addEventListener('change', function() {
-                const grupo = this.closest('.grupo_paciente');
-                if (grupo) {
-                    const exames = grupo.querySelectorAll('input[name="resultados"]');
-                    exames.forEach(exame => exame.checked = this.checked);
-                    atualizarEstadoGrupo(grupo);
-                }
-            });
-        });
-
-        document.querySelectorAll('input[name="resultados"]').forEach(exame => {
-            exame.addEventListener('change', function() {
-                const grupo = this.closest('.grupo_paciente');
-                atualizarEstadoGrupo(grupo);
-            });
-        });
-    });
-</script>
 {% endblock %}
