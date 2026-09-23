@@ -54,6 +54,8 @@ urlpatterns = [
     path('paciente/historico/', views.paciente_historico, name='paciente_historico'),
     path('paciente_historico/', views.paciente_logout, name='logout_paciente'),
 
+    path('configuracao/', views.config, name='configuracao'),
+    path('relatorios/', views.relatorios, name='relatorios'),
     path('ajuda', views.ajuda, name='ajuda')
 ]
 

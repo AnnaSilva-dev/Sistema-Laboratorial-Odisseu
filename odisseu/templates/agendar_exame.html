@@ -160,56 +160,6 @@
     </form>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
-<script>
-    new TomSelect("#paciente", {
-        placeholder: "Digite o nome do paciente",
-        searchField: ["text"],
-        create: false
-    });
-    
-    document.addEventListener('DOMContentLoaded', () => {
-
-        const grupo = document.querySelector('.exames-all');
-
-        if (!grupo) return;
-
-        const mestre = grupo.querySelector('.selecionar_todos');
-        const exames = grupo.querySelectorAll('input[name="exames"]');
-
-        // Selecionar todos
-        mestre.addEventListener('change', function() {
-            exames.forEach(exame => {
-                exame.checked = this.checked;
-            });
-
-            atualizarEstado();
-        });
-
-        // Atualizar o "Selecionar todos" quando um exame for marcado/desmarcado
-        exames.forEach(exame => {
-            exame.addEventListener('change', () => {
-                atualizarEstado();
-            });
-        });
-
-        function atualizarEstado() {
-            const todosMarcados =
-                exames.length > 0 &&
-                Array.from(exames).every(exame => exame.checked);
-
-            mestre.checked = todosMarcados;
-
-            if (todosMarcados) {
-                grupo.classList.add('grupo_selecionado');
-            } else {
-                grupo.classList.remove('grupo_selecionado');
-            }
-        }
-
-    });
-
-</script>
 
 {% endblock %}
