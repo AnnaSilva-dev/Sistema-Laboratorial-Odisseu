@@ -20,7 +20,7 @@
             {% endfor %}
         {% endif %}
 
-    <nav class="container-fluid p-5 rounded-3  bg-white shadow-lg">
+    <nav class="container-fluid p-5 rounded-3    white shadow-lg">
         <form method="POST" class="forms">
             {% csrf_token %}
 
@@ -106,7 +106,7 @@
 
                     {{ form.password1.errors }}
 
-                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5" 
+                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0   transparent pb-5" 
                         onclick="mostrarSenha('id_password1', this)">
                         <i class="bi bi-eye-fill"></i>
                     </button> -->
@@ -122,7 +122,7 @@
                     </div>
                     {{ form.password2.errors }}
 
-                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0 bg-transparent pb-5"
+                    <!-- <button type="button" class="position-absolute end-0 eye translate-middle-y border-0   transparent pb-5"
                         onclick="mostrarSenha('id_password2', this)">
                         <i class="bi bi-eye-fill" style="width: 20px;"></i>
                     </button> -->

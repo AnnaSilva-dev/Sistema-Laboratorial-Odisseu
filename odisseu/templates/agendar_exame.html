@@ -92,10 +92,10 @@
             + Cadastrar novo paciente
         </a>
     </p>
-<section class="bg-light text-dark rounded-4 p-4">
+<section class="rounded-4 p-4">
     <form method="POST" class="form-exames">
         {% csrf_token %}
-        <section class="row">
+        <nav class="row">
             <div class="col-12 border-0">
                 <label>
                     Selecione o paciente:
@@ -106,11 +106,11 @@
                 </div>
                 {{ form.paciente.errors }}
             </div>
-        </section>
+        </nav>
         
         <div class="exames-container">
             <label class="exames-titulo">Exames:</label>
-            <section class="exames-all">
+            <nav class="exames-all">
                 <label class="exames-todos">
                     <input type="checkbox" class="selecionar_todos">
                     <span>Selecionar todos</span>
@@ -124,7 +124,7 @@
                         </label>
                     {% endfor %}
                 </div>
-            </section>
+            </nav>
             {{ form.exames.errors }}
 
         </div>

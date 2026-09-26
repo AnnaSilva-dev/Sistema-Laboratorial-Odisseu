@@ -6,36 +6,28 @@
     --preto: #010806;
     --preto-azulado: #0b1514;
     --vermelho: #ff3131;
-
-    /* cores do tema */
-    --fundo: var(--preto);
-    --fundo-card: var(--preto-azulado);
-    --texto: var(--branco);
-    --texto-secundario: #999;
-    --fundo-input: var(--branco);
-    --texto-input: #000;
-    --borda: var(--verde-claro);
 }
 
 .modo-claro {
-    --fundo: #f5f5f5;
-    --fundo-card: #ffffff;
-    --texto: #010806;
+    --fundo: var(--verde-clarinho);
+    --fundo-content: var(--branco);
+    --texto: var(--preto-azulado);
     --texto-secundario: #666;
-    --fundo-input: #ffffff;
-    --texto-input: #000;
-    --bg: var(--verde-clarinho);
+    --text-destaque: var(--branco);
+    --destaque: var(--verde-clarinho);
+    --texto-input: var(--preto-azulado);
+    --bg: var(--verde);
     --borda: var(--verde-claro);
 }
 
 .modo-escuro {
     --fundo: var(--preto);
-    --fundo-card: var(--preto-azulado);
-    --texto: var(--branco);
+    --fundo-content: var(--verde);
+    --texto: var(--verde-clarinho);
     --texto-secundario: #999;
-    --fundo-input: #ffffff;
+    --destaque: var(--verde-clarinho);
     --texto-input: #000;
-    --bg: var(--verde);
+    --bg: var(--preto-azulado);
     --borda: var(--verde-claro);
 }
 
@@ -48,12 +40,17 @@
     color: var(--texto);
 }
 
+.destaque {
+    background-color: var(--destaque);
+    color: var(--preto-azulado);
+    box-shadow: 0 2px 5px var(--borda);
+}
+
 body{ 
     background-color: var(--fundo);
     color: var(--texto);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s, color 0.1s;
 } 
-
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -68,8 +65,10 @@ body{
     background: transparent;
 }
 
-.fundo_card{
-    background-color: var(--fundo-card);
+.content-base section, .fundo-content{
+    background-color: var(--fundo-content);
+    box-shadow: 0 5px 15px var(--bg);
+    color: var(--texto);
 }
 
 .nav-item{
@@ -96,13 +95,13 @@ body{
 
 .navegacao .nav-link,
 .navegacao .botao-inicio {
-    border-radius: 1rem;
+    border-radius: 5px;
     white-space: nowrap;
 }
 
 .navegacao .nav-link:hover {
-    color: var(--texto);
-    background-color: var(--bg);
+    color: var(--branco);
+    background-color: var(--borda);
 }
 
 .top{
@@ -178,21 +177,6 @@ form input.edit-forms{
     background-color: var(--verde-claro);
     color: var(--branco);
 }
-
-.cancelar{
-    background-color: #ffff;
-    color: var(--vermelho);
-    border: 0;
-    box-shadow: inset 0 0 0 1px var(--vermelho);
-    border-radius: 10px;
-    transition: 0.5s;
-}
-
-.cancelar:hover {
-    background-color: var(--vermelho);
-    color: var(--branco);
-}
-
 
 .pdf{
     border-radius: 5px;
@@ -280,14 +264,8 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }       
 
 .index:hover, .index:hover * {
-    background-color: var(--branco);
-    color: var(--preto-azulado); 
-    border-radius: 14px;
-}
-
-.index:hover img { 
-    border: 2px solid var(--verde);
-    border-radius: 20rem;
+    background-color: var(--borda);
+    color: var(--text-destaque); 
 }
 
 /* menu */
@@ -355,14 +333,13 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 .content {
     font-size: 20px;
     font-weight: 700;
-    color: #14251c;
     margin: 0 0 16px;
 }
 
 .tabela {
     font-size: 20px;
     font-weight: 600;
-    color: #4b564f;
+    color: var(--fundo-input);
     padding: 5px 6px;
 }
 
@@ -373,9 +350,11 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     border: 1px solid var(--verde);
     border-radius: 6px;
     padding: 2px 10px;
-    background-color: var(--branco);
-    color: gray;
     font-size: 14px;
+}
+
+.exemplo {
+    background-color: var(--borda);
 }
 
 .form-exames select {
@@ -411,4 +390,51 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     .navegacao .nav-link {
         white-space: nowrap;
     }
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 19px;
+    height: 19px;
+
+    border: 2px solid var(--borda);
+    border-radius: 5px;
+
+    background-color: transparent;
+
+    cursor: pointer;
+    position: relative;
+
+    transition: 0.2s ease;
+    flex-shrink: 0;
+}
+
+input[type="checkbox"]:hover {
+    box-shadow: 0 2px 5px var(--borda);
+    border-color: var(--borda);
+    transform: scale(1.05);
+}
+
+input[type="checkbox"]:checked {
+    background-color: var(--borda);
+    border-color: var(--borda);
+}
+
+input[type="checkbox"]:checked::after {
+    content: "";
+
+    position: absolute;
+
+    width: 5px;
+    height: 10px;
+
+    border: solid white;
+    border-width: 0 2px 2px 0;
+
+    left: 5px;
+    top: 2px;
+
+    transform: rotate(45deg);
 }

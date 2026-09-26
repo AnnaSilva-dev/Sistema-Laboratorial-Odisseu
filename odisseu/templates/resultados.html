@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Resultados{% endblock %}
 {% block content %}
+
     <h1 id="titulo">Digitar resultados</h1>
     <p id="subtitulo">
         Realize os resultados de exames disponíveis
@@ -11,7 +12,7 @@
         </a>
     </p>
 
-    <section class="container rounded-3 bg-white shadow-lg shadow-lg">
+    <section class="container rounded-3   white shadow-lg shadow-lg">
             <form method="GET" class="mb-4">
                 <div class="input-group py-3">
                     <input class="form-control shadow-lg border border-black"
@@ -26,7 +27,7 @@
                     </button>
                 </div>
             </form>
-    <section class="container bg-light rounded-3 shadow-lg text-dark p-5">
+    <section class="container rounded-3 shadow-lg p-5">
         <div class="row">
             <nav class="col-12 gap-2">
                 {% if page_obj %}
@@ -36,7 +37,7 @@
                             {{ grupo.paciente.nome }}
                         </h4>
 
-                        <nav class="container-fluid mb-5 bg-white shadow-lg border rounded-3 p-4">
+                        <nav class="container-fluid mb-5   white shadow-lg border rounded-3 p-4">
                             {% for agendamento in grupo.agendamentos %}
                                     <div class="row">
                                         <div class="col-4">

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Liberar Resultados{% endblock %}
 {% block content %}
+
 <style>
     .lr-checkbox-label {
         display: flex;
@@ -67,8 +68,8 @@
         {% endif %}
 
         
-<section class="bg-light text-dark rounded-4 p-4">
-        <h3 class="text-dark fw-bold content">
+<section class="rounded-4 p-4 ">
+        <h3 class="fw-bold content">
             Exames aguardando liberação ({{ page_obj.paginator.count }})
         </h3>
         <form method="GET" class="mb-4">
@@ -88,7 +89,7 @@
     <form method="POST" class="form-rotina">
         {% csrf_token %}
 
-        <div class="row bg-dark-subtle rounded-1 p-1 m-1">
+        <div class="row exemplo rounded-1 p-1 m-1">
             <nav class="col-md-4">
                 <h5 class="tabela">
                     Paciente
@@ -106,72 +107,71 @@
                     Ações
                 </h5>
             </nav>
+
+            <section id="menuResultados">
+                {% for grupo in page_obj %}
+                    <nav class="grupo_paciente">
+                        
+                        <div class="row border-bottom border-secondary p-1 m-2">
+                            
+                            <nav class="col-md-4">
+                                <h5 class="text-success">
+                                    <label class="lr-checkbox-label gap-2"> 
+                                        <input type="checkbox" class="selecionar_todos">
+                                        {{ grupo.paciente.nome }}
+                                    </label>
+                                </h5>
+                            </nav>
+
+                            <nav class="col-md-6">
+                                <strong>
+                                    {{ grupo.data|date:"d/m/Y" }}
+                                </strong>
+
+                                <button
+                                    class="navbar-toggler border border-2 p-1 rounded-2 ms-2"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#resultados{{ forloop.counter }}"
+                                    aria-controls="resultados{{ forloop.counter }}"
+                                    aria-expanded="false"
+                                    aria-label="Abrir menu"
+                                >
+                                    Exames <i class="bi bi-chevron-down"></i> 
+                                </button>
+
+                                <div class="collapse mt-2" 
+                                    id="resultados{{ forloop.counter }}" 
+                                    data-bs-parent="#menuResultados"
+                                >
+                                    {% for resultado in grupo.resultados %}
+                                        <div class="d-flex align-items-center gap-2 my-1">
+                                            <span>{{ resultado.agendamento.get_exame_display }}</span>
+                                            <label class="lr-checkbox-label"> 
+                                                <input type="checkbox" name="resultados" value="{{ resultado.id }}">
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </nav>
+
+                            <nav class="col-md-2">
+                                <a class="lr-btn-revisar"
+                                    href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}?busca={{ busca|urlencode }}">
+                                    <i class="bi bi-eye"></i> Revisar
+                                </a>
+                            </nav>
+                        </div>
+                    </nav>
+                    
+                {% empty %}
+                    <div class="p-3 text-center text-muted lr-vazio">
+                        Nenhum resultado aguardando liberação.
+                    </div>
+                {% endfor %}
+            </section>
         </div>
 
-       <section id="menuResultados">
-            {% for grupo in page_obj %}
-                <section class="grupo_paciente">
-                    
-                    <div class="row border-bottom border-secondary p-1 m-2">
-                        
-                        <nav class="col-md-4">
-                            
-                            <h5 class="text-success">
-                                <label class="lr-checkbox-label gap-2"> 
-                                    <input type="checkbox" class="selecionar_todos">
-                                    {{ grupo.paciente.nome }}
-                                </label>
-                            </h5>
-                        </nav>
-
-                        <nav class="col-md-6">
-                            <strong>
-                                {{ grupo.data|date:"d/m/Y" }}
-                            </strong>
-
-                            <button
-                                class="navbar-toggler border border-2 p-1 rounded-2 ms-2"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#resultados{{ forloop.counter }}"
-                                aria-controls="resultados{{ forloop.counter }}"
-                                aria-expanded="false"
-                                aria-label="Abrir menu"
-                            >
-                                Exames <i class="bi bi-chevron-down"></i> 
-                            </button>
-
-                            <div class="collapse mt-2" 
-                                id="resultados{{ forloop.counter }}" 
-                                data-bs-parent="#menuResultados"
-                            >
-                                {% for resultado in grupo.resultados %}
-                                    <div class="d-flex align-items-center gap-2 my-1">
-                                        <span>{{ resultado.agendamento.get_exame_display }}</span>
-                                        <label class="lr-checkbox-label"> 
-                                            <input type="checkbox" name="resultados" value="{{ resultado.id }}">
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </nav>
-
-                        <nav class="col-md-2">
-                            <a class="lr-btn-revisar"
-                                href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}?busca={{ busca|urlencode }}">
-                                <i class="bi bi-eye"></i> Revisar
-                            </a>
-                        </nav>
-                    </div>
-                </section>
-                
-
-            {% empty %}
-                <div class="p-3 text-center text-muted lr-vazio">
-                    Nenhum resultado aguardando liberação.
-                </div>
-            {% endfor %}
-        </section>
             {% if page_obj %}
                 <button class="confirmar p-2 mt-2" type="submit"
                     onclick="return confirm('Tem certeza que deseja liberar os resultados?')">

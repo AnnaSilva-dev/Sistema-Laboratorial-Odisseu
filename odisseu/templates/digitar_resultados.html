@@ -17,7 +17,7 @@
             {% endif %}  
     </p>
     <section class="container">
-        <div class="row bg-white text-dark rounded-2 p-4 shadow-lg">
+        <div class="row   white   rounded-2 p-4 shadow-lg">
             <nav class="col-6">
                 <h4 class="fw-bold">
                     {{ agendamento.paciente.nome }}
@@ -36,7 +36,7 @@
 
             <hr>
 
-            <section class="container text-dark bg-light rounded-2 p-4 shadow-lg">
+            <section class="container rounded-2 p-4 shadow-lg">
                 <form method="POST">
                     {% csrf_token %}
                     <h2 id="titulo">{{ exame.nome }}</h2>

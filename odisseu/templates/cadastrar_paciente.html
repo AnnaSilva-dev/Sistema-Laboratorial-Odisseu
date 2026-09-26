@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ block.super }} - Cadastrar Paciente{% endblock %}
 {% block content %}
+
     <h4 id="titulo">Cadastrar paciente</h4 id="titulo">
     <p id="subtitulo">Preencha os campos abaixo para cadastrar um novo</br> paciente no sistema</p>
 
@@ -21,10 +22,10 @@
                 <strong>Senha de acesso do paciente: {{ senha_gerada }}</strong>
             </div>
         {% endif %}
-    <nav class="container-fluid forms p-5 rounded-3 bg-white shadow-lg">
+    <section class="container-fluid forms p-5 rounded-3   white shadow-lg">
         <form method="POST">
                 {% csrf_token %}
-                <section class="row">
+                <nav class="row">
                     <div class="col-md-8 border-0">
                         <label for="{{ form.nome.id_for_label }}">
                             Nome:
@@ -49,9 +50,9 @@
                     
                         {{ form.data_nascimento.errors }}
                     </div>
-                </section>
+                </nav>
                 
-                <section class="row">
+                <nav class="row">
                     <div class="col-md-4">
                         <label for="{{ form.telefone.id_for_label }}">
                             Telefone:
@@ -91,18 +92,18 @@
                         {{ form.cpf.errors }}
                         
                     </div>
-                </section>
+                </nav>
 
-                <section class="row mt-5">
+                <div class="row mt-5">
                     <nav class="col-12 text-end">
-                        <button class="cancelar p-2 me-3 rounded-2" type="reset">Cancelar</button>
+                        <a href="{% url 'index' %}" class="btn btn-danger p-2 me-3 rounded-2">Cancelar</a>
                         <button class="confirmar p-2 border-0 rounded-2" type="submit" 
                             onclick="return confirm('Tem certeza dos dados colocados?')">
                             <span class="bi bi-person-plus">
                             </span>Cadastrar paciente
                         </button>
                     </nav>
-                </section>
+                </div>
         </form>
-    </nav>
+    </section>
 {% endblock %}

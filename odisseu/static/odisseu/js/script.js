@@ -117,50 +117,101 @@ if (btnTema) {
 
 }
 
-new TomSelect("#paciente", {
-    placeholder: "Digite o nome do paciente",
-    searchField: ["text"],
-    create: false
-});
+const paciente = document.querySelector("#paciente");
 
-document.addEventListener('DOMContentLoaded', () => {
+if (paciente) {
+    new TomSelect(paciente, {
+        placeholder: "Digite o nome do paciente",
+        searchField: ["text"],
+        create: false
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
 
-    const grupo = document.querySelector('.exames-all');
+    // Pagina de exames
+    document.querySelectorAll(".exames-all").forEach(function (grupo) {
 
-    if (!grupo) return;
+        const mestre = grupo.querySelector(".selecionar_todos");
+        const exames = grupo.querySelectorAll('input[name="exames"]');
 
-    const mestre = grupo.querySelector('.selecionar_todos');
-    const exames = grupo.querySelectorAll('input[name="exames"]');
+        if (!mestre) return;
 
-    // Selecionar todos
-    mestre.addEventListener('change', function() {
-        exames.forEach(exame => {
-            exame.checked = this.checked;
+        mestre.addEventListener("change", function () {
+
+            exames.forEach(function (exame) {
+                exame.checked = mestre.checked;
+            });
+
+            grupo.classList.toggle(
+                "grupo_selecionado",
+                mestre.checked
+            );
         });
 
-        atualizarEstado();
-    });
+        exames.forEach(function (exame) {
 
-    // Atualizar o "Selecionar todos" quando um exame for marcado/desmarcado
-    exames.forEach(exame => {
-        exame.addEventListener('change', () => {
-            atualizarEstado();
+            exame.addEventListener("change", function () {
+
+                const todosMarcados =
+                    exames.length > 0 &&
+                    Array.from(exames).every(function (exame) {
+                        return exame.checked;
+                    });
+
+                mestre.checked = todosMarcados;
+
+                grupo.classList.toggle(
+                    "grupo_selecionado",
+                    todosMarcados
+                );
+            });
+
         });
+
     });
 
-    function atualizarEstado() {
-        const todosMarcados =
-            exames.length > 0 &&
-            Array.from(exames).every(exame => exame.checked);
 
-        mestre.checked = todosMarcados;
+    // pag de liberar resultados
+    document.querySelectorAll(".grupo_paciente").forEach(function (grupo) {
 
-        if (todosMarcados) {
-            grupo.classList.add('grupo_selecionado');
-        } else {
-            grupo.classList.remove('grupo_selecionado');
-        }
-    }
+        const mestre = grupo.querySelector(".selecionar_todos");
+        const resultados = grupo.querySelectorAll('input[name="resultados"]');
+
+        if (!mestre) return;
+
+        mestre.addEventListener("change", function () {
+
+            resultados.forEach(function (resultado) {
+                resultado.checked = mestre.checked;
+            });
+
+            grupo.classList.toggle(
+                "grupo_selecionado",
+                mestre.checked
+            );
+        });
+
+        resultados.forEach(function (resultado) {
+
+            resultado.addEventListener("change", function () {
+
+                const todosMarcados =
+                    resultados.length > 0 &&
+                    Array.from(resultados).every(function (resultado) {
+                        return resultado.checked;
+                    });
+
+                mestre.checked = todosMarcados;
+
+                grupo.classList.toggle(
+                    "grupo_selecionado",
+                    todosMarcados
+                );
+            });
+
+        });
+
+    });
 
 });
 

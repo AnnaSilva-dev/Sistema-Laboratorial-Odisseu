@@ -4,7 +4,7 @@
 
 <div class="container py-4">
     <div class="row">
-        <section class="col-md-8">
+        <nav class="col-md-8">
             <h2 id="titulo">Usuários</h2>
             <p id="subtitulo">
                 Gerencie os usuários cadastrados no sistema.
@@ -22,8 +22,8 @@
                     </div>
                 {% endfor %}
             {% endif %}  
-        </section>
-        <section class="col-md-4 text-end">
+        </nav>
+        <nav class="col-md-4 text-end">
             <a href="{% url 'cadastrar_usuario' %}" class="btn btn-success">
                 + Novo usuário
             </a>
@@ -34,9 +34,9 @@
                 </div>
             {% endfor %}
         {% endif %}
-        </section>
+        </nav>
     </div>
-    <section class="container rounded-3  bg-white shadow-lg">
+    <section class="container rounded-3    white shadow-lg">
         <form method="GET" class="mb-4">
             <div class="input-group py-3 ">
                 <input type="text"
@@ -96,13 +96,13 @@
 
                                 {% if usuario.is_active %}
 
-                                    <span class="badge bg-success">
+                                    <span class="badge   success">
                                         Ativo
                                     </span>
 
                                 {% else %}
 
-                                    <span class="badge bg-secondary">
+                                    <span class="badge   secondary">
                                         Inativo
                                     </span>
 

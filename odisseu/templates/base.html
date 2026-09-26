@@ -234,9 +234,12 @@
                                 <h5>{% now "l, j \d\e F \d\e Y" %}</h5>
                             </section>
                         </div>
-                        {% block config %}{% endblock config %}
+                        
+                        <div>
+                            {% block config %}{% endblock config %}
+                        </div>
 
-                        <div class="row p-5">
+                        <div class="row p-5 content-base">
                             {% block content %}{% endblock content %}
                         </div>
                         

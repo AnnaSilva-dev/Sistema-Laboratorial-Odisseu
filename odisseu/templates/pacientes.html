@@ -4,7 +4,7 @@
 
 <div class="container py-4">
     <div class="row mb-1">
-        <section class="col-md-8">
+        <nav class="col-md-8">
             <h1 id="titulo">Pacientes cadastrados</h1>
             <p id="subtitulo">
                 Gerencie os pacientes cadastrados no sistema.
@@ -14,12 +14,12 @@
                     < Voltar
                 </a>
             </p>
-        </section>
-        <section class="col-md-4 text-end">
+        </nav>
+        <nav class="col-md-4 text-end">
             <a href="{% url 'cadastrar_paciente' %}" class="btn btn-success">
                 + Novo paciente
             </a>
-        </section>
+        </nav>
     </div>
     
         <!-- PESQUISA -->
@@ -31,7 +31,7 @@
             {% endfor %}
         {% endif %}
 
-        <section class="container rounded-3 bg-white shadow-lg shadow-lg">
+        <section class="container rounded-3   white shadow-lg shadow-lg">
             <form method="GET" class="mb-4">
                 <div class="input-group py-3">
                     <input class="form-control shadow-lg border border-black"
@@ -48,8 +48,8 @@
             </form>
 
             {% for paciente in page_obj %}
-                <div class="container bg-success-subtle text-black rounded-3 border border-success p-3  shadow-lg">
-                    <section class="row">
+                <div class="container destaque text-tema rounded-3 border border-success p-3 shadow-lg">
+                    <div class="row">
                         <nav class="col-6">
                             <h2 class="fw-bold">{{ paciente.nome }}</h2>
                         </nav>
@@ -78,7 +78,7 @@
                                 Histórico de exames
                             </button>
                         </nav>
-                        <section class="container px-4">
+                        <nav class="container px-4">
                             <div class="row">
                                 <nav class="col-3">
                                     <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
@@ -89,8 +89,8 @@
                                     <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
                                 </nav>
                             </div>
-                        </section>
-                    </section>
+                        </nav>
+                    </div>
                     
                     <div class="collapse mt-2" id="editar_paciente_{{ paciente.id }}">
 
@@ -101,7 +101,7 @@
                         <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
                             {% csrf_token %}
 
-                            <section class="row">
+                            <nav class="row">
 
                                 <div class="col-md-8 border-0">
                                     <label>
@@ -131,9 +131,9 @@
                                     {{ paciente.form_editar.data_nascimento.errors }}
                                 </div>
 
-                            </section>
+                            </nav>
 
-                            <section class="row">
+                            <nav class="row">
 
                                 <div class="col-md-4">
                                     <label>
@@ -177,7 +177,7 @@
                                     {{ paciente.form_editar.telefone.errors }}
                                 </div>
 
-                            </section>
+                            </nav>
 
                             <button
                                 class="btn btn-sm btn-warning"
@@ -212,7 +212,7 @@
 
                     <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
                         {% for grupo in paciente.historico_agendamentos %}
-                            <div class="card card-body  bg-white shadow-lg text-dark mb-2" style="width: fit-content;">
+                            <div class="card card-body    white shadow-lg   mb-2" style="width: fit-content;">
                                 <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
 
                                 {% for agendamento in grupo.agendamentos %}
@@ -225,7 +225,7 @@
                                                 <span class="text-warning">◷ Aguardando liberação</span>
                                             {% endif %}
                                         {% else %}
-                                            <span class="text-secondary">— Resultado pendente</span>
+                                            <span class=" text-secondary">— Resultado pendente</span>
                                         {% endif %}
                                     </div>
                                 {% endfor %}

@@ -51,7 +51,7 @@
                     style="max-width: 40rem; width: 100%;"
                 >
 
-                <p class="text-secondary text-center mt-2">
+                <p class=" ry text-center mt-2">
                     2026 ODISSEU - Todos os direitos reservados
                 </p>
 
@@ -62,9 +62,9 @@
                 <form method="post">
                     {% csrf_token %}
 
-                    <section class="card bg-light py-4 py-md-5 shadow-lg">
+                    <section class="card py-4 py-md-5 shadow-lg">
 
-                        <h4 class="card-title text-center fw-bold text-dark">
+                        <h4 class="card-title text-center fw-bold  ">
                             Bem-vindo(a)!
                         </h4>
 
@@ -73,13 +73,13 @@
                             style="width: 25%;"
                         ></span>
 
-                        <p class="text-secondary-emphasis text px-3">
+                        <p class=" text px-3">
                             {% block p %}
                                 Entre para acessar o sistema
                             {% endblock p %}
                         </p>
 
-                        <section class="card-body text-dark">
+                        <section class="card-body">
 
                             <div class="form_icon">
 
@@ -147,7 +147,7 @@
 
                                 {% block submit %}
                                     <button
-                                        class="rounded-3 border-0 btn bg-success text-white"
+                                        class="rounded-3 border-0 btn   success text-white"
                                         type="submit"
                                         style="width:100%;"
                                     >
