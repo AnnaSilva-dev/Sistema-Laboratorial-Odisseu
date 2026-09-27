@@ -17,7 +17,7 @@
 
 <section class="container rounded-4 p-4">
     <form method="GET" action="{% url 'rotina' %}" class="form-rotina">
-        <section class="row">
+        <div class="row">
             <nav class="col-md-4">
                 <label for="data">
                     Data da rotina
@@ -36,7 +36,7 @@
                     Filtrar
                 </button>
             </nav>
-        </section>    
+        </div>    
     </form>
             <!-- BOTÃO PARA A PÁGINA DE IMPRESSÃO -->
 
@@ -85,7 +85,7 @@
         </nav>
     </div>
     
-    <section id="menusRotina">
+    <div id="menusRotina">
         {% regroup page_obj by paciente as pacientes %}
 
         {% for grupo in pacientes %}
@@ -105,50 +105,11 @@
                 </nav>
 
                 <nav class="col-md-2">
-                    <button
-                        class="navbar-toggler border border-2 p-1 rounded-2"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#menuRotina{{ forloop.counter }}"
-                        aria-controls="menuRotina{{ forloop.counter }}"
-                        aria-expanded="false"
-                        aria-label="Abrir menu"
-                    >
-                        <i class="bi bi-list"></i> Ações
-                    </button>
-
-                    <section
-                        class="collapse navbar menu"
-                        id="menuRotina{{ forloop.counter }}"
-                        data-bs-parent="#menusRotina"
-                    >
-                        {% for agendamento in grupo.list %}
-                            <div class="exame-menu">
-                                <strong>
-                                    {{ agendamento.get_exame_display }}
-                                </strong>
-
-                                {% if agendamento.resultado %}
-                                    <a class="link" href="{% url 'editar_resultado' agendamento.resultado.id %}">
-                                        Editar resultado
-                                    </a>
-                                    <a class="link" href="{% url 'excluir_agendamento' agendamento.id %}">
-                                        Excluir agendamento
-                                    </a>
-                                {% else %}
-                                    <a class="link" href="{% url 'digitar_resultados' agendamento.id %}">
-                                        Digitar resultado 
-                                    </a>
-                                {% endif %}
-                            </div>
-                            <span class="border-bottom"></span>
-                        {% endfor %}
-                        
-                        <a class="link link-primary"
-                        href="{% url 'ver_resultados' grupo.grouper.id grupo.list.0.data|date:'Y-m-d' %}">
-                            Ver resultados
+                    {% for agendamento in grupo.list %}
+                        <a class="btn btn-danger mb-3" href="{% url 'excluir_agendamento' agendamento.id %}">
+                            <span class="bi bi-x-circle"></span> Excluir agendamento
                         </a>
-                    </section>
+                    {% endfor %}
                 </nav>
             </div>
 
@@ -211,5 +172,5 @@
             </nav>
         {% endblock %}
         </div>
-    </section>
+    </div>
 </section>
