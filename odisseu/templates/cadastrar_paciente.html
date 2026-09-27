@@ -25,7 +25,7 @@
                 <strong>Senha de acesso do paciente: {{ senha_gerada }}</strong>
             </div>
         {% endif %}
-    <section class="container-fluid forms p-5 rounded-3   white shadow-lg">
+    <section class="container-fluid forms p-4 rounded-3 white shadow-lg">
         <form method="POST">
                 {% csrf_token %}
                 <nav class="row">
@@ -99,11 +99,14 @@
 
                 <div class="row mt-5">
                     <nav class="col-12 text-end">
-                        <a href="{% url 'index' %}" class="btn btn-danger p-2 me-3 rounded-2">Cancelar</a>
-                        <button class="confirmar p-2 border-0 rounded-2" type="submit" 
+                        <a href="{% url 'index' %}" class="btn btn-danger">
+                            <span class="bi bi-x-circle"></span> 
+                            Cancelar
+                        </a>
+                        <button class="btn btn-success" type="submit" 
                             onclick="return confirm('Tem certeza dos dados colocados?')">
-                            <span class="bi bi-person-plus">
-                            </span>Cadastrar paciente
+                            <span class="bi bi-person-plus"></span>
+                            Cadastrar paciente
                         </button>
                     </nav>
                 </div>

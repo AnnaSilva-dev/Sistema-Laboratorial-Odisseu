@@ -59,13 +59,21 @@
 
 <h1 id="titulo">Liberar resultados</h1>
 <p id="subtitulo">Revise e libere os resultados dos exames</p>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+<p>
+    <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+        < Voltar
+    </a>
+    <a class="btn btn-sm btn-success" href="{% url 'resultados' %}">
+        + Digitar novo resultado
+    </a>
+</p>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 
         
 <section class="rounded-4 p-4 ">
@@ -89,7 +97,7 @@
     <form method="POST" class="form-rotina">
         {% csrf_token %}
 
-        <div class="row exemplo rounded-1 p-1 m-1">
+        <div class="row rounded-1 p-1 m-1" id="destaque">
             <nav class="col-md-4">
                 <h5 class="tabela">
                     Paciente
@@ -108,14 +116,13 @@
                 </h5>
             </nav>
 
-            <section id="menuResultados">
+            <nav id="menuResultados">
                 {% for grupo in page_obj %}
                     <nav class="grupo_paciente">
-                        
+
                         <div class="row border-bottom border-secondary p-1 m-2">
-                            
                             <nav class="col-md-4">
-                                <h5 class="text-success">
+                                <h5>
                                     <label class="lr-checkbox-label gap-2"> 
                                         <input type="checkbox" class="selecionar_todos">
                                         {{ grupo.paciente.nome }}
@@ -169,7 +176,7 @@
                         Nenhum resultado aguardando liberação.
                     </div>
                 {% endfor %}
-            </section>
+            </nav>
         </div>
 
             {% if page_obj %}
@@ -232,5 +239,6 @@
 
         </ul>
     </nav>
+</section>
 
 {% endblock %}

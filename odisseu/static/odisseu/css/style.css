@@ -1,6 +1,7 @@
 :root {
     --verde: #005541;
     --verde-claro: #008666;
+    --verde-medio-claro: #72BFAE;
     --verde-clarinho:#d1e7dd;
     --branco: #f8f7f3;
     --preto: #010806;
@@ -10,26 +11,26 @@
 
 .modo-claro {
     --fundo: var(--verde-clarinho);
-    --fundo-content: var(--branco);
+    --fundo-content: var(--verde-medio-claro);
     --texto: var(--preto-azulado);
     --texto-secundario: #666;
-    --texto-destaque: var(--branco);
+    --texto-destaque: var(--verde);
     --destaque: var(--verde-claro);
     --texto-input: var(--preto-azulado);
-    --bg: var(--verde);
-    --borda: var(--verde-claro);
+    --card: var(--verde-clarinho);
+    --borda: var(--verde);
 }
 
 .modo-escuro {
-    --fundo: var(--preto);
+    --fundo: var(--preto-azulado);
     --fundo-content: var(--verde);
     --texto: var(--verde-clarinho);
     --texto-destaque: var(--verde);
     --texto-secundario: #999;
     --destaque: var(--verde-clarinho);
-    --texto-input: #000;
-    --bg: var(--preto-azulado);
-    --borda: var(--verde-claro);
+    --texto-input: var(--verde);
+    --card: var(--verde-medio-claro);
+    --borda: var(--preto);
 }
 
 .fundo-tema {
@@ -42,7 +43,7 @@
 }
 
 #destaque {
-    background-color: var(--destaque);
+    background-color: var(--card);
     color: var(--texto-destaque);
     box-shadow: 0 2px 5px var(--borda);
 }
@@ -68,7 +69,7 @@ body{
 
 .content-base section, .fundo-content{
     background-color: var(--fundo-content);
-    box-shadow: 0 5px 15px var(--bg);
+    box-shadow: 0 5px 15px var(--borda);
     color: var(--texto);
 }
 
@@ -210,6 +211,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }
 
 .form_icon i {
+    color: var(--texto-input);
     position: absolute;
     left: 12px;
     top: 50%;
@@ -237,7 +239,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 
 
 /* forms rotina */
-.form-rotina input[type="date"], .form-rotina .confirmar {
+.form-rotina input[type="date"] {
     border-style: solid;
     border-color: var(--verde);
     border-radius: 10px;
@@ -354,10 +356,6 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     font-size: 14px;
 }
 
-.exemplo {
-    background-color: var(--borda);
-}
-
 .form-exames select {
     color: gray;
 }
@@ -393,6 +391,10 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     }
 }
 
+.exames-todos input[type="checkbox"] {
+    background-color: var(--branco);
+}
+
 input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -400,7 +402,6 @@ input[type="checkbox"] {
     width: 19px;
     height: 19px;
 
-    border: 2px solid var(--borda);
     border-radius: 5px;
 
     background-color: transparent;
@@ -414,12 +415,12 @@ input[type="checkbox"] {
 
 input[type="checkbox"]:hover {
     box-shadow: 0 2px 5px var(--borda);
-    border-color: var(--borda);
+    border-color: var(--verde);
     transform: scale(1.05);
 }
 
 input[type="checkbox"]:checked {
-    background-color: var(--borda);
+    background-color: var(--verde);
     border-color: var(--borda);
 }
 

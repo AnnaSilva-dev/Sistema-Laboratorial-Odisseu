@@ -131,8 +131,8 @@
 
             <section class="row mt-5">
                 <nav class="col-12 text-end">
-                    <button class="cancelar p-2 me-3 rounded-2" type="reset">Cancelar</button>
-                    <button class="confirmar p-2 border-0 rounded-2" type="submit" 
+                    <a class="btn btn-sm btn-danger rounded-2" href="{% url 'index' %}"><span class="bi bi-x-circle"></span> Cancelar</a>
+                    <button class="btn btn-sm btn-success border-0 rounded-2" type="submit" 
                         onclick="return confirm('Tem certeza que deseja criar este usuário?')">
                         <span class="bi bi-person-plus"></span>Cadastrar usuário
                     </button>
