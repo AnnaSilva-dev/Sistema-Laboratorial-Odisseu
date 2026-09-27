@@ -13,6 +13,8 @@ class Administrador(AbstractUserRole):
         'liberar_resultados': True,
         'visualizar_pacientes': True,
         'consultar_relatorios':True,
+        'visualizar_usuarios': True,
+        'visualizar_resultados': True,
     }
 
 class Farmaceutico(AbstractUserRole):
@@ -22,7 +24,8 @@ class Farmaceutico(AbstractUserRole):
         'digitar_resultados': True,
         'pdf_resultados': True,
         'imprimir_rotina': True,
-        'liberar_resultados': True
+        'liberar_resultados': True,
+        'visualizar_resultados': True,
     }
 
 class Recepcionista(AbstractUserRole):

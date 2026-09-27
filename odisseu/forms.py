@@ -86,7 +86,7 @@ class PacienteForm(forms.ModelForm):
 
     class Meta:
         model = Paciente
-        fields = ['nome', 'cpf', 'cns', 'data_nascimento', 'telefone']
+        fields = ['nome', 'cpf', 'cns', 'data_nascimento', 'telefone', 'email']
 
         widgets = {
             'nome': forms.TextInput(attrs={
@@ -107,6 +107,11 @@ class PacienteForm(forms.ModelForm):
             'telefone': forms.TelInput(attrs={
                 'class': 'telefone edit-forms',
                 'placeholder': '(81) 99999-9999',
+            }),
+
+            'email': forms.EmailInput(attrs={
+                'class': 'email edit-forms',
+                'placeholder': 'ex.: exemplo@email.com',
             }),
 
             'data_nascimento': forms.DateInput(
