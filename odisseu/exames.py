@@ -8,6 +8,8 @@ def parametros_do_exame(exame):
 EXAMES = {
     'glicemia': {
         'nome': 'Glicemia',
+        'amosta': 'Sangue',
+        'metodo': 'Enzimático-colorimétrico',
         'parametros': [
             {
                 'nome': 'Glicemia',
@@ -91,7 +93,7 @@ EXAMES = {
     'proteina': {
             'nome': 'Proteína C reativa',
             'amostra':'soro',
-            'metodo':'algoooo',
+            'metodo':'Aglutinação',
             'parametros': [
                 {
                     'nome': 'Resultados do Exame',
