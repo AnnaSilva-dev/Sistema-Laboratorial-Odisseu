@@ -6,8 +6,11 @@
     <p id="subtitulo">Preencha os campos abaixo para cadastrar um novo</br> paciente no sistema</p>
 
     <p>
-        <a class="link" href="{% url 'index' %}">
+        <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
             < Voltar
+        </a>
+        <a href="{% url 'agendar_exame' %}" class="btn btn-sm btn-success">
+            + Agendar novo exame
         </a>
     </p>
         {% if messages %}
@@ -61,7 +64,7 @@
                         {% load widget_tweaks %}
                         <div class="mb-3 form_icon">
                             <i class="bi bi-telephone"></i>
-                            {% render_field form.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
+                            {% render_field form.telefone class="telefone form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
                         </div>
                     
                         {{ form.telefone.errors }}
@@ -73,7 +76,7 @@
 
                         <div class="mb-3 form_icon">
                             <i class="bi bi-credit-card"></i>
-                            {% render_field form.cns class="form-control rounded-4  shadow-lg" placeholder="123 4567 8901 2345" %}
+                            {% render_field form.cns class="cns form-control rounded-4  shadow-lg" placeholder="123 4567 8901 2345" %}
                         </div>
                         
                         {{ form.cns.errors }}
@@ -86,7 +89,7 @@
 
                         <div class="mb-3 form_icon">
                             <i class="bi bi-file-earmark-text"></i>
-                           {% render_field form.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+                           {% render_field form.cpf class="cpf form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
                         </div>
                         
                         {{ form.cpf.errors }}

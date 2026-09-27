@@ -13,8 +13,8 @@
     --fundo-content: var(--branco);
     --texto: var(--preto-azulado);
     --texto-secundario: #666;
-    --text-destaque: var(--branco);
-    --destaque: var(--verde-clarinho);
+    --texto-destaque: var(--branco);
+    --destaque: var(--verde-claro);
     --texto-input: var(--preto-azulado);
     --bg: var(--verde);
     --borda: var(--verde-claro);
@@ -24,6 +24,7 @@
     --fundo: var(--preto);
     --fundo-content: var(--verde);
     --texto: var(--verde-clarinho);
+    --texto-destaque: var(--verde);
     --texto-secundario: #999;
     --destaque: var(--verde-clarinho);
     --texto-input: #000;
@@ -32,7 +33,7 @@
 }
 
 .fundo-tema {
-    background-color: var(--fundo-card);
+    background-color: var(--fundo-content);
     color: var(--texto);
 }
 
@@ -40,9 +41,9 @@
     color: var(--texto);
 }
 
-.destaque {
+#destaque {
     background-color: var(--destaque);
-    color: var(--preto-azulado);
+    color: var(--texto-destaque);
     box-shadow: 0 2px 5px var(--borda);
 }
 
@@ -264,8 +265,8 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }       
 
 .index:hover, .index:hover * {
-    background-color: var(--borda);
-    color: var(--text-destaque); 
+    background-color: var(--destaque);
+    color: var(--texto-destaque); 
 }
 
 /* menu */
@@ -306,7 +307,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
 }
 
 .menu a:hover {
-    background-color: #eee;
+    background-color: var(--destaque);
 }
 
 .menu i {

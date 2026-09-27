@@ -11,8 +11,11 @@
             </p>
 
             <p>
-                <a class="link" href="{% url 'index' %}">
+                <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
                     < Voltar
+                </a>
+                <a class="btn btn-sm btn-success" href="{% url 'cadastrar_usuario' %}">
+                    + Cadastrar novo usuário
                 </a>
             </p>
             {% if messages %}
@@ -24,9 +27,6 @@
             {% endif %}  
         </nav>
         <nav class="col-md-4 text-end">
-            <a href="{% url 'cadastrar_usuario' %}" class="btn btn-success">
-                + Novo usuário
-            </a>
         {% if messages %}
             {% for message in messages %}
                 <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">

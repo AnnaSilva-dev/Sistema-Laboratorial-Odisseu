@@ -69,22 +69,22 @@
             <section class="col-md-12 col-xl-8 rounded-3 fundo-content"> 
                 <div class="p-5 rounded-3"> 
                     <h4><span class="bi bi-bar-chart-line-fill"></span>  Desempenho do mês</h4> 
-                    <nav class="destaque rounded-3 p-4"> 
+                    <nav class="rounded-3 p-4" id="destaque"> 
                         <h5> 
                             Total de exames realizados 
                         </h5> 
                         <div class="p-2"> 
-                            <h1 class="text-success fw-bold" style="font-size: 4rem;"> 
+                            <h1 class="fw-bold" style="font-size: 4rem;"> 
                                 {{ exames_mes }}<i class="bi bi-check2-square" style="font-size: 2rem ;"></i> 
                             </h1> 
  
                             <p> 
                                 {% if variacao > 0 %} 
-                                    <h6 class="text-success">+{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-up-right"></i></h6> 
+                                    <h6>+{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-up-right"></i></h6> 
                                 {% elif variacao == 0 %} 
-                                    <h6 class="text-secondary">Sem variação em relação ao mês anterior</h6> 
+                                    <h6>Sem variação em relação ao mês anterior</h6> 
                                 {% else %} 
-                                    <h6 class="text-danger">{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-down-right"></i></h6> 
+                                    <h6>{{ variacao|floatformat:0 }}% em relação ao mês anterior <i class="bi bi-arrow-down-right"></i></h6> 
                                 {% endif %} 
                             </p> 
                         </div> 
@@ -97,25 +97,26 @@
                 <div class="fundo-content p-4 rounded-3" style="height: 100%;"> 
                     <h6 class="fw-bold">Ações rápidas</h6> 
                     <div class="p-3"> 
-                        <a class="destaque btn btn-light text-success fw-bold" href="{% url 'cadastrar_paciente' %}" style="width: 100%;"> 
+                        <a id="destaque" class="btn btn-light fw-bold" href="{% url 'cadastrar_paciente' %}" style="width: 100%;"> 
                             <i class="bi bi-person-plus-fill" style="font-size: 1.5rem;"></i> 
                             Novo paciente 
                             <i class="bi bi-caret-right-fill"></i> 
                         </a> 
-                        <a class="destaque btn  btn-light text-success fw-bold mt-2" href="{% url 'agendar_exame' %}" style="width: 100%;"> 
+                        <a id="destaque" class="btn  btn-light fw-bold mt-2" href="{% url 'agendar_exame' %}" style="width: 100%;"> 
                             <i class="bi bi-calendar3" style="font-size: 1.5rem;"></i> 
                             Agendar exames 
                             <i class="bi bi-caret-right-fill text-end"></i> 
  
                         </a> 
-                        <a class="destaque btn btn-light text-success fw-bold mt-2" href="{% url 'resultados' %}" style="width: 100%;"> 
+                        <a id="destaque" class="btn btn-light fw-bold mt-2" href="{% url 'resultados' %}" style="width: 100%;"> 
                             <i class="bi bi-flask-fill" style="font-size: 1.5rem;"></i> 
                             Digitar resultados 
                             <i class="bi bi-caret-right-fill"></i> 
                         </a> 
  
-                        <a class="destaque btn btn-light text-success fw-bold mt-2" style="width: 100%;"  
-                            href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"> 
+                        <a class="btn btn-light fw-bold mt-2" style="width: 100%;"  
+                            href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
+                            id="destaque"> 
  
                             <i class="bi bi-printer-fill" style="font-size: 1.5rem;"></i> 
                             Imprimir rotina 

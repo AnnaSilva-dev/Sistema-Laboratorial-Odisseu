@@ -88,7 +88,10 @@
             {% endfor %}
         {% endif %}       
     <p>
-        <a class="link" href="{% url 'cadastrar_paciente' %}">
+        <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+            < Voltar
+        </a>
+        <a class="btn btn-sm btn-success" href="{% url 'cadastrar_paciente' %}">
             + Cadastrar novo paciente
         </a>
     </p>

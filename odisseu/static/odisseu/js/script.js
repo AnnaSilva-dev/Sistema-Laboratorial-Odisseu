@@ -215,47 +215,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-const cpf = document.querySelector('.cpf');
+document.addEventListener('DOMContentLoaded', () => {
 
-if (cpf) {
-    cpf.addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, '');
-        v = v.replace(/^(\d{3})(\d)/, '$1.$2');
-        v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
-        v = v.replace(/\.(\d{3})(\d)/, '.$1-$2');
-        e.target.value = v.slice(0, 14);
-    });
-}
+    const cpf = document.querySelector('.cpf');
 
-const cns = document.querySelector('.cns');
+    if (cpf) {
+        cpf.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '');
 
-if (cns) {
-    cns.addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, '').slice(0, 15);
-        v = v.replace(/(\d{3})(\d)/, '$1 $2');
-        v = v.replace(/(\d{3}) (\d{4})(\d)/, '$1 $2 $3');
-        v = v.replace(/(\d{3}) (\d{4}) (\d{4})(\d)/, '$1 $2 $3 $4');
-        e.target.value = v;
-    });
-}
+            v = v.replace(/^(\d{3})(\d)/, '$1.$2');
+            v = v.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+            v = v.replace(/\.(\d{3})(\d)/, '.$1-$2');
 
-const telefone = document.querySelector('.telefone');
+            e.target.value = v.slice(0, 14);
+        });
+    }
 
-if (telefone) {
-    telefone.addEventListener('input', (e) => {
-        let v = e.target.value.replace(/\D/g, '').slice(0, 11);
 
-        if (v.length <= 2) {
-            v = '(' + v;
-        } 
-        else if (v.length <= 7) {
-            v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
-        } 
-        else {
-            v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
-        }
+    const cns = document.querySelector('.cns');
 
-        e.target.value = v;
-    });
-}
+    if (cns) {
+        cns.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 15);
+
+            v = v.replace(/(\d{3})(\d)/, '$1 $2');
+            v = v.replace(/(\d{3}) (\d{4})(\d)/, '$1 $2 $3');
+            v = v.replace(/(\d{3}) (\d{4}) (\d{4})(\d)/, '$1 $2 $3 $4');
+
+            e.target.value = v;
+        });
+    }
+
+
+    const telefone = document.querySelector('.telefone');
+
+    if (telefone) {
+        telefone.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+
+            if (v.length <= 2) {
+                v = '(' + v;
+            } 
+            else if (v.length <= 7) {
+                v = '(' + v.slice(0, 2) + ') ' + v.slice(2);
+            } 
+            else {
+                v = '(' + v.slice(0, 2) + ') ' + v.slice(2, 7) + '-' + v.slice(7);
+            }
+
+            e.target.value = v;
+        });
+    }
+
+});
 

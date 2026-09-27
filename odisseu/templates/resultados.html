@@ -7,7 +7,10 @@
         Realize os resultados de exames disponíveis
     </p>
     <p>
-        <a class="link" href="{% url 'agendar_exame' %}">
+        <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+            < Voltar
+        </a>
+        <a class="btn btn-sm btn-success" href="{% url 'agendar_exame' %}">
             + Agendar exame
         </a>
     </p>
@@ -27,113 +30,126 @@
                     </button>
                 </div>
             </form>
-    <section class="container rounded-3 shadow-lg p-5">
-        <div class="row">
-            <nav class="col-12 gap-2">
-                {% if page_obj %}
-                    {% for grupo in page_obj %}
-                        <h4>
-                            <strong>Paciente:</strong>
-                            {{ grupo.paciente.nome }}
-                        </h4>
-
-                        <nav class="container-fluid mb-5   white shadow-lg border rounded-3 p-4">
-                            {% for agendamento in grupo.agendamentos %}
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <strong>Data:</strong>
-                                            {{ agendamento.data }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <strong>Exame:</strong>
-                                            {{ agendamento.get_exame_display }}
-                                        </div>
-                                    </div>
-
-                                    <div class="row text-end">
-                                        <nav class="col-12">
-                                            <button class="btn btn-primary">
-                                                <a class="text-white nav-link"
-                                                href="{% url 'digitar_resultados' agendamento.id %}">
-                                                    Digitar resultado
-                                                </a>
-                                            </button>
-                                        </nav>
-                                    </div>
-
-                                <hr>
+            <div class="row">
+                <nav class="col-12 gap-2" id="menuResultados">
+                    {% if page_obj %}
+                        {% for grupo in page_obj %}
+                            <nav class="container-fluid mb-5 rounded-3 p-4" id="destaque">
+                                <div class="row">
+                                    <h4 id="titulo" class="col-6">    
+                                        <strong>Paciente:</strong>
+                                        {{ grupo.paciente.nome }}
+                                    </h4>
+                                    <button
+                                        class="navbar-toggler col-6 text-end"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#menuResultados{{ forloop.counter }}"
+                                        aria-controls="menuResultados{{ forloop.counter }}"
+                                        aria-expanded="false"
+                                        aria-label="Abrir menu"
+                                    >
+                                        <i class="bi bi-list border border-3 btn btn-sm btn-success p-2 rounded-2 me-3"> Exames</i> 
+                                    </button>
+                                </div>
                             
-                            {% endfor %}
-                        </nav>
-                    {% endfor %}
+                                <nav class="row collapse navbar"
+                                    id="menuResultados{{ forloop.counter }}"
+                                    data-bs-parent="#menusResultados"
+                                >
+                                    {% for agendamento in grupo.agendamentos %}
 
-                {% else %}
-
-                    <p>Não existem resultados pendentes de digitação.</p>
-
-                {% endif %}
-            </nav>
-            
-        </div>
+                                        <div class="container p-3 mt-2">
         
-    <nav aria-label="Paginação">
-        <ul class="pagination justify-content-center">
+                                            <hr class="text-success" style="width: 100vh;">
 
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link"
-                    href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
-                        Anterior
-                    </a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link">Anterior</a>
-                </li>
-            {% endif %}
+                                            <div class="col-4">
+                                                <h6>
+                                                    <strong>Data:</strong>
+                                                    {{ agendamento.data }}
+                                                </h6>
+                                                <h6>
+                                                    <strong>Exame:</strong>
+                                                    {{ agendamento.get_exame_display }}
+                                                </h6>
+                                            </div>
+                                            <div class="col-4">
+                                               
+                                            </div>
+                                            <nav class="col-4 text-end">
+                                                <button class="btn btn-primary">
+                                                    <a class="text-white nav-link"
+                                                    href="{% url 'digitar_resultados' agendamento.id %}">
+                                                        Digitar resultado
+                                                    </a>
+                                                </button>
+                                            </nav>
+                                        </div>
+                                    {% endfor %}
+                                </nav>
+                            </nav>
+                        {% endfor %}
 
+                    {% else %}
 
-            {% for num in page_obj.paginator.page_range %}
+                        <p>Não existem resultados pendentes de digitação.</p>
 
-                {% if page_obj.number == num %}
-                    <li class="page-item active">
-                        <a class="page-link">
-                            {{ num }}
-                        </a>
-                    </li>
-                {% else %}
+                    {% endif %}
+                </nav>
+                
+            </div>
+            
+        <nav aria-label="Paginação">
+            <ul class="pagination justify-content-center">
+
+                {% if page_obj.has_previous %}
                     <li class="page-item">
                         <a class="page-link"
-                        href="?busca={{ busca|urlencode }}&page={{ num }}">
-                            {{ num }}
+                        href="?busca={{ busca|urlencode }}&page={{ page_obj.previous_page_number }}">
+                            Anterior
                         </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">Anterior</a>
                     </li>
                 {% endif %}
 
-            {% endfor %}
+
+                {% for num in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <a class="page-link">
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link"
+                            href="?busca={{ busca|urlencode }}&page={{ num }}">
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% endif %}
+
+                {% endfor %}
 
 
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link"
-                    href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
-                        Próxima
-                    </a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link">Próxima</a>
-                </li>
-            {% endif %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                        href="?busca={{ busca|urlencode }}&page={{ page_obj.next_page_number }}">
+                            Próxima
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link">Próxima</a>
+                    </li>
+                {% endif %}
 
-        </ul>
-    </nav>
-  
+            </ul>
+        </nav>
     </section>
-
-</div>
-
 {% endblock %}

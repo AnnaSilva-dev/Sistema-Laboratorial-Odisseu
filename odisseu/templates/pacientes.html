@@ -10,15 +10,13 @@
                 Gerencie os pacientes cadastrados no sistema.
             </p>
             <p>
-                <a class="link" href="{% url 'index' %}">
+                <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
                     < Voltar
                 </a>
+                <a class="btn btn-sm btn-success" href="{% url 'cadastrar_paciente' %}">
+                    + Cadastrar novo paciente
+                </a>
             </p>
-        </nav>
-        <nav class="col-md-4 text-end">
-            <a href="{% url 'cadastrar_paciente' %}" class="btn btn-success">
-                + Novo paciente
-            </a>
         </nav>
     </div>
     
@@ -48,7 +46,7 @@
             </form>
 
             {% for paciente in page_obj %}
-                <div class="container destaque text-tema rounded-3 border border-success p-3 shadow-lg">
+                <div id="destaque" class="container text-tema rounded-3 border border-success p-3 shadow-lg">
                     <div class="row">
                         <nav class="col-6">
                             <h2 class="fw-bold">{{ paciente.nome }}</h2>
