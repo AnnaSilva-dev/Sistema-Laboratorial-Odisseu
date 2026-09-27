@@ -36,10 +36,14 @@
                         {% for grupo in page_obj %}
                             <nav class="container-fluid mb-5 rounded-3 p-4" id="destaque">
                                 <div class="row">
-                                    <h4 id="titulo" class="col-6">    
-                                        <strong>Paciente:</strong>
-                                        {{ grupo.paciente.nome }}
+                                    <h4 id="titulo" class="fw-bold">    
+                                        Paciente:
                                     </h4>
+                                    <h5 class="col-6">
+                                        {{ grupo.paciente.nome }}
+                                        <span class="cpf">{{ grupo.paciente.cpf }}</span>
+                                    </h5>
+                                    
                                     <button
                                         class="navbar-toggler col-6 text-end"
                                         type="button"
@@ -53,17 +57,14 @@
                                     </button>
                                 </div>
                             
-                                <nav class="row collapse navbar"
+                                <nav class="row g-3 mt-3 px-5 collapse navbar"
                                     id="menuResultados{{ forloop.counter }}"
                                     data-bs-parent="#menusResultados"
                                 >
                                     {% for agendamento in grupo.agendamentos %}
 
-                                        <div class="container p-3 mt-2">
-        
-                                            <hr class="text-success" style="width: 100vh;">
-
-                                            <div class="col-4">
+                                        <div class="col-5 bg-light p-3 border border-2 rounded-2 shadow-lg">
+                                            <div>
                                                 <h6>
                                                     <strong>Data:</strong>
                                                     {{ agendamento.data }}
@@ -73,11 +74,8 @@
                                                     {{ agendamento.get_exame_display }}
                                                 </h6>
                                             </div>
-                                            <div class="col-4">
-                                               
-                                            </div>
-                                            <nav class="col-4 text-end">
-                                                <button class="btn btn-primary">
+                                            <nav>
+                                                <button class="btn btn-sm btn-primary">
                                                     <a class="text-white nav-link"
                                                     href="{% url 'digitar_resultados' agendamento.id %}">
                                                         Digitar resultado

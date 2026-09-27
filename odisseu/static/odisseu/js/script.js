@@ -268,4 +268,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
+// mascara dos templates
+document.querySelectorAll('.cpf').forEach(elemento => {
+    let v = elemento.textContent.replace(/\D/g, '');
+    if (v.length === 11) {
+        elemento.textContent = v.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+});
 
+document.querySelectorAll('.cns').forEach(elemento => {
+    let v = elemento.textContent.replace(/\D/g, '');
+    if (v.length === 15) {
+        elemento.textContent = v.replace(/(\d{3})(\d{4})(\d{4})(\d{4})/, '$1 $2 $3 $4');
+    }
+});
+
+document.querySelectorAll('.telefone').forEach(elemento => {
+    let v = elemento.textContent.replace(/\D/g, '');
+
+    if (v.length === 11) {
+        elemento.textContent = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    } else if (v.length === 10) {
+        elemento.textContent = v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    }
+});

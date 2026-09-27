@@ -29,7 +29,7 @@
             {% endfor %}
         {% endif %}
 
-        <section class="container rounded-3   white shadow-lg shadow-lg">
+        <section class="container rounded-3 mb-2 p-2">
             <form method="GET" class="mb-4">
                 <div class="input-group py-3">
                     <input class="form-control shadow-lg border border-black"
@@ -46,7 +46,7 @@
             </form>
 
             {% for paciente in page_obj %}
-                <div class="container text-tema rounded-3 border border-success p-3 shadow-lg">
+                <div class="container text-tema rounded-3 border border-success p-3 mb-4 shadow-lg" id="destaque">
                     <div class="row">
                         <nav class="col-6">
                             <h2 class="fw-bold">{{ paciente.nome }}</h2>
@@ -79,12 +79,12 @@
                         <nav class="container px-4">
                             <div class="row">
                                 <nav class="col-3">
-                                    <p><strong>CPF:</strong> {{ paciente.cpf }}</p>
-                                    <p><strong>CNS:</strong> {{ paciente.cns }}</p>
+                                    <strong>CPF:</strong><p class="cpf"> {{ paciente.cpf }}</p>
+                                    <strong>CNS:</strong><p class="cns">{{ paciente.cns }}</p>
                                 </nav>
-                                <nav class="col-4">
-                                    <p><strong>Data de nascimento:</strong> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
-                                    <p><strong>Telefone:</strong> {{ paciente.telefone }}</p>
+                                <nav class="col-3">
+                                    <strong>Data de nascimento:</strong><p> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+                                    <strong>Telefone:</strong><p class="telefone"> {{ paciente.telefone }}</p>
                                 </nav>
                             </div>
                         </nav>
@@ -241,14 +241,10 @@
                     </div>
 
                 </div>
-
-                <hr>
-
             {% empty %}
                 <p>Nenhum paciente encontrado.</p>
             {% endfor %}
         </section>      
-</div>
 
     <nav aria-label="Paginação">
         <ul class="pagination justify-content-center">
@@ -302,5 +298,5 @@
 
         </ul>
     </nav>
-
+</div>
 {% endblock %}

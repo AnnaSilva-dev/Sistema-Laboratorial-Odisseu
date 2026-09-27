@@ -25,7 +25,7 @@
     --fundo: var(--preto-azulado);
     --fundo-content: var(--verde);
     --texto: var(--verde-clarinho);
-    --texto-destaque: var(--verde);
+    --texto-destaque: var(--preto);
     --texto-secundario: #999;
     --destaque: var(--verde-clarinho);
     --texto-input: var(--verde);
