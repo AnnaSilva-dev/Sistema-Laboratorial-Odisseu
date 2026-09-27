@@ -56,7 +56,7 @@
                                                             <label><strong>{{ parametro.nome }}</strong></label>
                                                             <section class="container mb-4">
                                                                 <input type="text" name="{{ parametro.nome }}"
-                                                                    class="form-control rounded-3">
+                                                                    class="form-control rounded-3" required>
                                                         
                                                                 {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
                                                                 <small>Valor de referência: {{ parametro.referencia }}</small>

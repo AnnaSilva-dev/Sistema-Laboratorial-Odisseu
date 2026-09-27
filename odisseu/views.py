@@ -277,6 +277,8 @@ def resultados(request):
 
 @login_required
 @has_permission_decorator('digitar_resultados')
+@login_required
+@has_permission_decorator('digitar_resultados')
 def digitar_resultados(request, agendamento_id):
     agendamento = Agendamento.objects.get(id=agendamento_id)
 
@@ -286,41 +288,41 @@ def digitar_resultados(request, agendamento_id):
     exame = EXAMES[agendamento.exame]
 
     if request.method == 'POST':
-        
+        campo_feito = all(
+            request.POST.get(parametro['nome'], '').strip()
+            for parametro in parametros_do_exame(exame)
+        )
+
+        if not campo_feito:
+            messages.error(request, 'Nenhum campo pode ficar em branco.')
+            return redirect('digitar_resultados', agendamento_id=agendamento.id)
+
         form = ResultadoForm(request.POST)
 
         if form.is_valid():
-
-            for parametro in parametros_do_exame(exame):
-                valor = request.POST.get(parametro['nome'], '')
-
-                if not valor:
-                    messages.error(request, f'O campo "{parametro["nome"]}" não pode ficar em branco.')
-                    return redirect('digitar_resultados', agendamento_id=agendamento.id)
-
             resultado = form.save(commit=False)
-            resultado.agendamento = agendamento
+            resultado.agendamento =agendamento
             resultado.save()
 
             for parametro in parametros_do_exame(exame):
-                if parametro.get('tipo') == 'diferencial':
-                    ResultadoParametro.objects.create(
-                        resultado=resultado,
-                        nome=parametro['nome'],
-                        percentual=request.POST.get(parametro['nome'], ''),
-                        valor='',
-                        unidade=parametro['unidade'],
-                        referencia=parametro['referencia'],
-                    )
+                valor_digitado = request.POST.get(parametro['nome'], '')
+                diferencial = parametro.get('tipo') == 'diferencial'
+                if diferencial:
+                    valor = ''
+                    percentual= valor_digitado
                 else:
-                    ResultadoParametro.objects.create(
-                        resultado=resultado,
-                        nome=parametro['nome'],
-                        valor=request.POST.get(parametro['nome'], ''),
-                        unidade=parametro['unidade'],
-                        referencia=parametro['referencia'],
-                    )
-            messages.success(request, 'Resultado salvo com sucesso!')
+                    valor = valor_digitado
+                    percentual= ''
+
+                ResultadoParametro.objects.create(
+                    resultado=resultado,
+                    nome=parametro['nome'],
+                    valor=valor,
+                    percentual=percentual,
+                    unidade=parametro['unidade'],
+                    referencia=parametro['referencia'],
+                )
+            messages.success(request, 'Resultado salvo com sucesso.')
 
         else:
             messages.error(request, 'Ocorreu um erro')
@@ -331,7 +333,6 @@ def digitar_resultados(request, agendamento_id):
         form = ResultadoForm()
 
     return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
-
 from rolepermissions.checkers import has_permission
 
 
