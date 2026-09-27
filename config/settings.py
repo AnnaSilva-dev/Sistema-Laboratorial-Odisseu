@@ -123,17 +123,22 @@ STATIC_URL = 'static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+from decouple import config
+
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
         "OPTIONS": {
-            "host": "smtp.gmail.com",
-            "use_tls": True,
-            "username": "seu-email-real@gmail.com",
-            "password": "sua-senha-de-app-de-16-digitos",
+            "host": config('EMAIL_HOST'),
+            "port": 465,
+            "use_ssl": True,
+            "username": config('EMAIL_HOST_USER'),
+            "password": config('EMAIL_HOST_PASSWORD'),
         },
     },
 }
+
+DEFAULT_FROM_EMAIL = 'Sistema Laboratorial Odisseu <odisseu@arioliveira.com>'
 
 ROLEPERMISSIONS_MODULE = 'odisseu.roles'
 

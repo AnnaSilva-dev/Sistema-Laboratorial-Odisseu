@@ -99,6 +99,9 @@
                         <h3>Editar paciente</h3>
 
                         <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
+                            <input type="hidden" name="busca" value="{{ busca }}">
+                            <input type="hidden" name="page" value="{{ page_obj.number }}">
+
                             {% csrf_token %}
 
                             <section class="row">
@@ -175,6 +178,16 @@
                                     </div>
 
                                     {{ paciente.form_editar.telefone.errors }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label>
+                                        E-mail:
+                                    </label>
+                                    <div class="mb-3 form_icon">
+                                        <i class="bi bi-envelope"></i>
+                                        {% render_field paciente.form_editar.email class="form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
+                                    </div>
+                                    {{ paciente.form_editar.email.errors }}
                                 </div>
 
                             </section>
