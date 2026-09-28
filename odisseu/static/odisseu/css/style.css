@@ -117,7 +117,6 @@ body{
     display: inline;
     flex-wrap: wrap;
     gap: 15px;
-    color: var(--preto);
 }
 
 .forms p {
@@ -223,7 +222,18 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
     padding-left: 40px;
 }
 
+#olhoSenha {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--verde);
+}
+
+
 .base-login .card{
+    background-color: var(--fundo-content);
     padding: 10px;
     max-width: 45vh;
 }

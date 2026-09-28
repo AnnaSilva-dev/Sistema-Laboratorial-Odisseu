@@ -53,17 +53,10 @@
                     
                         {{ form.data_nascimento.errors }}
                     </div>
-<<<<<<< HEAD
                 </nav>
                 
                 <nav class="row">
                     <div class="col-md-4">
-=======
-                </section>
-
-                <section class="row">
-                    <div class="col-md-6">
->>>>>>> origin/main
                         <label for="{{ form.telefone.id_for_label }}">
                             Telefone:
                         </label>
@@ -84,7 +77,7 @@
 
                         <div class="mb-3 form_icon">
                             <i class="bi bi-envelope"></i>
-                            {% render_field form.email class="form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
+                            {% render_field form.email class="email form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
                         </div>
 
                         {{ form.email.errors }}
@@ -112,11 +105,7 @@
 
                         <div class="mb-3 form_icon">
                             <i class="bi bi-file-earmark-text"></i>
-<<<<<<< HEAD
                            {% render_field form.cpf class="cpf form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
-=======
-                        {% render_field form.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
->>>>>>> origin/main
                         </div>
                         
                         {{ form.cpf.errors }}

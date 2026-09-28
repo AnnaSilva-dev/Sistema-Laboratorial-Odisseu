@@ -292,3 +292,34 @@ document.querySelectorAll('.telefone').forEach(elemento => {
         elemento.textContent = v.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const senha = document.getElementById("senha");
+    const olhoSenha = document.getElementById("olhoSenha");
+
+    if (senha && olhoSenha) {
+
+        olhoSenha.addEventListener("click", function () {
+
+            if (senha.type === "password") {
+
+                senha.type = "text";
+
+                olhoSenha.classList.remove("fa-eye");
+                olhoSenha.classList.add("fa-eye-slash");
+
+            } else {
+
+                senha.type = "password";
+
+                olhoSenha.classList.remove("fa-eye-slash");
+                olhoSenha.classList.add("fa-eye");
+
+            }
+
+        });
+
+    }
+
+});
