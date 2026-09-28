@@ -14,6 +14,13 @@ from django.utils import timezone
 from django.contrib import messages
 from rolepermissions.checkers import has_role
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
+from django.core.mail import BadHeaderError
+import logging
+from django.urls import reverse
+from urllib.parse import urlencode
+
+logger = logging.getLogger(__name__)
 
 @login_required
 def index(request):
@@ -112,7 +119,28 @@ def cadastrar_paciente(request):
             paciente = form.save()
             senha_gerada = paciente.senha_gerada
             messages.success(request, 'Paciente cadastrado com sucesso!')
-            form = PacienteForm()  
+            if paciente.email:
+                try:
+                    send_mail(
+                        'Seus dados de acesso - Sistema Odisseu',
+                        f'Olá {paciente.nome},\n\n'
+                        f'Sua conta foi criada no Sistema Laboratorial Odisseu.\n\n'
+                        f'CPF de acesso: {paciente.cpf}\n'
+                        f'Senha temporária: {senha_gerada}\n\n'
+                        f'Recomendamos alterar sua senha no primeiro acesso.',
+                        None,  # usa DEFAULT_FROM_EMAIL
+                        [paciente.email],
+                    )
+                    messages.info(request, 'E-mail com os dados de acesso foi enviado ao paciente.')
+                except BadHeaderError:
+                    messages.warning(request, 'Paciente cadastrado, mas houve um problema no e-mail (cabeçalho inválido).')
+                except Exception:
+                    logger.exception('Falha ao enviar e-mail de boas-vindas para paciente %s', paciente.pk)
+                    messages.warning(request, 'Paciente cadastrado, mas não foi possível enviar o e-mail com a senha.')
+            else:
+                messages.warning(request, 'Paciente cadastrado sem e-mail informado — a senha não pôde ser enviada por e-mail.')
+
+            form = PacienteForm()
         else:
             if 'cpf' in form.errors:
                 messages.error(request, 'Este CPF já foi cadastrado.')
@@ -306,6 +334,7 @@ def digitar_resultados(request, agendamento_id):
 
 from rolepermissions.checkers import has_permission
 
+
 def ver_resultados(request, paciente_id, data):
 
     paciente_sessao = request.session.get('paciente_id')
@@ -381,6 +410,17 @@ def pacientes(request):
 @has_permission_decorator('editar_paciente')
 def editar_paciente(request, paciente_id):
     paciente = get_object_or_404(Paciente, id=paciente_id)
+    busca = request.POST.get('busca', '')
+    page = request.POST.get('page', '')
+
+    url_redirect = reverse('pacientes')
+    params = {}
+    if busca:
+        params['busca'] = busca
+    if page:
+        params['page'] = page
+    if params:
+        url_redirect += '?' + urlencode(params)
 
     if request.method == 'POST':
 
@@ -393,7 +433,24 @@ def editar_paciente(request, paciente_id):
                 f'Nova senha gerada para {paciente.nome}: {senha_texto}'
             )
 
-            return redirect('pacientes')
+            if paciente.email:
+                try:
+                    send_mail(
+                        'Nova senha de acesso - Sistema Odisseu',
+                        f'Olá {paciente.nome},\n\n'
+                        f'Sua senha de acesso foi redefinida.\n\n'
+                        f'Nova senha: {senha_texto}\n\n'
+                        f'Recomendamos alterá-la no primeiro acesso.',
+                        None,
+                        [paciente.email],
+                    )
+                    messages.success(request, f'Nova senha gerada e enviada por e-mail para {paciente.nome}.')
+                except Exception:
+                    logger.exception('Falha ao enviar e-mail de nova senha para paciente %s', paciente.pk)
+                    messages.warning(request, f'Nova senha gerada para {paciente.nome}: {senha_texto} (falha ao enviar e-mail)')
+            else:
+                messages.success(request, f'Nova senha gerada para {paciente.nome}: {senha_texto}')
+                return redirect('pacientes')
 
         form = PacienteForm(
             request.POST,
@@ -572,21 +629,21 @@ def liberar_resultados(request):
     )
 
 #usuario
-
+@login_required
+@has_permission_decorator('visualizar_usuarios')
 def usuarios(request):
-    usuarios= User.objects.all()
     busca = request.GET.get('busca', '').strip()
+    usuarios = User.objects.all().order_by('first_name', 'last_name', 'id')
+
 
     if busca:
-        usuarios = User.objects.filter(
-            first_name__icontains=busca
-        ) | User.objects.filter(
-            last_name__icontains=busca
-        ) | User.objects.filter(
-            username__icontains=busca
-        ) | User.objects.filter(
-            email__icontains=busca
+        usuarios = usuarios.filter(
+            Q(first_name__icontains=busca) |
+            Q(last_name__icontains=busca) |
+            Q(username__icontains=busca) |
+            Q(email__icontains=busca)
         )
+
     for usuario in usuarios:
         if has_role(usuario, Administrador):
             usuario.perfil = 'Administrador'
@@ -605,7 +662,7 @@ def usuarios(request):
         request,
         'usuarios.html',
         {
-            'usuarios': usuarios,
+            'busca': busca,
             'page_obj': page_obj
         }
     )
@@ -652,29 +709,49 @@ def ativar_usuario(request, id):
 def editar_usuarios(request, id):
     usuario = get_object_or_404(User, id=id)
     busca = request.GET.get('busca', '').strip()
+    page = request.GET.get('page', '')
 
+    url_redirect = reverse('usuarios')
+    params = {}
+    if busca:
+        params['busca'] = busca
+    if page:
+        params['page'] = page
+    if params:
+        url_redirect += '?' + urlencode(params)
     if request.method == 'POST':
         form = UsuarioEdicaoForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
             messages.success(request, "Usuário editado com sucesso!")
-            return redirect('usuarios')
+            return redirect(url_redirect)
         else:
             messages.error(request, "Ocorreu um erro ao editar o usuário")
             form_edicao = form  
     else:
         form_edicao = UsuarioEdicaoForm(instance=usuario)
 
-    usuarios = User.objects.all()
+    usuarios = User.objects.all().order_by('first_name', 'last_name', 'id')
 
     if busca:
         usuarios = usuarios.filter(
             Q(first_name__icontains=busca) |
             Q(last_name__icontains=busca) |
+            Q(username__icontains=busca) |
             Q(email__icontains=busca)
         )
 
-    paginator = Paginator(usuarios, 1)
+    for usuario_item in usuarios:
+        if has_role(usuario_item, Administrador):
+            usuario_item.perfil = 'Administrador'
+        elif has_role(usuario_item, Farmaceutico):
+            usuario_item.perfil = 'Farmacêutico'
+        elif has_role(usuario_item, Recepcionista):
+            usuario_item.perfil = 'Recepcionista'
+        elif has_role(usuario_item, TecnicoLaboratorial):
+            usuario_item.perfil = 'Técnico Laboratorial'
+
+    paginator = Paginator(usuarios, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

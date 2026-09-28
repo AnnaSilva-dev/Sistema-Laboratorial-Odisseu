@@ -53,10 +53,17 @@
                     
                         {{ form.data_nascimento.errors }}
                     </div>
+<<<<<<< HEAD
                 </nav>
                 
                 <nav class="row">
                     <div class="col-md-4">
+=======
+                </section>
+
+                <section class="row">
+                    <div class="col-md-6">
+>>>>>>> origin/main
                         <label for="{{ form.telefone.id_for_label }}">
                             Telefone:
                         </label>
@@ -69,7 +76,23 @@
                     
                         {{ form.telefone.errors }}
                     </div>
-                    <div class="col-md-4">
+
+                    <div class="col-md-6">
+                        <label for="{{ form.email.id_for_label }}">
+                            E-mail:
+                        </label>
+
+                        <div class="mb-3 form_icon">
+                            <i class="bi bi-envelope"></i>
+                            {% render_field form.email class="form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
+                        </div>
+
+                        {{ form.email.errors }}
+                    </div>
+                </section>
+
+                <section class="row">
+                    <div class="col-md-6">
                         <label for="{{ form.cns.id_for_label }}">
                             CNS:
                         </label>
@@ -82,18 +105,21 @@
                         {{ form.cns.errors }}
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="{{ form.cpf.id_for_label }}">
                             CPF:
                         </label>
 
                         <div class="mb-3 form_icon">
                             <i class="bi bi-file-earmark-text"></i>
+<<<<<<< HEAD
                            {% render_field form.cpf class="cpf form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+=======
+                        {% render_field form.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+>>>>>>> origin/main
                         </div>
                         
                         {{ form.cpf.errors }}
-                        
                     </div>
                 </nav>
 
