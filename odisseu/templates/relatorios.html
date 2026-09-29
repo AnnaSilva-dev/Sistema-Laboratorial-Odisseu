@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ block.super }} - Cadastrar Usuário{% endblock %}
+{% block content %}
+    <h1 id="titulo">Relatórios</h1>
+    <p id="subtitulo">
+        Aqui você verá relatorios dos seus documentos do balacobaco
+    </p>
+
+    <p>
+        <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+            < Voltar
+        </a>
+        <a href="{% url 'usuarios' %}" class="btn btn-sm btn-success">
+            + 
+        </a>
+    </p>
+{% endblock content %}

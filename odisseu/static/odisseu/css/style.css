@@ -67,7 +67,7 @@ body{
     background: transparent;
 }
 
-.content-base section, .fundo-content{
+.content-base section, .fundo-content, .config section{
     background-color: var(--fundo-content);
     box-shadow: 0 5px 15px var(--borda);
     color: var(--texto);
