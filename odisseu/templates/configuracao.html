@@ -62,15 +62,20 @@
                         style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                         {{ perfil }}
                     </span>
+
+                    
                     
                 </nav>
-
+            </div>
+            <div class="col-3 mt-4 ms-3">
+                <p class="mt-2 mb-0">
+                    <span class="bi bi-envelope-fill me-3"></span>{{ request.user.email }}    
+                </p>
             </div>
         </section>
 
 
         <section class="row mt-3 rounded-3 p-3">
-
             <div class="col-1">
                 <span class="bi bi-palette-fill text-destaque" style="font-size: 10vh;"></span>
             </div>
