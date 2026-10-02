@@ -126,8 +126,11 @@ def cadastrar_paciente(request):
                         f'Olá {paciente.nome},\n\n'
                         f'Sua conta foi criada no Sistema Laboratorial Odisseu.\n\n'
                         f'CPF de acesso: {paciente.cpf}\n'
-                        f'Senha temporária: {senha_gerada}\n\n'
-                        f'Recomendamos alterar sua senha no primeiro acesso.',
+                        f'Senha de acesso: {senha_gerada}\n\n'
+                        f'Utilize esta senha para entrar no sistema e acessar seus exames.',
+                        f'Caso esta senha de acesso seja perdida, recomendamos que você solicite uma nova senha aos responsáveis.',
+                        f'Desejamos um bom uso do sistema',
+                        f'\n Atenciosamente, \n   Equipe Odisseu. ',
                         None,  # usa DEFAULT_FROM_EMAIL
                         [paciente.email],
                     )
@@ -438,9 +441,10 @@ def editar_paciente(request, paciente_id):
                     send_mail(
                         'Nova senha de acesso - Sistema Odisseu',
                         f'Olá {paciente.nome},\n\n'
-                        f'Sua senha de acesso foi redefinida.\n\n'
+                        f'Informamos que sua senha de acesso ao sistema foi redefinida.\n\n'
                         f'Nova senha: {senha_texto}\n\n'
-                        f'Recomendamos alterá-la no primeiro acesso.',
+                        f'Utilize esta senha para acessar seus exames.\n'
+                        f'Atenciosamente, \n     Equipe Odisseu. ',
                         None,
                         [paciente.email],
                     )
