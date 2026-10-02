@@ -144,11 +144,7 @@ def cadastrar_paciente(request):
                 messages.warning(request, 'Paciente cadastrado sem e-mail informado — a senha não pôde ser enviada por e-mail.')
 
             form = PacienteForm()
-        else:
-            if 'cpf' in form.errors:
-                messages.error(request, 'Este CPF já foi cadastrado.')
-            if 'cns' in form.errors:
-                messages.error(request, 'O CNS informado já foi cadastrado.')
+            
     
     else:
         form = PacienteForm()

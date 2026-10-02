@@ -9,7 +9,7 @@ def validate_future_date(value):
 def validate_cpf(value):
     cpf_validator = CPF()
     if not cpf_validator.validate(value):
-        raise ValidationError("CPF inválido.")
+        raise ValidationError("CPF inválido. ")
 
 def validate_cns(value):
     cns_validator = CNS()
