@@ -123,15 +123,22 @@ def cadastrar_paciente(request):
                 try:
                     send_mail(
                         'Seus dados de acesso - Sistema Odisseu 🐍',
+
                         f'Olá {paciente.nome},\n\n'
                         f'Sua conta foi criada no Sistema Laboratorial Odisseu.\n\n'
                         f'CPF de acesso: {paciente.cpf}\n'
                         f'Senha de acesso: {senha_gerada}\n\n'
-                        f'Utilize esta senha para entrar no sistema e acessar seus exames.',
-                        f'Caso esta senha de acesso seja perdida, recomendamos que você solicite uma nova senha aos responsáveis.',
-                        f'Desejamos um bom uso do sistema',
-                        f'\n Atenciosamente, \n   Equipe Odisseu. 🐍🧪',
-                        None,  # usa DEFAULT_FROM_EMAIL
+                        f'Utilize esta senha para entrar no sistema '
+                        f'e acessar seus exames.\n\n'
+                        f'Caso esta senha de acesso seja perdida, '
+                        f'recomendamos que você solicite uma nova senha '
+                        f'aos responsáveis.\n\n'
+                        f'Desejamos um bom uso do sistema.\n\n'
+                        f'Atenciosamente,\n'
+                        f'Equipe Odisseu. 🐍🧪',
+
+                        None,  # DEFAULT_FROM_EMAIL
+
                         [paciente.email],
                     )
                     messages.info(request, 'E-mail com os dados de acesso foi enviado ao paciente.')
