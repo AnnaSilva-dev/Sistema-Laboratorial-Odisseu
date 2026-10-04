@@ -218,15 +218,14 @@ def rotina(request):
 
         data = date.today()
 
+    pacientes = Paciente.objects.filter(agendamento__data=data).distinct().order_by('nome')
+    paginator = Paginator(pacientes, 5)
+    page_obj = paginator.get_page(request.GET.get('page'))
 
-    agendamentos = Agendamento.objects.filter(
-        data=data
-    )
-
-    paginator = Paginator(agendamentos, 5)
-    
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj.object_list = Agendamento.objects.filter(
+        data=data,
+        paciente__in=page_obj.object_list
+    ).select_related('paciente').order_by('paciente__nome', 'paciente_id', 'id')
 
     return render(
         request,
@@ -234,8 +233,8 @@ def rotina(request):
         {
             'data': data,
             'page_obj': page_obj,
-        }
-    )
+        })
+   
 @login_required
 @has_permission_decorator('visualizar_resultados')
 def resultados(request):
