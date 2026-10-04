@@ -105,11 +105,9 @@
                 </nav>
 
                 <nav class="col-md-2">
-                    {% for agendamento in grupo.list %}
-                        <a class="btn btn-danger mb-3" href="{% url 'excluir_agendamento' agendamento.id %}">
+                        <a class="btn btn-danger mb-3" href="{% url 'excluir_agendamento' grupo.list.0.id %}" onclick="return confirm('Deseja excluir este agendamento?')">
                             <span class="bi bi-x-circle"></span> Excluir agendamento
                         </a>
-                    {% endfor %}
                 </nav>
             </div>
 

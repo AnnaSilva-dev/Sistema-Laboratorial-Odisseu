@@ -511,18 +511,14 @@ def editar_resultado(request, resultado_id):
 @has_permission_decorator('excluir_agendamento')
 def excluir_agendamento(request, agendamento_id):
 
-    agendamento = Agendamento.objects.get(id=agendamento_id)
-
-    data = agendamento.data
-
+    agendamento = get_object_or_404(Agendamento, id=agendamento_id)
+    Agendamento.objects.filter(paciente=agendamento.paciente, data=agendamento.data).delete()
     agendamento.delete()
     messages.success(request, 'Agendamento excluido com sucesso!')
 
     return redirect(
-        f'/rotina?data={data.strftime("%Y-%m-%d")}'
+        f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
     )
-
-
 
 def rotina_impressao(request):
 
