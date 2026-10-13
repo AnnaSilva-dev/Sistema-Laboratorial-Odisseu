@@ -36,14 +36,14 @@
 
             <hr>
 
-            <section class="container rounded-2 p-4 shadow-lg">
+            <nav class="container rounded-2 p-4 shadow-lg">
                 <form method="POST">
                     {% csrf_token %}
                     <h2 id="titulo">{{ exame.nome }}</h2>
 
                     <hr>
 
-                    <section class="container">
+                    <div class="container">
                         {% if exame.secoes %}
                             {% for secao in exame.secoes %}
                                 <h3>{{ secao.nome }}</h3>
@@ -84,7 +84,7 @@
                                 <br>
                             {% endfor %}
                         {% endif %}
-                    </section>  
+                    </div>  
 
                     <div>
                         <h4 for="id_observacao"><strong>Observação:</strong></h4>
@@ -107,7 +107,7 @@
                         </button>
                     </section>
                 </form>
-            </section>
+            </nav>
         </div>
     </section>
 

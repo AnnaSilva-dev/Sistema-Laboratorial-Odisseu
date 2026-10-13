@@ -44,219 +44,219 @@
                     </button>
                 </div>
             </form>
-
-            {% for paciente in page_obj %}
-                <div class="container text-tema rounded-3 border border-success p-3 mb-4 shadow-lg" id="destaque">
-                    <div class="row">
-                        <nav class="col-6">
-                            <h2 class="fw-bold">{{ paciente.nome }}</h2>
-                        </nav>
-                        <nav class="col-6 text-end">
-                            <button
-                                class="btn btn-sm btn-primary"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#editar_paciente_{{ paciente.id }}"
-                                aria-expanded="false"
-                                aria-controls="editar_paciente_{{ paciente.id }}">
-                                <i class="bi bi-highlighter"></i>
-                                Editar paciente
-                            </button>
-                            <!-- <a href="?busca={{ busca|urlencode }}&page={{ page_obj.number }}&editar={{ paciente.id }}"
-                                class="btn btn-sm btn-primary">
-                                <i class="bi bi-highlighter"></i>
-                                Editar paciente
-                            </a> -->
-                            <button class="btn btn-sm btn-success my-2" type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#exames_paciente_{{ paciente.id }}"
-                                aria-expanded="false"
-                                aria-controls="exames_paciente_{{ paciente.id }}">
-                                <i class="bi bi-card-checklist"></i>
-                                Histórico de exames
-                            </button>
-                        </nav>
-                        <nav class="container px-4">
-                            <div class="row">
-                                <nav class="col-3">
-                                    <strong>CPF:</strong><p class="cpf"> {{ paciente.cpf }}</p>
-                                    <strong>CNS:</strong><p class="cns">{{ paciente.cns }}</p>
-                                </nav>
-                                <nav class="col-3">
-                                    <strong>Data de nascimento:</strong><p> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
-                                    <strong>Telefone:</strong><p class="telefone"> {{ paciente.telefone }}</p>
-                                </nav>
-                            </div>
-                        </nav>
-                    </div>
-                    
-                    <div class="collapse mt-2" id="editar_paciente_{{ paciente.id }}">
-
-                        <hr>
-
-                        <h3>Editar paciente</h3>
-
-                        <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
-                            <input type="hidden" name="busca" value="{{ busca }}">
-                            <input type="hidden" name="page" value="{{ page_obj.number }}">
-
-                            {% csrf_token %}
-
-                            <nav class="row">
-
-                                <div class="col-md-8 border-0">
-                                    <label>
-                                        Nome:
-                                    </label>
-
-                                    {% load widget_tweaks %}
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-person"></i>
-
-                                        {% render_field paciente.form_editar.nome class="form-control rounded-4 shadow-lg" placeholder="Digite seu nome" %}
-                                    </div>
-
-                                    {{ paciente.form_editar.nome.errors }}
-                                </div>
-
-                                <div class="col-md-4 rounded-2">
-                                    <label>
-                                        Data de nascimento:
-                                    </label>
-
-                                    <div class="mb-3">
-                                        {% render_field paciente.form_editar.data_nascimento class="form-control rounded-4 shadow-lg" %}
-                                    </div>
-
-                                    {{ paciente.form_editar.data_nascimento.errors }}
-                                </div>
-
+            <div class="container text-tema p-2 mb-4">
+                    {% for paciente in page_obj %}
+                    <div class="col-6 rounded-3 p-2 mb-2" id="destaque">
+                        <div>
+                                <h2 class="fw-bold">{{ paciente.nome }}</h2>
+                            <nav class=" text-end">
+                                <button
+                                    class="btn btn-sm btn-primary"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#editar_paciente_{{ paciente.id }}"
+                                    aria-expanded="false"
+                                    aria-controls="editar_paciente_{{ paciente.id }}">
+                                    <i class="bi bi-highlighter"></i>
+                                    Editar paciente
+                                </button>
+                                <!-- <a href="?busca={{ busca|urlencode }}&page={{ page_obj.number }}&editar={{ paciente.id }}"
+                                    class="btn btn-sm btn-primary">
+                                    <i class="bi bi-highlighter"></i>
+                                    Editar paciente
+                                </a> -->
+                                <button class="btn btn-sm btn-success my-2" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#exames_paciente_{{ paciente.id }}"
+                                    aria-expanded="false"
+                                    aria-controls="exames_paciente_{{ paciente.id }}">
+                                    <i class="bi bi-card-checklist"></i>
+                                    Histórico de exames
+                                </button>
                             </nav>
-
-                            <nav class="row">
-
-                                <div class="col-md-4">
-                                    <label>
-                                        CPF:
-                                    </label>
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-file-earmark-text"></i>
-
-                                        {% render_field paciente.form_editar.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
-                                    </div>
-
-                                    {{ paciente.form_editar.cpf.errors }}
+                            <nav class="container px-4">
+                                <div class="row">
+                                    <nav class="col-6">
+                                        <strong>CPF:</strong><p class="cpf"> {{ paciente.cpf }}</p>
+                                        <strong>CNS:</strong><p class="cns">{{ paciente.cns }}</p>
+                                    </nav>
+                                    <nav class="col-6">
+                                        <strong>Nascimento:</strong><p> {{ paciente.data_nascimento|date:"d/m/Y" }}</p>
+                                        <strong>Telefone:</strong><p class="telefone"> {{ paciente.telefone }}</p>
+                                    </nav>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <label>
-                                        CNS:
-                                    </label>
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-credit-card"></i>
-
-                                        {% render_field paciente.form_editar.cns class="form-control rounded-4 shadow-lg" placeholder="123 4567 8901 2345" %}
-                                    </div>
-
-                                    {{ paciente.form_editar.cns.errors }}
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label>
-                                        Telefone:
-                                    </label>
-
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-telephone"></i>
-
-                                        {% render_field paciente.form_editar.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
-                                    </div>
-
-                                    {{ paciente.form_editar.telefone.errors }}
-                                </div>
-                                <div class="col-md-6">
-                                    <label>
-                                        E-mail:
-                                    </label>
-                                    <div class="mb-3 form_icon">
-                                        <i class="bi bi-envelope"></i>
-                                        {% render_field paciente.form_editar.email class="form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
-                                    </div>
-                                    {{ paciente.form_editar.email.errors }}
-                                </div>
-
                             </nav>
+                        </div>
+                        
+                        <div class="collapse mt-2" id="editar_paciente_{{ paciente.id }}">
 
-                            <button
-                                class="btn btn-sm btn-warning"
-                                type="submit"
-                                name="gerar_senha"
-                                onclick="return confirm('Gerar nova senha para {{ paciente.nome }}? A senha anterior deixará de funcionar.');">
-                                Gerar nova senha
-                            </button>
+                            <hr>
 
-                            <button
-                                class="btn btn-sm btn-success"
-                                type="submit">
-                                <span class="bi bi-check-all"></span>
-                                Salvar alterações
-                            </button>
+                            <h3>Editar paciente</h3>
 
-                            <button
-                                class="btn btn-sm btn-danger"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#editar_paciente_{{ paciente.id }}">
-                                Cancelar
-                            </button>
+                            <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
+                                <input type="hidden" name="busca" value="{{ busca }}">
+                                <input type="hidden" name="page" value="{{ page_obj.number }}">
 
-                        </form>
+                                {% csrf_token %}
 
-                        <hr>
+                                <nav class="row">
 
-                    </div>
+                                    <div class="col-md-8 border-0">
+                                        <label>
+                                            Nome:
+                                        </label>
 
-                    <!-- HISTÓRICO DE EXAMES -->
+                                        {% load widget_tweaks %}
 
-                    <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
-                        {% for grupo in paciente.historico_agendamentos %}
-                            <div class="card card-body    white shadow-lg   mb-2" style="width: fit-content;">
-                                <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
+                                        <div class="mb-3 form_icon">
+                                            <i class="bi bi-person"></i>
 
-                                {% for agendamento in grupo.agendamentos %}
-                                    <div class="mb-1">
-                                        <strong>{{ agendamento.get_exame_display }}</strong> — 
-                                        {% if agendamento.resultado %}
-                                            {% if agendamento.resultado.liberado %}
-                                                <span class="text-success">✓ Resultado liberado</span>
+                                            {% render_field paciente.form_editar.nome class="form-control rounded-4 shadow-lg" placeholder="Digite seu nome" %}
+                                        </div>
+
+                                        {{ paciente.form_editar.nome.errors }}
+                                    </div>
+
+                                    <div class="col-md-4 rounded-2">
+                                        <label>
+                                            Data de nascimento:
+                                        </label>
+
+                                        <div class="mb-3">
+                                            {% render_field paciente.form_editar.data_nascimento class="form-control rounded-4 shadow-lg" %}
+                                        </div>
+
+                                        {{ paciente.form_editar.data_nascimento.errors }}
+                                    </div>
+
+                                </nav>
+
+                                <nav class="row">
+
+                                    <div class="col-md-4">
+                                        <label>
+                                            CPF:
+                                        </label>
+
+                                        <div class="mb-3 form_icon">
+                                            <i class="bi bi-file-earmark-text"></i>
+
+                                            {% render_field paciente.form_editar.cpf class="form-control rounded-4 shadow-lg" placeholder="123.456.789-00" %}
+                                        </div>
+
+                                        {{ paciente.form_editar.cpf.errors }}
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>
+                                            CNS:
+                                        </label>
+
+                                        <div class="mb-3 form_icon">
+                                            <i class="bi bi-credit-card"></i>
+
+                                            {% render_field paciente.form_editar.cns class="form-control rounded-4 shadow-lg" placeholder="123 4567 8901 2345" %}
+                                        </div>
+
+                                        {{ paciente.form_editar.cns.errors }}
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label>
+                                            Telefone:
+                                        </label>
+
+                                        <div class="mb-3 form_icon">
+                                            <i class="bi bi-telephone"></i>
+
+                                            {% render_field paciente.form_editar.telefone class="form-control rounded-4 shadow-lg" placeholder="(84) 99999-9999" %}
+                                        </div>
+
+                                        {{ paciente.form_editar.telefone.errors }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>
+                                            E-mail:
+                                        </label>
+                                        <div class="mb-3 form_icon">
+                                            <i class="bi bi-envelope"></i>
+                                            {% render_field paciente.form_editar.email class="form-control rounded-4 shadow-lg" placeholder="paciente@exemplo.com" %}
+                                        </div>
+                                        {{ paciente.form_editar.email.errors }}
+                                    </div>
+
+                                </nav>
+
+                                <button
+                                    class="btn btn-sm btn-warning"
+                                    type="submit"
+                                    name="gerar_senha"
+                                    onclick="return confirm('Gerar nova senha para {{ paciente.nome }}? A senha anterior deixará de funcionar.');">
+                                    Gerar nova senha
+                                </button>
+
+                                <button
+                                    class="btn btn-sm btn-success"
+                                    type="submit">
+                                    <span class="bi bi-check-all"></span>
+                                    Salvar alterações
+                                </button>
+
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#editar_paciente_{{ paciente.id }}">
+                                    Cancelar
+                                </button>
+
+                            </form>
+
+                            <hr>
+
+                        </div>
+
+                        <!-- HISTÓRICO DE EXAMES -->
+
+                        <div class="collapse mt-2" id="exames_paciente_{{ paciente.id }}">
+                            {% for grupo in paciente.historico_agendamentos %}
+                                <div class="card card-body    white shadow-lg   mb-2" style="width: fit-content;">
+                                    <h5>{{ grupo.data|date:"d/m/Y" }}</h5>
+
+                                    {% for agendamento in grupo.agendamentos %}
+                                        <div class="mb-1">
+                                            <strong>{{ agendamento.get_exame_display }}</strong> — 
+                                            {% if agendamento.resultado %}
+                                                {% if agendamento.resultado.liberado %}
+                                                    <span class="text-success">✓ Resultado liberado</span>
+                                                {% else %}
+                                                    <span class="text-warning">◷ Aguardando liberação</span>
+                                                {% endif %}
                                             {% else %}
-                                                <span class="text-warning">◷ Aguardando liberação</span>
+                                                <span class=" text-secondary">— Resultado pendente</span>
                                             {% endif %}
-                                        {% else %}
-                                            <span class=" text-secondary">— Resultado pendente</span>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
+                                        </div>
+                                    {% endfor %}
 
-                                {% if grupo.tem_liberado %}
-                                    <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}" 
-                                        class="btn btn-sm btn-success mt-2 align-self-start">
-                                        Ver laudo
-                                    </a>
-                                {% endif %}
-                            </div>
-                        {% empty %}
-                            <p class="text-muted mt-2">Nenhum exame encontrado para este paciente.</p>
-                        {% endfor %}
+                                    {% if grupo.tem_liberado %}
+                                        <a href="{% url 'ver_resultados' paciente.id grupo.data|date:'Y-m-d' %}" 
+                                            class="btn btn-sm btn-success mt-2 align-self-start">
+                                            Ver laudo
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% empty %}
+                                <p class="text-muted mt-2">Nenhum exame encontrado para este paciente.</p>
+                            {% endfor %}
+                        </div>
                     </div>
 
-                </div>
             {% empty %}
                 <p>Nenhum paciente encontrado.</p>
             {% endfor %}
+                </div>
+
         </section>      
 
     <nav aria-label="Paginação">

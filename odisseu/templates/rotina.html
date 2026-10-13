@@ -6,7 +6,15 @@
 
 <h1 id="titulo">Rotinas Laboratoriais</h1>
 <p id="subtitulo">Pacientes e exames agendados para o dia selecionado</p>
-       {% if messages %}
+<p>
+    <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+        < Voltar
+    </a>
+    <a href="{% url 'agendar_exame' %}" class="btn btn-sm btn-success">
+        + Agendar exame
+    </a>
+</p>
+        {% if messages %}
             {% for message in messages %}
                 <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
                     {{ message }}
@@ -21,40 +29,37 @@
             <nav class="col-md-4">
                 <label for="data">
                     Data da rotina
-                </label>
-                <input
-                    class="data edit-forms"
-                    type="date"
-                    id="data"
-                    name="data"
-                    value="{{ data|date:'Y-m-d' }}"
-                >
+                </label> 
+                <div class="input-group">
+                    <input
+                        class="form-control shadow-lg border border-black"
+                        type="date"
+                        id="data"
+                        name="data"
+                        value="{{ data|date:'Y-m-d' }}"
+                    >
+                    <button class="btn btn-success fw-bold px-3 py-2 shadow-lg" type="submit">
+                        Filtrar
+                    </button>
+                </div> 
             </nav>
+            <nav class="col-md-4 mt-4">
+                </form>
+                    {% if page_obj %}
 
-            <nav class="col-md-4 mt-4 p-2">
-                <button class="confirmar px-3" type="submit">
-                    Filtrar
-                </button>
+                        <a
+                            href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
+                            target="_blank"
+                            class="pdf border-0 mt-2 btn btn-primary"
+                        >
+                            <span class="bi bi-file-earmark-pdf-fill"></span>
+                            Imprimir rotina
+                        </a>
+
+                    {% endif %}
+                </form>
             </nav>
         </div>    
-    </form>
-            <!-- BOTÃO PARA A PÁGINA DE IMPRESSÃO -->
-
-        {% if page_obj %}
-
-            <a
-                href="{% url 'rotina_impressao' %}?data={{ data|date:'Y-m-d' }}"
-                target="_blank"
-                class="pdf border-0 mt-2 link"
-            >
-                <span class="bi bi-file-earmark-pdf-fill"></span>
-                Imprimir rotina
-            </a>
-
-        {% endif %}
-    </form>
-    
-
 
     <br>
 
@@ -65,7 +70,7 @@
         Pacientes agendados
     </h2>
 
-    <div class="row dark-subtle rounded-1 p-1 m-1 tabela">
+    <div class="row dark-subtle rounded-1 p-1 m-1 tabela" id="destaque">
         <nav class="col-md-4">
             <h5 class="tabela">
                 Paciente
@@ -83,9 +88,7 @@
                 Ações
             </h5>
         </nav>
-    </div>
-    
-    <div id="menusRotina">
+
         {% regroup page_obj by paciente as pacientes %}
 
         {% for grupo in pacientes %}
@@ -96,7 +99,7 @@
                     </h5>
                 </nav>
 
-                <nav class="col-md-6">
+                <nav class="col-md-4 exames-agendados">
                     <strong>
                         {% for agendamento in grupo.list %}
                             {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
@@ -104,18 +107,21 @@
                     </strong>
                 </nav>
 
-                <nav class="col-md-2">
+                <nav class="col-md-3 ms-5">
                         <a class="btn btn-danger mb-3" href="{% url 'excluir_agendamento' grupo.list.0.id %}" onclick="return confirm('Deseja excluir este agendamento?')">
-                            <span class="bi bi-x-circle"></span> Excluir agendamento
+                            <span class="bi bi-trash3-fill"></span> Excluir agendamento
                         </a>
                 </nav>
             </div>
+        
+
 
         {% empty %}
             <p>
                 Não existem exames agendados para esta data.
             </p>
         {% endfor %}
+        </div>
             <nav aria-label="Paginação">
                 <ul class="pagination justify-content-center">
 

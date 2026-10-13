@@ -43,7 +43,7 @@
 }
 
 #destaque {
-    background-color: var(--card);
+    background-color: var(--verde-clarinho);
     color: var(--texto-destaque);
     box-shadow: 0 2px 5px var(--borda);
 }
@@ -71,6 +71,13 @@ body{
     background-color: var(--fundo-content);
     box-shadow: 0 5px 15px var(--borda);
     color: var(--texto);
+}
+
+.exames-agendados {
+    max-width: 500px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nav-item{

@@ -36,14 +36,17 @@
                         {% for grupo in page_obj %}
                             <nav class="container-fluid mb-5 rounded-3 p-4" id="destaque">
                                 <div class="row">
-                                    <h4 id="titulo" class="fw-bold">    
-                                        Paciente:
-                                    </h4>
-                                    <h5 class="col-6">
-                                        {{ grupo.paciente.nome }}
-                                        <span class="cpf">{{ grupo.paciente.cpf }}</span>
-                                    </h5>
+                                    <nav class="col-6">
+                                        <h4 id="titulo" class="fw-bold">    
+                                            Paciente:
+                                        </h4>
+                                        <h5>
+                                            {{ grupo.paciente.nome }}
+                                        </h5>
+                                        <h5 class="cpf">{{ grupo.paciente.cpf }}</h5>
+                                    </nav>
                                     
+
                                     <button
                                         class="navbar-toggler col-6 text-end"
                                         type="button"
