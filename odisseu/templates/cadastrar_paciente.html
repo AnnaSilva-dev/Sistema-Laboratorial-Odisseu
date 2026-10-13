@@ -111,20 +111,26 @@
                         {{ form.cpf.errors }}
                     </div>
                 </nav>
+            </form>
 
                 <div class="row mt-5">
                     <nav class="col-12 text-end">
-                        <a href="{% url 'index' %}" class="btn btn-danger">
+                        <a href="{% url 'index' %}" class="btn btn-danger mb-2">
                             <span class="bi bi-x-circle"></span> 
                             Cancelar
                         </a>
-                        <button class="btn btn-success" type="submit" 
-                            onclick="return confirm('Tem certeza dos dados colocados?')">
-                            <span class="bi bi-person-plus"></span>
-                            Cadastrar paciente
-                        </button>
+                        <form method="POST"
+                            data-confirm="Deseja realmente cadastrar este paciente?"
+                            data-confirm-title="Confirmar cadastro"
+                            data-confirm-button="Cadastrar paciente">
+                            {% csrf_token %}
+
+                            <button type="submit" class="btn btn-success mb-3">
+                                <span class="bi bi-person"></span>
+                                Cadastrar Paciente
+                            </button>
+                        </form>
                     </nav>
                 </div>
-        </form>
     </section>
 {% endblock %}

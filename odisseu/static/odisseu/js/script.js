@@ -323,3 +323,88 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const elementoModal = document.getElementById("modalConfirmacao");
+
+    if (!elementoModal || !window.bootstrap) {
+        return;
+    }
+
+    const modal = bootstrap.Modal.getOrCreateInstance(elementoModal);
+    const mensagem = document.getElementById("mensagemConfirmacao");
+    const titulo = document.getElementById("tituloConfirmacao");
+    const botaoConfirmar = document.getElementById("confirmarAcao");
+
+    let acaoPendente = null;
+    let formularioLiberado = null;
+
+    document.addEventListener("submit", function (event) {
+        const formulario = event.target;
+
+        if (!formulario.matches("form[data-confirm]")) {
+            return;
+        }
+
+        if (formularioLiberado === formulario) {
+            formularioLiberado = null;
+            return;
+        }
+
+        event.preventDefault();
+
+        const botao = event.submitter;
+
+        acaoPendente = function () {
+            formularioLiberado = formulario;
+            if (botao) {
+                formulario.requestSubmit(botao);
+            } else {
+                formulario.requestSubmit();
+            }
+        };
+
+        titulo.textContent = formulario.dataset.confirmTitle || "Confirmar ação";
+        mensagem.textContent = formulario.dataset.confirm;
+        botaoConfirmar.textContent = formulario.dataset.confirmButton || "Confirmar";
+
+        modal.show();
+    });
+
+    document.addEventListener("click", function (event) {
+        const link = event.target.closest("a[data-confirm]");
+
+        if (!link) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const destino = link.href;
+
+        acaoPendente = function () {
+            window.location.href = destino;
+        };
+
+        titulo.textContent = link.dataset.confirmTitle || "Confirmar ação";
+        mensagem.textContent = link.dataset.confirm;
+        botaoConfirmar.textContent = link.dataset.confirmButton || "Confirmar";
+
+        modal.show();
+    });
+
+    botaoConfirmar.addEventListener("click", function () {
+        if (!acaoPendente) {
+            return;
+        }
+
+        const executar = acaoPendente;
+        acaoPendente = null;
+        modal.hide();
+        executar();
+    });
+
+    elementoModal.addEventListener("hidden.bs.modal", function () {
+        acaoPendente = null;
+    });
+});

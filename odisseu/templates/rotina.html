@@ -108,9 +108,18 @@
                 </nav>
 
                 <nav class="col-md-3 ms-5">
-                        <a class="btn btn-danger mb-3" href="{% url 'excluir_agendamento' grupo.list.0.id %}" onclick="return confirm('Deseja excluir este agendamento?')">
-                            <span class="bi bi-trash3-fill"></span> Excluir agendamento
-                        </a>
+                    <form method="POST"
+                        action="{% url 'excluir_agendamento' grupo.list.0.id %}"
+                        data-confirm="Deseja realmente excluir os agendamentos deste paciente?"
+                        data-confirm-title="Excluir agendamentos"
+                        data-confirm-button="Excluir">
+                        {% csrf_token %}
+
+                        <button type="submit" class="btn btn-danger mb-3">
+                            <span class="bi bi-trash3-fill"></span>
+                            Excluir agendamento
+                        </button>
+                    </form>
                 </nav>
             </div>
         

@@ -457,3 +457,49 @@ input[type="checkbox"]:checked::after {
 
     transform: rotate(45deg);
 }
+
+
+.modal-odisseu {
+    background-color: var(--preto-azulado);
+    color: var(--branco);
+    border: 1px solid var(--verde);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal-odisseu .modal-header,
+.modal-odisseu .modal-footer {
+    border-color: rgba(0, 134, 102, 0.35);
+}
+
+.modal-odisseu .modal-title {
+    font-weight: 700;
+}
+
+.modal-odisseu .btn-close {
+    filter: invert(1);
+}
+
+.modal-odisseu .btn-cancelar {
+    background-color: transparent;
+    color: var(--branco);
+    border: 1px solid var(--verde-claro);
+}
+
+.modal-odisseu .btn-cancelar:hover {
+    background-color: var(--verde);
+}
+
+.modal-odisseu .btn-excluir {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.modal-odisseu .btn-excluir:hover {
+    background-color: #bb2d3b;
+}
+
+.modal-backdrop.show {
+    opacity: 0.7;
+}
