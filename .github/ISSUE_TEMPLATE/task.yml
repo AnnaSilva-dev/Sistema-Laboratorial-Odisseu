@@ -1,0 +1,49 @@
+name: Tarefa técnica
+description: Registre uma atividade técnica que não representa bug nem funcionalidade.
+title: ""
+labels: ["task"]
+
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objetivo
+      description: Explique o resultado técnico que deverá ser alcançado.
+      placeholder: "Atualizar o projeto para..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justificativa
+      description: Explique por que essa atividade é necessária.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo
+      description: Indique o que faz e o que não faz parte da tarefa.
+    validations:
+      required: true
+
+  - type: textarea
+    id: completion
+    attributes:
+      label: Critérios de conclusão
+      description: Liste as condições necessárias para considerar a tarefa concluída.
+      placeholder: |
+        - [ ] Primeiro critério
+        - [ ] Segundo critério
+    validations:
+      required: true
+
+  - type: textarea
+    id: observations
+    attributes:
+      label: Observações
+      description: Acrescente restrições, dependências ou referências técnicas.
+    validations:
+      required: false
