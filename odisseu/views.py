@@ -506,18 +506,6 @@ def editar_resultado(request, resultado_id):
         'resultado': resultado, 'agendamento': agendamento, 'parametros': parametros,
     })
 
-@login_required
-@has_permission_decorator('excluir_agendamento')
-def excluir_agendamento(request, agendamento_id):
-
-    agendamento = get_object_or_404(Agendamento, id=agendamento_id)
-    Agendamento.objects.filter(paciente=agendamento.paciente, data=agendamento.data).delete()
-    agendamento.delete()
-    messages.success(request, 'Agendamento excluido com sucesso!')
-
-    return redirect(
-        f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}'
-    )
 
 def rotina_impressao(request):
 
@@ -628,6 +616,37 @@ def liberar_resultados(request):
         request,
         'liberar_resultados.html',
         {'busca': busca, 'page_obj': page_obj}
+
+    )
+@login_required
+@has_permission_decorator('excluir_agendamento')
+def excluir_agendamento(request, agendamento_id):
+    agendamento = get_object_or_404(Agendamento, id=agendamento_id)
+
+    paciente = agendamento.paciente
+    data = agendamento.data
+
+    agendamentos = Agendamento.objects.filter(
+        paciente=paciente,
+        data=data
+    )
+
+    for item in agendamentos:
+        resultado = Resultado.objects.filter(
+            agendamento=item,
+            liberado=True
+        ).exists()
+
+        if not resultado:
+            item.delete()
+
+    messages.success(
+        request,
+        'Agendamentos sem resultados liberados excluídos com sucesso!'
+    )
+
+    return redirect(
+        f'/rotina?data={data.strftime("%Y-%m-%d")}'
     )
 
 #usuario
