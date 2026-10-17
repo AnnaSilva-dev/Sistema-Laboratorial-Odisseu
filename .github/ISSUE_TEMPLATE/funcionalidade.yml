@@ -1,6 +1,6 @@
 name: Funcionalidade
 description: Registre uma funcionalidade ou melhoria percebida pelo usuário.
-title: ""
+title: "funcionalidade"
 labels: ["enhancement"]
 
 body:
