@@ -1,0 +1,60 @@
+name: Bug
+description: Registre um erro ou comportamento inesperado do sistema.
+title: ""
+labels: ["bug"]
+
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Descrição do problema
+      description: Explique de forma objetiva o que está acontecendo.
+      placeholder: "Ao tentar..., o sistema..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Passos para reproduzir
+      description: Informe a sequência necessária para observar o erro.
+      placeholder: |
+        1. Acesse...
+        2. Clique em...
+        3. Informe...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Comportamento esperado
+      description: Explique o que deveria acontecer.
+    validations:
+      required: true
+
+  - type: textarea
+    id: observed
+    attributes:
+      label: Comportamento observado
+      description: Explique o que aconteceu no lugar do comportamento esperado.
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Informe navegador, dispositivo, sistema operacional ou versão relevante.
+      placeholder: "Chrome 151, Windows 11"
+    validations:
+      required: false
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidências
+      description: Acrescente mensagens de erro, imagens, vídeos ou outras informações úteis.
+    validations:
+      required: false
