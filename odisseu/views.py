@@ -283,36 +283,60 @@ def resultados(request):
 @login_required
 @has_permission_decorator('digitar_resultados')
 def digitar_resultados(request, agendamento_id):
-    agendamento = Agendamento.objects.get(id=agendamento_id)
+    agendamento = get_object_or_404(Agendamento, id=agendamento_id)
 
     if hasattr(agendamento, 'resultado'):
-        return redirect('editar_resultado', resultado_id=agendamento.resultado.id)
+        return redirect(
+            'editar_resultado',
+            resultado_id=agendamento.resultado.id
+        )
 
     exame = EXAMES[agendamento.exame]
+    parametros = parametros_do_exame(exame)
 
     if request.method == 'POST':
-        
         form = ResultadoForm(request.POST)
 
+        campos_vazios = []
+
+        for parametro in parametros:
+            valor = request.POST.get(parametro['nome'], '').strip()
+
+            if not valor:
+                campos_vazios.append(parametro['nome'])
+
+        if campos_vazios:
+            for campo in campos_vazios:
+                messages.error(
+                    request,
+                    f'O campo "{campo}" não pode ficar em branco.'
+                )
+
+            return render(
+                request,
+                'digitar_resultados.html',
+                {
+                    'form': form,
+                    'agendamento': agendamento,
+                    'exame': exame,
+                }
+            )
+
         if form.is_valid():
-
-            for parametro in parametros_do_exame(exame):
-                valor = request.POST.get(parametro['nome'], '')
-
-                if not valor:
-                    messages.error(request, f'O campo "{parametro["nome"]}" não pode ficar em branco.')
-                    return redirect('digitar_resultados', agendamento_id=agendamento.id)
-
             resultado = form.save(commit=False)
             resultado.agendamento = agendamento
             resultado.save()
 
-            for parametro in parametros_do_exame(exame):
+            for parametro in parametros:
+                valor = request.POST.get(
+                    parametro['nome'], ''
+                ).strip()
+
                 if parametro.get('tipo') == 'diferencial':
                     ResultadoParametro.objects.create(
                         resultado=resultado,
                         nome=parametro['nome'],
-                        percentual=request.POST.get(parametro['nome'], ''),
+                        percentual=valor,
                         valor='',
                         unidade=parametro['unidade'],
                         referencia=parametro['referencia'],
@@ -321,21 +345,36 @@ def digitar_resultados(request, agendamento_id):
                     ResultadoParametro.objects.create(
                         resultado=resultado,
                         nome=parametro['nome'],
-                        valor=request.POST.get(parametro['nome'], ''),
+                        valor=valor,
                         unidade=parametro['unidade'],
                         referencia=parametro['referencia'],
                     )
-            messages.success(request, 'Resultado salvo com sucesso!')
 
+            messages.success(
+                request,
+                'Resultado salvo com sucesso!'
+            )
         else:
-            messages.error(request, 'Ocorreu um erro')
+            messages.error(
+                request,
+                'Verifique os dados do formulário.'
+            )
 
-        return redirect(f'/rotina?data={agendamento.data.strftime("%Y-%m-%d")}')
+        return redirect(
+            'resultados'
+        )
 
-    else:
-        form = ResultadoForm()
+    form = ResultadoForm()
 
-    return render(request, 'digitar_resultados.html', {'form': form, 'agendamento': agendamento, 'exame': exame})
+    return render(
+        request,
+        'digitar_resultados.html',
+        {
+            'form': form,
+            'agendamento': agendamento,
+            'exame': exame,
+        }
+    )
 
 from rolepermissions.checkers import has_permission
 
