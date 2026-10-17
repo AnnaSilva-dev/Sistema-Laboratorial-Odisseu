@@ -1,0 +1,42 @@
+name: Funcionalidade
+description: Registre uma funcionalidade ou melhoria percebida pelo usuário.
+title: ""
+labels: ["enhancement"]
+
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objetivo
+      description: Informe o papel, a ação desejada e o benefício esperado.
+      placeholder: "Como <papel>, quero <ação>, para que <benefício>."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Critérios de aceitação
+      description: Liste condições objetivas e verificáveis.
+      placeholder: |
+        - [ ] Primeiro critério
+        - [ ] Segundo critério
+    validations:
+      required: true
+
+  - type: input
+    id: screens
+    attributes:
+      label: Link das telas ou protótipo
+      description: Informe o endereço das telas, do protótipo ou do fluxo visual, caso exista.
+      placeholder: "https://www.figma.com/design/..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: observations
+    attributes:
+      label: Observações
+      description: Acrescente contexto, referências ou restrições relevantes.
+    validations:
+      required: false
