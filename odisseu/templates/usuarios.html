@@ -26,15 +26,6 @@
                 {% endfor %}
             {% endif %}  
         </nav>
-        <nav class="col-md-4 text-end">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        </nav>
     </div>
     <section class="container rounded-3    white shadow-lg">
         <form method="GET" class="mb-4">
@@ -49,8 +40,8 @@
                     Pesquisar
                 </button>
             </div>
-
         </form>
+       
 
             <div class="table-responsive">
 
@@ -96,13 +87,13 @@
 
                                 {% if usuario.is_active %}
 
-                                    <span class="badge   success">
+                                    <span class="badge text-black">
                                         Ativo
                                     </span>
 
                                 {% else %}
 
-                                    <span class="badge   secondary">
+                                    <span class="badge text-black">
                                         Inativo
                                     </span>
 
@@ -122,15 +113,16 @@
                                 {% if usuario.is_active %}
 
                                     <form method="POST"
+                                        data-confirm="Deseja Desativar o usuario?"
+                                        data-confirm-title="Desativar"
+                                        data-confirm-button="Desativar"
                                         action="{% url 'inativar_usuario' usuario.id %}"
                                         class="d-inline">
 
                                         {% csrf_token %}
 
                                         <button type="submit"
-                                                class="btn btn-sm btn-outline-danger"
-                                                onclick="return confirm('Deseja realmente inativar este usuário?')">
-
+                                                class="btn btn-sm btn-outline-danger">
                                             Inativar
 
                                         </button>
@@ -140,10 +132,14 @@
                                 {% else %}
 
                                     <form method="POST"
+                                        data-confirm="Deseja Ativar este usuario?"
+                                        data-confirm-title="Ativação"
+                                        data-confirm-button="Ativar"
                                         action="{% url 'ativar_usuario' usuario.id %}"
                                         class="d-inline">
 
                                         {% csrf_token %}
+                                        
 
                                         <button type="submit"
                                                 class="btn btn-sm btn-outline-success">
@@ -166,7 +162,10 @@
 
                             <td colspan="6">
 
-                                <form method="POST">
+                                <form method="POST" 
+                                    data-confirm="Deseja Salvar?"
+                                    data-confirm-title="Salvar alterações"
+                                    data-confirm-button="Salvar">
 
                                     {% csrf_token %}
 
@@ -220,13 +219,18 @@
                                         <!-- BOTÕES -->
                                         <div class="col-md-3">
 
-                                            <button type="submit"
+                                            <button type="submit" class="btn btn-success mb-3">
+                                                <span class="bi bi-person"></span>
+                                                Salvar
+                                            </button>
+
+                                            <!-- <button type="submit"
                                                     class="btn btn-success"
                                                     onclick="return confirm('Tem certeza que deseja salvar?')">
 
                                                 Salvar
 
-                                            </button>
+                                            </button> -->
 
                                             <a href="{% url 'usuarios' %}"
                                             class="btn btn-secondary">
@@ -268,7 +272,7 @@
                 </table>
 
             </div>
-
+        
     </section>
   
 </div>

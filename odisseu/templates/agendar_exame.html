@@ -97,7 +97,10 @@
         </a>
     </p>
 <section class="rounded-4 p-4">
-    <form method="POST" class="form-exames">
+    <form method="POST" data-confirm="Deseja realmente agendar esse exame?"
+                    data-confirm-title="Agendamento de exame"
+                    data-confirm-button="Cadastrar exame"
+                    class="form-exames">
         {% csrf_token %}
         <nav class="row">
             <div class="col-12 border-0">
@@ -153,18 +156,22 @@
                 {{ form.solitante.errors }}
             </div>
         </div>
+        
         <div class="row">
             <nav class="col-12 mt-4 text-end">
-                <button class="confirmar border-0 px-2 p-2" type="submit" 
+                
+
+                    <button type="submit" class="btn btn-success mb-3">
+                        Cadastrar Exame
+                    </button>
+            
+                <!-- <button class="confirmar border-0 px-2 p-2" type="submit" 
                     data-bs-toggle="modal"
                     data-bs-target="#modalExcluir">
                     Agendar exames
-                </button>
+                </button> -->
             </nav>
         </div>
     </form>
 </section>
-
-
-
 {% endblock %}

@@ -37,7 +37,10 @@
             <hr>
 
             <nav class="container rounded-2 p-4 shadow-lg">
-                <form method="POST">
+                <form method="POST"  
+                        data-confirm="Tem certeza que deseja Salvar?"
+                        data-confirm-title="Salvar Resultado"
+                        data-confirm-button="Confirmar">
                     {% csrf_token %}
                     <h2 id="titulo">{{ exame.nome }}</h2>
 
@@ -94,30 +97,20 @@
                             {% render_field form.observacao class="form-control rounded-4 shadow-lg" placeholder="Observações sobre o resultado..." %}
                         </div>
                     </div>
-                    
-                </form>
-                <div class="text-end mt-4">
-                    <form method="POST"
-                        data-confirm="Tem certeza que deseja cancelar? (Suas alterações não serão salvas!)?"
-                        data-confirm-title="Cancelar"
-                        data-confirm-button="Confirmar">
-                        {% csrf_token %}
+
+                   <div class="text-end mt-4">
+                        <button type="submit" class="btn btn-success px-4 py-1" >
+                            <span class="bi bi-check-all"></span> Salvar resultado
+                        </button>
 
                         <button type="submit" class="btn btn-danger mb-3">
                             <span class="bi bi-x-circle"></span> Cancelar
                         </button>
-                    </form>
-                        <a href="{% url 'resultados' %}"
-                            class="btn btn-danger"
-                            onclick="return cancel('Tem certeza que deseja cancelar? \n (Suas alterações não serão salvas!)')">
-                                
-                        </a>
-
-                        <button type="submit" class="btn btn-success px-4 py-1" 
-                            onclick="return confirm('Tem certeza que deseja salvar o resultado?')">
-                            <span class="bi bi-check-all"></span> Salvar resultado
-                        </button>
-                </div>
+                        
+                    </div>
+                    
+                </form>
+                
             </nav>
         </div>
     </section>

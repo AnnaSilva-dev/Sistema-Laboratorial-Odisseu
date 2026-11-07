@@ -94,7 +94,11 @@
 
                             <h3>Editar paciente</h3>
 
-                            <form method="POST" action="{% url 'editar_paciente' paciente.id %}">
+                            <form method="POST" 
+                                    data-confirm="Deseja Salvar?"
+                                    data-confirm-title="Salvar alterações"
+                                    data-confirm-button="Salvar" 
+                                    action="{% url 'editar_paciente' paciente.id %}">
                                 <input type="hidden" name="busca" value="{{ busca }}">
                                 <input type="hidden" name="page" value="{{ page_obj.number }}">
 
