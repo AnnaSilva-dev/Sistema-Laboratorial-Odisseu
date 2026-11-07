@@ -48,14 +48,14 @@
                             {% for secao in exame.secoes %}
                                 <h3>{{ secao.nome }}</h3>
                                 <nav class="row mb-5 mt-3">
-                                    <div class="col-12 border rounded-3 shadow-lg">
+                                    <div class="col-12  rounded-3 shadow-lg">
                                             <div class="container p-2">
                                                 <nav class="row">
                                                     {% for parametro in secao.parametros %}
                                                         <div class="col-6">     
                                                             <label><strong>{{ parametro.nome }}</strong></label>
                                                             <section class="container mb-4">
-                                                                <input type="text" name="{{ parametro.nome }}"
+                                                                <input type="text" name="{{ parametro.nome }}" re
                                                                     class="form-control rounded-3">
                                                         
                                                                 {% if parametro.tipo == 'diferencial' %}%{% else %}{{ parametro.unidade }}{% endif %}
@@ -75,7 +75,7 @@
                             {% for parametro in exame.parametros %}
                                 <div>
                                     <label><strong>{{ parametro.nome }}</strong></label>
-                                    <input type="text" name="{{ parametro.nome }}"
+                                    <input type="text" name="{{ parametro.nome }}" required
                                         class="form-control rounded-4 shadow-lg">
 
                                         {{ parametro.unidade }}
