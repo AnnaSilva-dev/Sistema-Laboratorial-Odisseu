@@ -56,6 +56,7 @@ urlpatterns = [
 
     path('configuracao/', views.config, name='configuracao'),
     path('relatorios/', views.relatorios, name='relatorios'),
-    path('ajuda', views.ajuda, name='ajuda')
+    path('ajuda', views.ajuda, name='ajuda'),
+    path('relatorios/exportar/', views.relatorios_exportar, name='relatorios_exportar'),
 ]
 
