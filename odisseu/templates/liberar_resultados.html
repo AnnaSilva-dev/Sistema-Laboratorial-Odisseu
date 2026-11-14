@@ -3,21 +3,16 @@
 {% block content %}
 
 <style>
-    .lr-checkbox-label {
-        display: flex;
-        cursor: pointer;
-        margin-bottom: 6px;
+    .linha-selecionada {
+        transition: background-color 0.5s ease, border-radius 0.3s ease;
+        background-color: var(--verde-clarinho) !important;
+        border-radius: 8px;
     }
 
-    .lr-checkbox-label:last-child {
-        margin-bottom: 0;
-    }
-
-    .lr-checkbox-label input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #2f7a52;
-        cursor: pointer;
+    tr.linha-selecionada td,
+    .linha-resultado.linha-selecionada {
+        transition: background-color 0.5s ease, border-radius 0.3s ease;
+        background-color: var(--verde-clarinho) !important;
     }
 
     .lr-btn-revisar {
@@ -45,16 +40,6 @@
         color: #8a938c;
         font-size: 14px;
     }
-
-    .grupo_paciente {
-        transition: background-color 0.3s ease, border-radius 0.3s ease;
-        display: block;
-    }
-    
-    .grupo_selecionado {
-        background-color: #e8f5e9 !important;
-        border-radius: 8px;
-    }
 </style>
 
 <h1 id="titulo">Liberar resultados</h1>
@@ -75,118 +60,130 @@
     {% endfor %}
 {% endif %}
 
-        
 <section class="rounded-4 p-4 ">
-        <h3 class="fw-bold content">
-            Exames aguardando liberação ({{ page_obj.paginator.count }})
-        </h3>
-        <form method="GET" class="mb-4">
-            <div class="input-group py-3 ">
-                <input type="text"
-                    name="busca"
-                    class="form-control shadow-lg border border-black"
-                    placeholder="Pesquisar usuário..."
-                    value="{{ busca }}">
+    <h3 class="fw-bold content">
+        Exames aguardando liberação ({{ page_obj.paginator.count }})
+    </h3>
+    <form method="GET" class="mb-4">
+        <div class="input-group py-3 ">
+            <input type="text"
+                name="busca"
+                class="form-control shadow-lg border border-black"
+                placeholder="Pesquisar usuário..."
+                value="{{ busca }}">
 
-                <button type="submit" class="btn btn-success">
-                    Pesquisar
-                </button>
-            </div>
+            <button type="submit" class="btn btn-success">
+                Pesquisar
+            </button>
+        </div>
 
-        </form>
+    </form>
+
     <form method="POST" class="form-rotina">
         {% csrf_token %}
 
-        <div class="row rounded-1 p-1 m-1" id="destaque">
-            <nav class="col-md-4">
-                <h5 class="tabela">
-                    Paciente
-                </h5>
-            </nav>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
 
-            <nav class="col-md-6">
-                <h5 class="tabela">
-                    Exames agendados 
-                </h5>
-            </nav>
+                <thead>
+                    <tr>
+                        <th>Pacientes</th>
+                        <th>Exames agendados</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
 
-            <nav class="col-md-2">
-                <h5 class="tabela">
-                    Ações
-                </h5>
-            </nav>
+                <tbody id="paciente-exames">
 
-            <nav id="menuResultados">
-                {% for grupo in page_obj %}
-                    <nav class="grupo_paciente">
+                    {% for grupo in page_obj %}
 
-                        <div class="row border-bottom border-secondary p-1 m-2">
-                            <nav class="col-md-4">
-                                <h5>
-                                    <label class="lr-checkbox-label gap-2"> 
-                                        <input type="checkbox" class="selecionar_todos">
-                                        {{ grupo.paciente.nome }}
-                                    </label>
-                                </h5>
-                            </nav>
+                        <tr class="linha-paciente">
+                            <td>
+                                <label class="lr-checkbox-label">
+                                    <input type="checkbox"
+                                        class="selecionar_todos"
+                                        data-grupo="{{ grupo.paciente.id }}_{{ forloop.counter }}">
 
-                            <nav class="col-md-6">
-                                <strong>
-                                    {{ grupo.data|date:"d/m/Y" }}
-                                </strong>
+                                    {{ grupo.paciente.nome }}
+                                </label>
+                            </td>
 
-                                <button
-                                    class="navbar-toggler border border-2 p-1 rounded-2 ms-2"
-                                    type="button"
+                            <td class="exames-agendados">
+                                <strong>{{ grupo.data|date:"d/m/Y" }}</strong>
+                            </td>
+
+                            <td>
+                                <button class="btn btn-sm btn-success" type="button"
                                     data-bs-toggle="collapse"
-                                    data-bs-target="#resultados{{ forloop.counter }}"
-                                    aria-controls="resultados{{ forloop.counter }}"
-                                    aria-expanded="false"
-                                    aria-label="Abrir menu"
-                                >
-                                    Exames <i class="bi bi-chevron-down"></i> 
+                                    data-bs-target="#exames_paciente_{{ grupo.paciente.id }}_{{ forloop.counter }}"
+                                    aria-expanded="false">
+                                    <i class="bi bi-card-checklist"></i>
+                                    Detalhes
                                 </button>
 
-                                <div class="collapse mt-2" 
-                                    id="resultados{{ forloop.counter }}" 
-                                    data-bs-parent="#menuResultados"
-                                >
-                                    {% for resultado in grupo.resultados %}
-                                        <div class="d-flex align-items-center gap-2 my-1">
-                                            <span>{{ resultado.agendamento.get_exame_display }}</span>
-                                            <label class="lr-checkbox-label"> 
-                                                <input type="checkbox" name="resultados" value="{{ resultado.id }}">
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </nav>
-
-                            <nav class="col-md-2">
                                 <a class="lr-btn-revisar"
                                     href="{% url 'ver_resultados' grupo.paciente.id grupo.data|date:'Y-m-d' %}?busca={{ busca|urlencode }}">
                                     <i class="bi bi-eye"></i> Revisar
                                 </a>
-                            </nav>
-                        </div>
-                    </nav>
-                    
-                {% empty %}
-                    <div class="p-3 text-center text-muted lr-vazio">
-                        Nenhum resultado aguardando liberação.
-                    </div>
-                {% endfor %}
-            </nav>
-        </div>
+                            </td>
+                        </tr>
+
+                        <tr class="collapse linha-exames"
+                            id="exames_paciente_{{ grupo.paciente.id }}_{{ forloop.counter }}"
+                            data-bs-parent="#paciente-exames">
+
+                            <td colspan="3" class="bg-white">
+
+                                <div class="p-3 bg-white linha-resultado">
+
+                                    {% for resultado in grupo.resultados %}
+
+                                        <div class="d-flex align-items-center gap-2 my-2">
+
+                                            <label class="lr-checkbox-label">
+                                                <input type="checkbox"
+                                                    name="resultados"
+                                                    value="{{ resultado.id }}"
+                                                    class="checkbox-resultado"
+                                                    data-grupo="{{ grupo.paciente.id }}_{{ forloop.parentloop.counter }}">
+
+                                                {{ resultado.agendamento.get_exame_display }}
+                                            </label>
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    {% empty %}
+
+                        <tr>
+                            <td colspan="3" class="text-center py-4 text-muted">
+                                Nenhum resultado aguardando liberação.
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
 
             {% if page_obj %}
-                <button class="confirmar p-2 mt-2" type="submit"
-                    onclick="return confirm('Tem certeza que deseja liberar os resultados?')">
-                    Liberar selecionados
-                </button>
+                <div class="d-flex justify-content-end bg-white p-3 mb-4">
+                    <button class="btn btn-success" type="submit"
+                        onclick="return confirm('Tem certeza que deseja liberar os resultados?')">
+                        <i class="bi bi-check-circle"></i>
+                        Liberar selecionados
+                    </button>
+                </div>
             {% endif %}
-
+        </div>
     </form>
+
     <nav aria-label="Paginação">
         <ul class="pagination justify-content-center">
 
@@ -240,5 +237,65 @@
         </ul>
     </nav>
 </section>
+
+<script>
+// Pagina de liberar resultados
+document.querySelectorAll(".selecionar_todos").forEach(function (checkboxPaciente) {
+
+    const grupo = checkboxPaciente.dataset.grupo;
+
+    const exames = document.querySelectorAll(
+        '.checkbox-resultado[data-grupo="' + grupo + '"]'
+    );
+
+    const linhaPaciente = checkboxPaciente.closest("tr");
+
+    function atualizarGrupo() {
+        const todosMarcados = exames.length > 0 &&
+            Array.from(exames).every(exame => exame.checked);
+
+        const algumMarcado = Array.from(exames).some(exame => exame.checked);
+
+        checkboxPaciente.checked = todosMarcados;
+        checkboxPaciente.indeterminate = algumMarcado && !todosMarcados;
+
+        linhaPaciente.classList.toggle("linha-selecionada", algumMarcado);
+    }
+
+    checkboxPaciente.addEventListener("change", function () {
+
+        exames.forEach(function (exame) {
+            exame.checked = checkboxPaciente.checked;
+
+            exame.closest(".linha-resultado").classList.toggle(
+                "linha-selecionada",
+                checkboxPaciente.checked
+            );
+        });
+
+        checkboxPaciente.indeterminate = false;
+
+        linhaPaciente.classList.toggle(
+            "linha-selecionada",
+            checkboxPaciente.checked
+        );
+    });
+
+    exames.forEach(function (exame) {
+
+        exame.addEventListener("change", function () {
+
+            this.closest(".linha-resultado").classList.toggle(
+                "linha-selecionada",
+                this.checked
+            );
+
+            atualizarGrupo();
+        });
+
+    });
+
+});
+</script>
 
 {% endblock %}

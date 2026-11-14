@@ -131,7 +131,7 @@ body{
     margin: 0;
 }
 
-form label {
+form label:not(.lr-checkbox-label) {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
@@ -142,10 +142,6 @@ form select:focus,
 form textarea:focus {
     outline: none;
     border-color: var(--verde-claro);
-}
-
-form label[for="id_cpf"], form label[for="id_cns"] {
-    text-transform: uppercase;
 }
 
 form input.nome{
@@ -407,7 +403,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
         white-space: nowrap;
     }
 }
-
+/* 
 .exames-todos input[type="checkbox"] {
     background-color: var(--branco);
 }
@@ -456,8 +452,7 @@ input[type="checkbox"]:checked::after {
     top: 2px;
 
     transform: rotate(45deg);
-}
-
+} */
 
 .modal-odisseu {
     background-color: var(--preto-azulado);
@@ -502,4 +497,54 @@ input[type="checkbox"]:checked::after {
 
 .modal-backdrop.show {
     opacity: 0.7;
+}
+
+.lr-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: normal;
+    margin: 0;
+}
+
+.lr-checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--verde);
+    border-radius: 4px;
+    background-color: var(--branco);
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+}
+
+.lr-checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--verde);
+    border-color: var(--verde);
+}
+
+.lr-checkbox-label input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 6px;
+    height: 11px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.grupo_paciente {
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+    display: block;
+}
+
+.grupo_selecionado {
+    background-color: #e8f5e9 !important;
+    border-radius: 8px;
 }

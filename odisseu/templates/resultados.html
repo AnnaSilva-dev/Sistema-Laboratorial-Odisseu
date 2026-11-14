@@ -65,9 +65,9 @@
                                         </td>
 
                                         <td class="text-end">
-                                        
+
                                             <button
-                                                class="navbar-toggler col-6 text-end"
+                                                class="border border-3 btn btn-sm btn-success rounded-2"
                                                 type="button"
                                                 data-bs-toggle="collapse"
                                                 data-bs-target="#menuResultados{{ forloop.counter }}"
@@ -75,42 +75,49 @@
                                                 aria-expanded="false"
                                                 aria-label="Abrir menu"
                                             >
-                                                <i class="bi bi-list border border-3 btn btn-sm btn-success p-2 rounded-2 me-3"> Exames</i> 
+                                                <i class="bi bi-list"></i> 
+                                                Exames
                                             </button>
                                                 
                                         </td>
 
                                     </tr>
 
-                                    <nav class="row g-3 mt-3 px-5 collapse"
+                                    <tr class="collapse"
                                         id="menuResultados{{ forloop.counter }}"
-                                        data-bs-parent="#menusResultados"
-                                    >
-                                        {% for agendamento in grupo.agendamentos %}
+                                        data-bs-parent="#exames-info">
 
-                                            <div class="col-5 bg-light p-3 border border-2 rounded-2 shadow-lg">
-                                                <div>
-                                                    <h6>
-                                                        <strong>Data:</strong>
-                                                        {{ agendamento.data }}
-                                                    </h6>
-                                                    <h6>
-                                                        <strong>Exame:</strong>
-                                                        {{ agendamento.get_exame_display }}
-                                                    </h6>
-                                                </div>
-                                                <nav>
-                                                    <button class="btn btn-sm btn-primary">
-                                                        <a class="text-white nav-link"
-                                                        href="{% url 'digitar_resultados' agendamento.id %}">
-                                                            Digitar resultado
-                                                        </a>
-                                                    </button>
-                                                </nav>
+                                        <td colspan="4">
+                                            <div class="row g-3">
+
+                                                {% for agendamento in grupo.agendamentos %}
+
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="bg-light p-3 border border-2 rounded-2 shadow-lg h-100">
+
+                                                            <h6>
+                                                                <strong>Data:</strong>
+                                                                {{ agendamento.data }}
+                                                            </h6>
+
+                                                            <h6>
+                                                                <strong>Exame:</strong>
+                                                                {{ agendamento.get_exame_display }}
+                                                            </h6>
+
+                                                            <a class="btn btn-sm btn-primary"
+                                                            href="{% url 'digitar_resultados' agendamento.id %}">
+                                                                Digitar resultado
+                                                            </a>
+
+                                                        </div>
+                                                    </div>
+
+                                                {% endfor %}
+
                                             </div>
-                                        {% endfor %}
-                                    </nav>
-
+                                        </td>
+                                    </tr>
                                     {% empty %}
 
                                     <tr>
@@ -134,46 +141,6 @@
 
                     </div>
                 </div>
-                <nav class="col-12 gap-2" id="menuResultados">
-                    {% if page_obj %}
-                        {% for grupo in page_obj %}
-                            <nav class="container-fluid mb-5 rounded-3 p-4" id="destaque">
-                                <div class="row">
-                                    <nav class="col-6">
-                                        <h4 id="titulo" class="fw-bold">    
-                                            Paciente:
-                                        </h4>
-                                        <h5>
-                                            {{ grupo.paciente.nome }}
-                                        </h5>
-                                        <h5 class="cpf">{{ grupo.paciente.cpf }}</h5>
-                                    </nav>
-                                    
-
-                                    <button
-                                        class="navbar-toggler col-6 text-end"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#menuResultados{{ forloop.counter }}"
-                                        aria-controls="menuResultados{{ forloop.counter }}"
-                                        aria-expanded="false"
-                                        aria-label="Abrir menu"
-                                    >
-                                        <i class="bi bi-list border border-3 btn btn-sm btn-success p-2 rounded-2 me-3"> Exames</i> 
-                                    </button>
-                                </div>
-                            
-
-                            </nav>
-                        {% endfor %}
-
-                    {% else %}
-
-                        <p>Não existem resultados pendentes de digitação.</p>
-
-                    {% endif %}
-                </nav>
-                
             </div>
             
         <nav aria-label="Paginação">

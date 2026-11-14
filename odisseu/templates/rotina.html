@@ -69,68 +69,87 @@
     <h2 class="fw-bold content">
         Pacientes agendados
     </h2>
+    
+    <div class="table-responsive">
+        <table class="table table-hover align-middle" >
 
-    <div class="row dark-subtle rounded-1 p-1 m-1 tabela" id="destaque">
-        <nav class="col-md-4">
-            <h5 class="tabela">
-                Paciente
-            </h5>
-        </nav>
-
-        <nav class="col-md-6">
-            <h5 class="tabela">
-                Exames agendados 
-            </h5>
-        </nav>
-
-        <nav class="col-md-2">
-            <h5 class="tabela">
-                Ações
-            </h5>
-        </nav>
-
-        {% regroup page_obj by paciente as pacientes %}
-
-        {% for grupo in pacientes %}
-            <div class="row border-bottom border-secondary p-1 m-2">
-                <nav class="col-md-4">
-                    <h5>
-                        {{ grupo.grouper.nome|default:grupo.grouper }}
-                    </h5>
-                </nav>
-
-                <nav class="col-md-4 exames-agendados">
-                    <strong>
-                        {% for agendamento in grupo.list %}
-                            {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </strong>
-                </nav>
-
-                <nav class="col-md-3 ms-5">
-                    <form method="POST"
-                        action="{% url 'excluir_agendamento' grupo.list.0.id %}"
-                        data-confirm="Deseja realmente excluir os agendamentos deste paciente?"
-                        data-confirm-title="Excluir agendamentos"
-                        data-confirm-button="Excluir">
-                        {% csrf_token %}
-
-                        <button type="submit" class="btn btn-danger mb-3">
-                            <span class="bi bi-trash3-fill"></span>
-                            Excluir agendamento
-                        </button>
-                    </form>
-                </nav>
-            </div>
-        
+            <thead>
+                <tr>
+                    <th>Pacientes</th>
+                    <th>Exames agendados</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            {% regroup page_obj by paciente as pacientes %}
+            <tbody id="paciente-exames">
+                {% for grupo in pacientes %}
+                        <tr>
+                            <td>
+                                <strong>
+                                    {{ grupo.grouper.nome|default:grupo.grouper }}
+                                </strong>
+                            </td>
 
 
-        {% empty %}
-            <p>
-                Não existem exames agendados para esta data.
-            </p>
-        {% endfor %}
-        </div>
+                            <td class="exames-agendados">
+                                {% for agendamento in grupo.list %}
+                                    {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+
+                            <td>
+                                <form method="POST"
+                                    action="{% url 'excluir_agendamento' grupo.list.0.id %}"
+                                    data-confirm="Deseja realmente excluir os agendamentos deste paciente?"
+                                    data-confirm-title="Excluir agendamentos"
+                                    data-confirm-button="Excluir">
+                                    {% csrf_token %}
+
+                                    <button type="submit" class="btn btn-sm my-3 btn-danger mb-3">
+                                        <span class="bi bi-trash3-fill"></span>
+                                        Excluir
+                                    </button>
+
+                                    <button class="btn btn-sm btn-success" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#exames_paciente_{{ grupo.grouper.id }}"
+                                        aria-expanded="false"
+                                        aria-controls="exames_paciente_{{ grupo.grouper.id }}">
+                                        <i class="bi bi-card-checklist"></i>
+                                        Detalhes
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr class="collapse mt-2" id="exames_paciente_{{ grupo.grouper.id }}" data-bs-parent="#paciente-exames">
+                            <td colspan="6">
+                                <div>
+                                    <nav class="row ms-2">
+                                        {% for agendamento in grupo.list %}
+                                            {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td>
+                            <p>
+                                Não existem exames agendados para esta data.
+                            </p>
+                        </td>
+                        <!-- para completar a tabela (lembrar de consertar) -->
+                        <td>
+                        </td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
             <nav aria-label="Paginação">
                 <ul class="pagination justify-content-center">
 
@@ -183,7 +202,7 @@
 
                 </ul>
             </nav>
-        {% endblock %}
         </div>
     </div>
 </section>
+{% endblock %}
