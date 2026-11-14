@@ -118,12 +118,12 @@
         <div class="exames-container">
             <label class="exames-titulo">Exames:</label>
             <nav class="exames-all">
-                <label class="exames-todos">
+                <label class="exames-todos p-2">
                     <input type="checkbox" class="selecionar_todos">
-                    <span>Selecionar todos</span>
+                    <span class="text-danger">Selecionar todos</span>
                 </label>
 
-                <div class="exames-grid">
+                <div class="exames-grid p-3">
                     {% for checkbox in form.exames %}
                         <label class="exame-item">
                             {{ checkbox.tag }}

@@ -403,7 +403,7 @@ input[type="date"]:valid, .perfil:valid, .paciente:valid {
         white-space: nowrap;
     }
 }
-/* 
+
 .exames-todos input[type="checkbox"] {
     background-color: var(--branco);
 }
@@ -433,6 +433,7 @@ input[type="checkbox"]:hover {
 }
 
 input[type="checkbox"]:checked {
+    color: #010806;
     background-color: var(--verde);
     border-color: var(--borda);
 }
@@ -452,7 +453,7 @@ input[type="checkbox"]:checked::after {
     top: 2px;
 
     transform: rotate(45deg);
-} */
+}
 
 .modal-odisseu {
     background-color: var(--preto-azulado);

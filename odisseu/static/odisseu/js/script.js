@@ -172,6 +172,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // pag de liberar resultados
+    document.querySelectorAll(".grupo_paciente").forEach(function (grupo) {
+
+        const mestre = grupo.querySelector(".selecionar_todos");
+        const resultados = grupo.querySelectorAll('input[name="resultados"]');
+
+        if (!mestre) return;
+
+        mestre.addEventListener("change", function () {
+
+            resultados.forEach(function (resultado) {
+                resultado.checked = mestre.checked;
+            });
+
+            grupo.classList.toggle(
+                "grupo_selecionado",
+                mestre.checked
+            );
+        });
+
+        resultados.forEach(function (resultado) {
+
+            resultado.addEventListener("change", function () {
+
+                const todosMarcados =
+                    resultados.length > 0 &&
+                    Array.from(resultados).every(function (resultado) {
+                        return resultado.checked;
+                    });
+
+                mestre.checked = todosMarcados;
+
+                grupo.classList.toggle(
+                    "grupo_selecionado",
+                    todosMarcados
+                );
+            });
+
+        });
+
+    });
 
 });
 
