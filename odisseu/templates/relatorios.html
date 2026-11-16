@@ -32,7 +32,7 @@
     {% endif %}
 </div>
 
-<section class="container bg-light text-dark rounded-4 p-4 nao-imprimir">
+<section class="container-fluid mb-0 text-tema rounded-4 p-4 nao-imprimir">
     <form method="GET" action="{% url 'relatorios' %}">
         <div class="row align-items-end g-3">
             <div class="col-md-4">
@@ -52,77 +52,76 @@
             </div>
         </div>
     </form>
+    {% if gerado %}
+        <section class="container text-tema rounded-4 shadow-lg p-4 ">
+
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                <div>
+                    <h2 class="fw-bold">
+                        Relatório de {{ data_inicio|date:"d/m/Y" }} a {{ data_fim|date:"d/m/Y" }}
+                    </h2>
+                    <p class="mb-1">
+                        <strong>{{ resumo.total_agendamentos }}</strong> exame(s) agendado(s) para
+                        <strong>{{ resumo.total_pacientes }}</strong> paciente(s)
+                    </p>
+                    <p class="mb-0">
+                        <span class="text-success">✓ {{ resumo.liberados }} liberado(s)</span> ·
+                        <span class="text-warning">◷ {{ resumo.aguardando }} aguardando liberação</span> ·
+                        <span class="text-secondary">— {{ resumo.pendentes }} pendente(s)</span>
+                    </p>
+                </div>
+
+                <div class="nao-imprimir">
+                    <a class="btn btn-outline-success"
+                    href="{% url 'relatorios_exportar' %}?data_inicio={{ data_inicio|date:'Y-m-d' }}&data_fim={{ data_fim|date:'Y-m-d' }}">
+                        <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
+                    </a>
+                    <button type="button" class="btn btn-success" onclick="window.print()">
+                        <i class="bi bi-printer"></i> Imprimir
+                    </button>
+                </div>
+            </div>
+
+            {% for dia in dias %}
+                <h3 class="mt-4">{{ dia.data|date:"d/m/Y" }}</h3>
+
+                <div class="table-responsive">
+                    <table class="table table-sm align-middle">
+                        <thead>
+                            <tr>
+                                <th style="width: 35%;">Paciente</th>
+                                <th>Exames agendados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grupo in dia.pacientes %}
+                                <tr>
+                                    <td><strong>{{ grupo.paciente.nome }}</strong></td>
+                                    <td>
+                                        {% for ag in grupo.agendamentos %}
+                                            <div>
+                                                {{ ag.get_exame_display }} —
+                                                {% if ag.status == 'liberado' %}
+                                                    <span class="text-success">✓ {{ ag.status_texto }}</span>
+                                                {% elif ag.status == 'aguardando' %}
+                                                    <span class="text-warning">◷ {{ ag.status_texto }}</span>
+                                                {% else %}
+                                                    <span class="text-secondary">— {{ ag.status_texto }}</span>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% empty %}
+                <p class="text-muted mt-4">Nenhum agendamento encontrado neste período.</p>
+            {% endfor %}
+
+        </section>
+    {% endif %}
 </section>
-
-{% if gerado %}
-<section class="container bg-white text-dark rounded-4 shadow-lg p-4 mt-3">
-
-    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-        <div>
-            <h2 class="fw-bold">
-                Relatório de {{ data_inicio|date:"d/m/Y" }} a {{ data_fim|date:"d/m/Y" }}
-            </h2>
-            <p class="mb-1">
-                <strong>{{ resumo.total_agendamentos }}</strong> exame(s) agendado(s) para
-                <strong>{{ resumo.total_pacientes }}</strong> paciente(s)
-            </p>
-            <p class="mb-0">
-                <span class="text-success">✓ {{ resumo.liberados }} liberado(s)</span> ·
-                <span class="text-warning">◷ {{ resumo.aguardando }} aguardando liberação</span> ·
-                <span class="text-secondary">— {{ resumo.pendentes }} pendente(s)</span>
-            </p>
-        </div>
-
-        <div class="nao-imprimir">
-            <a class="btn btn-outline-success"
-               href="{% url 'relatorios_exportar' %}?data_inicio={{ data_inicio|date:'Y-m-d' }}&data_fim={{ data_fim|date:'Y-m-d' }}">
-                <i class="bi bi-file-earmark-spreadsheet"></i> Exportar CSV
-            </a>
-            <button type="button" class="btn btn-success" onclick="window.print()">
-                <i class="bi bi-printer"></i> Imprimir
-            </button>
-        </div>
-    </div>
-
-    {% for dia in dias %}
-        <h3 class="mt-4">{{ dia.data|date:"d/m/Y" }}</h3>
-
-        <div class="table-responsive">
-            <table class="table table-sm align-middle">
-                <thead>
-                    <tr>
-                        <th style="width: 35%;">Paciente</th>
-                        <th>Exames agendados</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for grupo in dia.pacientes %}
-                        <tr>
-                            <td><strong>{{ grupo.paciente.nome }}</strong></td>
-                            <td>
-                                {% for ag in grupo.agendamentos %}
-                                    <div>
-                                        {{ ag.get_exame_display }} —
-                                        {% if ag.status == 'liberado' %}
-                                            <span class="text-success">✓ {{ ag.status_texto }}</span>
-                                        {% elif ag.status == 'aguardando' %}
-                                            <span class="text-warning">◷ {{ ag.status_texto }}</span>
-                                        {% else %}
-                                            <span class="text-secondary">— {{ ag.status_texto }}</span>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% empty %}
-        <p class="text-muted mt-4">Nenhum agendamento encontrado neste período.</p>
-    {% endfor %}
-
-</section>
-{% endif %}
 
 {% endblock content %}
