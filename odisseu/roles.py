@@ -15,6 +15,7 @@ class Administrador(AbstractUserRole):
         'consultar_relatorios':True,
         'visualizar_usuarios': True,
         'visualizar_resultados': True,
+        'gerar_relatorios': True,
     }
 
 class Farmaceutico(AbstractUserRole):
