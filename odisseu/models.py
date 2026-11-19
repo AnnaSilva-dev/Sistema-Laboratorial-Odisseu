@@ -3,6 +3,7 @@ from .validators import validate_cpf, validate_cns, validate_nome, validate_tele
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password, check_password
 import secrets, string
+from django.contrib.auth.models import User
 
 class Paciente(models.Model):
     nome = models.CharField(max_length=200, validators=[validate_nome])
@@ -168,3 +169,19 @@ class ResultadoParametro(models.Model):
 
     def __str__(self):
         return f'{self.nome}: {self.valor}'
+
+class PerfilUsuario(models.Model):
+
+    usuario = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='perfil_usuario'
+    )
+
+    avatar = models.CharField(
+        max_length=30,
+        default='avatar1.png'
+    )
+
+    def __str__(self):
+        return self.usuario.username

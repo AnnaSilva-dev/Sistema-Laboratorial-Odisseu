@@ -1025,3 +1025,36 @@ def config(request):
         'perfil': perfil
     })
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import PerfilUsuario
+
+def atualizar_avatar(request):
+
+    if request.method == 'POST':
+
+        avatar = request.POST.get('avatar')
+
+        avatares_permitidos = [
+            'avatar1.png',
+            'avatar2.png',
+            'avatar3.png',
+            'avatar4.png',
+            'avatar5.png',
+            'avatar6.png',
+        ]
+
+        if avatar not in avatares_permitidos:
+            messages.error(request, 'Avatar inválido.')
+            return redirect('config')
+
+        perfil, criado = PerfilUsuario.objects.get_or_create(
+            usuario=request.user
+        )
+
+        perfil.avatar = avatar
+        perfil.save()
+
+        messages.success(request, 'Avatar atualizado com sucesso!')
+
+    return redirect('config')
