@@ -24,27 +24,33 @@
 
 
 <section class="container rounded-4 p-4">
-    <form method="GET" action="{% url 'rotina' %}" class="form-rotina">
         <div class="row">
-            <nav class="col-md-4">
-                <label for="data">
-                    Data da rotina
-                </label> 
-                <div class="input-group">
-                    <input
-                        class="form-control shadow-lg border border-black"
-                        type="date"
-                        id="data"
-                        name="data"
-                        value="{{ data|date:'Y-m-d' }}"
-                    >
-                    <button class="btn btn-success fw-bold px-3 py-2 shadow-lg" type="submit">
-                        Filtrar
-                    </button>
-                </div> 
+            <nav class="col-md-6">
+                <form method="GET" action="{% url 'rotina' %}" class="form-rotina">
+
+                    <label for="data">
+                        Data da rotina
+                    </label> 
+                    <div class="input-group">
+                        <input
+                            class="form-control shadow-lg border border-black"
+                            type="date"
+                            id="data"
+                            name="data"
+                            value="{{ data|date:'Y-m-d' }}"
+                        >
+                        <button class="btn btn-success fw-bold px-3 py-2 shadow-lg" type="submit">
+                            Filtrar
+                        </button>
+                    
+                    </div> 
+                    <a href="{% url 'rotina' %}" class="btn btn-sm btn-danger fw-bold rounded-3 px-3 py-2 shadow-lg mt-3">
+                        <i class="bi bi-trash3-fill"></i>
+                        Remover Filtro
+                    </a>
+                </form>
             </nav>
             <nav class="col-md-4 mt-4">
-                </form>
                     {% if page_obj %}
 
                         <a
@@ -57,99 +63,120 @@
                         </a>
 
                     {% endif %}
-                </form>
             </nav>
-        </div>    
-
+        </div> 
     <br>
 
 
     <!-- DATA -->
-
     <h2 class="fw-bold content">
         Pacientes agendados
     </h2>
-    
-    <div class="table-responsive">
-        <table class="table table-hover align-middle" >
+    <div class="container">
+        <nav class="row">
+            <div class="col-9">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle w-100">
+                        <thead>
+                            <tr>
+                                <th>Pacientes</th>
+                                <th>Exames agendados</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        {% regroup page_obj by paciente as pacientes %}
+                        <tbody id="paciente-exames">
+                            {% for grupo in pacientes %}
+                                    <tr>
+                                        <td>
+                                            <strong>
+                                                {{ grupo.grouper.nome|default:grupo.grouper }}
+                                            </strong>
+                                        </td>
 
-            <thead>
-                <tr>
-                    <th>Pacientes</th>
-                    <th>Exames agendados</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            {% regroup page_obj by paciente as pacientes %}
-            <tbody id="paciente-exames">
-                {% for grupo in pacientes %}
-                        <tr>
-                            <td>
-                                <strong>
-                                    {{ grupo.grouper.nome|default:grupo.grouper }}
-                                </strong>
-                            </td>
 
+                                        <td class="exames-agendados">
+                                            {% for agendamento in grupo.list %}
+                                                {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </td>
 
-                            <td class="exames-agendados">
-                                {% for agendamento in grupo.list %}
-                                    {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                                        <td>
+                                            <form method="POST"
+                                                action="{% url 'excluir_agendamento' grupo.list.0.id %}"
+                                                data-confirm="Deseja realmente excluir os agendamentos deste paciente?"
+                                                data-confirm-title="Excluir agendamentos"
+                                                data-confirm-button="Excluir">
+                                                {% csrf_token %}
+
+                                                <button type="submit" class="btn btn-sm my-3 btn-danger mb-3">
+                                                    <span class="bi bi-trash3-fill"></span>
+                                                    Excluir
+                                                </button>
+
+                                                <button class="btn btn-sm btn-success" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#exames_paciente_{{ grupo.grouper.id }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="exames_paciente_{{ grupo.grouper.id }}">
+                                                    <i class="bi bi-card-checklist"></i>
+                                                    Detalhes
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <tr class="collapse mt-2" id="exames_paciente_{{ grupo.grouper.id }}" data-bs-parent="#paciente-exames">
+                                        <td>
+                                            <div>
+                                                <nav class="row ms-2">
+                                                    {% for agendamento in grupo.list %}
+                                                        {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </nav>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                {% empty %}
+                                <tr>
+                                    <td>
+                                        <p>
+                                            Não existem exames agendados para esta data.
+                                        </p>
+                                    </td>
+                                    <!-- para completar a tabela (lembrar de consertar) -->
+                                    <td>
+                                    </td>
+                                    <td></td>
+                                </tr>
                                 {% endfor %}
-                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card d-block p-3 h-100" id="destaque">
+                    <h5>Próximos exames</h5>
 
-                            <td>
-                                <form method="POST"
-                                    action="{% url 'excluir_agendamento' grupo.list.0.id %}"
-                                    data-confirm="Deseja realmente excluir os agendamentos deste paciente?"
-                                    data-confirm-title="Excluir agendamentos"
-                                    data-confirm-button="Excluir">
-                                    {% csrf_token %}
-
-                                    <button type="submit" class="btn btn-sm my-3 btn-danger mb-3">
-                                        <span class="bi bi-trash3-fill"></span>
-                                        Excluir
-                                    </button>
-
-                                    <button class="btn btn-sm btn-success" type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#exames_paciente_{{ grupo.grouper.id }}"
-                                        aria-expanded="false"
-                                        aria-controls="exames_paciente_{{ grupo.grouper.id }}">
-                                        <i class="bi bi-card-checklist"></i>
-                                        Detalhes
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr class="collapse mt-2" id="exames_paciente_{{ grupo.grouper.id }}" data-bs-parent="#paciente-exames">
-                            <td colspan="6">
-                                <div>
-                                    <nav class="row ms-2">
-                                        {% for agendamento in grupo.list %}
-                                            {{ agendamento.get_exame_display }}{% if not forloop.last %}, {% endif %}
-                                        {% endfor %}
-                                    </nav>
-                                </div>
-                            </td>
-                        </tr>
-
-                    {% empty %}
-                    <tr>
-                        <td>
-                            <p>
-                                Não existem exames agendados para esta data.
-                            </p>
-                        </td>
-                        <!-- para completar a tabela (lembrar de consertar) -->
-                        <td>
-                        </td>
-                        <td></td>
-                    </tr>
-                    {% endfor %}
-            </tbody>
-        </table>
-
+                    <ul class="list-unstyled">
+                        {% for dia in data_exames %}
+                            <li class="p-2 border-bottom">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                <a class="link" href="?data={{ dia|date:'Y-m-d' }}">
+                                    {{ dia|date:'d/m/Y' }}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li class="text-muted">
+                                Nenhum exame agendado.
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
+
             <nav aria-label="Paginação">
                 <ul class="pagination justify-content-center">
 
@@ -205,4 +232,5 @@
         </div>
     </div>
 </section>
+
 {% endblock %}

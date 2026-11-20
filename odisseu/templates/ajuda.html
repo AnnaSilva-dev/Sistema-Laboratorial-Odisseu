@@ -44,6 +44,47 @@
     
     {% block content %}
         <style>
+            .ajuda-container *{
+                transition: 0.4s;
+            }
+
+            .zoom-ajuda{
+                transition: 0.8s;
+                display: none;
+            }
+
+            .ajuda-container:hover img {
+                box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.9);
+                filter: brightness(20%);
+                cursor: pointer;
+            }
+
+            .ajuda-container:hover .zoom-ajuda {
+                box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.9);
+                cursor: pointer;
+                display: block;
+            }
+            .setas {
+                background-color: var(--verde-claro);
+                padding: 5px;
+                border-radius: 10px;
+                box-shadow: 0 10px 20px var(--borda);
+                cursor: pointer;
+            }
+            .setas:hover{
+                background-color: var(--verde-clarinho);
+                color: black;
+                /* transform: translateY(-10px) scale(1.05); */
+                outline: 1px solid var(--borda);
+            }
+            .tutoriais {
+                transition: transform 0.6s ease, opacity 0.6s ease;
+            }
+
+            .troca {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
             .link {
                 list-style: none;
                 padding: 0;
@@ -134,8 +175,27 @@
             <div class="row">
                 <div class="col-12 p-2" id="agendarexame">
                     <h4 class="p-2 mb-2">Como posso agendar um exame?</h4>
-                    <nav class="px-5">
-                        <p>Para agendar um exame, acesse a página Agendar Exames. <br>
+                    <nav class="row p-4 rounded-3 mx-3" >
+                        <div class="col-7 card border-0">
+                            <nav class="ajuda-container text-center">
+                                <span class="fa-solid fa-angle-left setas seta-esquerda"></span>
+                                <img src="{% static 'odisseu/imgs/agendarExemplo.png' %}" class="tutorial card-img rounded-4" style="width: 80%;">
+                                <span class="fa-solid fa-angle-right setas seta-direita"></span>
+
+                                <div class="card-img-overlay" style="margin-top: 20%; margin-left: 25vh;">
+                                    <button class="btn btn-sm btn-primary zoom-ajuda"
+                                            type="button"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalImgs"
+                                            >
+                                        <i class="bi bi-zoom-in me-1"></i>
+                                        Zoom
+                                    </button>
+                                </div>
+                            </nav>
+                        </div> 
+
+                        <p class="col-5">Para agendar um exame, acesse a página Agendar Exames. <br>
                             Primeiro, selecione o paciente digitando seu nome no campo indicado.
                             Em seguida, marque os exames desejados ou utilize a opção Selecionar todos. 
                             Depois, informe a data do agendamento e o nome do solicitante. Confira as informações e clique em Cadastrar Exame para finalizar.<br>
@@ -171,5 +231,97 @@
                 </div>
             </div>
         </section>
+        <div class="modal fade"
+            id="modalImgs"
+            tabindex="-1"
+            aria-labelledby="tituloModalImgs"
+            aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+
+                <div class="modal-content rounded-4">
+
+                    <div class="modal-header">
+
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Fechar">
+                        </button>
+
+                    </div>
+
+                    <div class="modal-body p-4">
+
+                        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 g-4">
+                            <img src="{% static 'odisseu/imgs/agendarExemplo.png' %}" class="tutorial" style="width: 100%;">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+
+                            Fechar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <script>
+            function CriarCarrossel(imagens, elementos, intervalo) {
+                let inicio = 0;
+
+                function atualizar() {
+                    elementos.forEach((el, i) => {
+                        const index = (inicio + i) % imagens.length;
+
+                        // el.classList.add("troca");
+
+                        setTimeout(() => {
+                            el.src = imagens[index];
+                            // el.classList.remove("troca");
+                        }, 200);
+                    });
+                }
+
+                function proxima() {
+                    inicio = (inicio + 1) % imagens.length;
+                    atualizar();
+                }
+
+                function anterior() {
+                    inicio = (inicio - 1 + imagens.length) % imagens.length;
+                    atualizar();
+                }
+
+                atualizar();
+                setInterval(proxima, intervalo);
+
+                return { proxima, anterior };
+            }
+
+            const tutoriais = [
+                "{% static 'odisseu/imgs/agendarExemplo.png' %}",
+                "{% static 'odisseu/imgs/pagAgendar.png' %}"
+            ];
+
+            const carrosselTutorial = document.querySelectorAll(".tutorial");
+
+            const tutorial = CriarCarrossel(tutoriais, carrosselTutorial, 6000);
+
+            document.querySelector(".seta-esquerda").onclick = tutorial.anterior;
+            document.querySelector(".seta-direta").onclick = tutorial.proxima;
+
+        </script>
     {% endblock %}
 {% endblock %}
+

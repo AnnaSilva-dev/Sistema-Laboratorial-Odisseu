@@ -229,13 +229,18 @@ def rotina(request):
         paciente__in=page_obj.object_list
     ).select_related('paciente').order_by('paciente__nome', 'paciente_id', 'id')
 
-    return render(
-        request,
-        'rotina.html',
-        {
-            'data': data,
-            'page_obj': page_obj,
-        })
+
+    datas_com_exames = (
+        Agendamento.objects
+        .filter(data__gte=timezone.localdate())
+        .dates('data', 'day')
+    )
+
+    return render(request, 'rotina.html', {
+        'data': data,
+        'page_obj': page_obj,
+        'data_exames': datas_com_exames
+    })
    
 @login_required
 @has_permission_decorator('visualizar_resultados')
