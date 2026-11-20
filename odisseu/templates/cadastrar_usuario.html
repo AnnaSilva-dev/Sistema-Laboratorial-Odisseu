@@ -24,7 +24,10 @@
         {% endif %}
 
     <section class="container-fluid p-5 rounded-3 shadow-lg">
-        <form method="POST">
+        <form method="POST"
+            data-confirm="Deseja realmente cadastrar este usuário"
+            data-confirm-title="Confirmar cadastro"
+            data-confirm-button="Cadastrar usuario">
             {% csrf_token %}
 
             <nav class="row">
@@ -127,24 +130,17 @@
 
                 </div>
             </nav>
-        </form>
-
 
             <nav class="row mt-5">
                 <nav class="col-12 text-end">
                     <a class="btn btn-sm btn-danger rounded-2" href="{% url 'index' %}"><span class="bi bi-x-circle"></span> Cancelar</a>
-                    <form method="POST"
-                        data-confirm="Deseja realmente cadastrar este usuário"
-                        data-confirm-title="Confirmar cadastro"
-                        data-confirm-button="Cadastrar usuario">
-                        {% csrf_token %}
 
-                        <button type="submit" class="btn btn-success mb-3">
-                            <span class="bi bi-person"></span>
-                            Cadastrar Usuário
-                        </button>
-                    </form>
+                    <button type="submit" class="btn btn-success mb-3">
+                        <span class="bi bi-person"></span>
+                        Cadastrar Usuário
+                    </button>
                 </nav>
             </nav>
+        </form>
     </section>
 {% endblock %}
