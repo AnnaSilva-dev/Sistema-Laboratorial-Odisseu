@@ -5,6 +5,29 @@
 {% block title %}{{ block.super }} - Configuração{% endblock %}
 
 {% block config %}
+<style>
+    .avatar-container *{
+        transition: 0.4s;
+    }
+
+    .editar-avatar{
+        transition: 0.8s;
+        display: none;
+    }
+
+    .avatar-container:hover #avatarSelecionado {
+        box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.9);
+        filter: brightness(20%);
+        cursor: pointer;
+    }
+
+    .avatar-container:hover .editar-avatar {
+        box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.9);
+        cursor: pointer;
+        display: block;
+    }
+
+</style>
 
 <nav class="mt-5 p-2">
 
@@ -23,6 +46,7 @@
         </a>
 
         <a href="{% url 'ajuda' %}" class="btn btn-sm btn-success">
+            ?
             Ajuda
         </a>
     </p>
@@ -31,29 +55,25 @@
     <nav class="container row-gap-3">
 
         <section class="row mt-3 rounded-3 p-3">
+            <div class="card col-2 border-0">
+                <nav class="avatar-container text-center">
+                    <img id="avatarSelecionado"
+                        src="{% static 'odisseu/imgs/avatar1.png' %}"
+                        class="rounded-circle border border-2 card-img"
+                        style="object-fit: cover;">
 
-            <div class="col-auto text-center">
+                    <div class="card-img-overlay mt-5 ms-4">
+                        <button class="btn btn-sm btn-primary editar-avatar"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalAvatares">
 
-                <img id="avatarSelecionado"
-                     src="{% static 'odisseu/imgs/avatar1.png' %}"
-                     class="rounded-circle border border-2"
-                     width="85"
-                     height="85"
-                     style="object-fit: cover;">
+                            <i class="bi bi-pencil-fill me-1"></i>
+                            Alterar
+                        </button>
+                    </div>
+                </nav>
 
-                <div class="mt-2">
-
-                    <button class="btn btn-sm btn-outline-primary"
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalAvatares">
-
-                        <i class="bi bi-pencil-fill me-1"></i>
-                        Alterar
-
-                    </button>
-
-                </div>
 
                 <input type="hidden"
                        name="avatar"
@@ -62,40 +82,115 @@
 
             </div>
 
+            <div class="col-9 mt-4 ms-3">
+                <section class="row rounded-3 p-2" id="destaque">
+                    <h6>Informações:</h6>
+                    <nav class="col-6 px-3">
 
-            <div class="col-2 mt-4 ms-3">
+                        <h4>{{ request.user.username }}</h4>
 
-                <h6>Informações:</h6>
+                        <span class="btn btn-sm btn-primary rounded-3"
+                            style="--bs-btn-padding-y: .25rem;
+                                    --bs-btn-padding-x: .5rem;
+                                    --bs-btn-font-size: .75rem;">
 
-                <nav class="px-3 mb-5">
+                            {{ perfil }}
 
-                    <h4>{{ request.user.username }}</h4>
+                        </span>
+                    </nav>
 
-                    <span class="btn btn-sm btn-primary rounded-3"
-                          style="--bs-btn-padding-y: .25rem;
-                                 --bs-btn-padding-x: .5rem;
-                                 --bs-btn-font-size: .75rem;">
+                    <p class="mt-1">
+                        <span class="bi bi-envelope-fill me-3"></span>
+                        {{ request.user.email }}
+                    </p>
 
-                        {{ perfil }}
-
-                    </span>
-
-                </nav>
-
+                </section>
             </div>
 
+            
+            <nav class="row mt-3 rounded-3 p-3">
 
-            <div class="col-3 mt-4 ms-3">
+                <div class="col-1">
 
-                <p class="mt-2 mb-0">
-                    <span class="bi bi-envelope-fill me-3"></span>
-                    {{ request.user.email }}
-                </p>
+                    <span class="bi bi-palette-fill text-destaque"
+                        style="font-size: 10vh;"></span>
 
-            </div>
+                </div>
+
+
+                <div class="col-10 mt-4 ms-3">
+
+                    <h6>Tema do sistema:</h6>
+
+                    <nav class="row">
+
+
+                        <!-- TEMA CLARO -->
+                        <div class="col-md-5 card border border-primary rounded-3 mt-4 ms-3"
+                            id="destaque">
+
+                            <div class="card-body text-center"
+                                id="btn-tema-claro">
+
+                                <nav class="row text-center">
+
+                                    <span class="bi bi-sun"
+                                        style="font-size: xx-large;"></span>
+
+                                    <h3 style="font-size: small;">
+                                        Claro
+                                    </h3>
+
+                                    <button type="button"
+                                            class="btn btn-sm border-0 circle">
+
+                                        <i class="bi bi-circle"></i>
+
+                                    </button>
+
+                                </nav>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- TEMA ESCURO -->
+                        <div class="col-md-5 card border border-primary rounded-3 mt-4 ms-3"
+                            id="destaque">
+
+                            <div class="card-body text-center"
+                                id="btn-tema-escuro">
+
+                                <nav class="row text-center">
+
+                                    <span class="bi bi-moon"
+                                        style="font-size: xx-large;"></span>
+
+                                    <h3 style="font-size: small;">
+                                        Escuro
+                                    </h3>
+
+                                    <button type="button"
+                                            class="btn btn-sm border-0 circle">
+
+                                        <i class="bi bi-circle"></i>
+
+                                    </button>
+
+                                </nav>
+
+                            </div>
+
+                        </div>
+
+
+                    </nav>
+
+                </div>
+            </nav>
 
         </section>
-
 
         <div class="modal fade"
              id="modalAvatares"
@@ -180,98 +275,10 @@
 
         </div>
 
-
-        <section class="row mt-3 rounded-3 p-3">
-
-            <div class="col-1">
-
-                <span class="bi bi-palette-fill text-destaque"
-                      style="font-size: 10vh;"></span>
-
-            </div>
-
-
-            <div class="col-10 mt-4 ms-3">
-
-                <h6>Tema do sistema:</h6>
-
-                <nav class="row">
-
-
-                    <!-- TEMA CLARO -->
-                    <div class="col-md-5 card border border-primary rounded-3 mt-4 ms-3"
-                         id="destaque">
-
-                        <div class="card-body text-center"
-                             id="btn-tema-claro">
-
-                            <nav class="row text-center">
-
-                                <span class="bi bi-sun"
-                                      style="font-size: xx-large;"></span>
-
-                                <h3 style="font-size: small;">
-                                    Claro
-                                </h3>
-
-                                <button type="button"
-                                        class="btn btn-sm border-0 circle">
-
-                                    <i class="bi bi-circle"></i>
-
-                                </button>
-
-                            </nav>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- TEMA ESCURO -->
-                    <div class="col-md-5 card border border-primary rounded-3 mt-4 ms-3"
-                         id="destaque">
-
-                        <div class="card-body text-center"
-                             id="btn-tema-escuro">
-
-                            <nav class="row text-center">
-
-                                <span class="bi bi-moon"
-                                      style="font-size: xx-large;"></span>
-
-                                <h3 style="font-size: small;">
-                                    Escuro
-                                </h3>
-
-                                <button type="button"
-                                        class="btn btn-sm border-0 circle">
-
-                                    <i class="bi bi-circle"></i>
-
-                                </button>
-
-                            </nav>
-
-                        </div>
-
-                    </div>
-
-
-                </nav>
-
-            </div>
-
-        </section>
-
-
-    </nav>
-
 </nav>
 
 
 <script>
-
     function selecionarAvatar(botao) {
 
         const imagem = botao.dataset.avatar;

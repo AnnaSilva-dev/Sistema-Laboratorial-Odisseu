@@ -5,6 +5,7 @@
 {% block title %}Odisseu - Ajuda{% endblock %}
 
 {% block help %}
+
     <nav class="border-bottom border-success container-fluid">
         <section class="row align-items-center p-2">
 
@@ -42,60 +43,83 @@
     </nav>
     
     {% block content %}
-        <section class="container py-4 py-md-5">
+        <style>
+            .link {
+                list-style: none;
+                padding: 0;
+            }
+            .link li{
+                margin: 5px;
+                padding: 5px;
+                border-radius: 5px;
+                background-color: aliceblue;
 
+            }
+
+            .link li:hover{
+                box-shadow: 0 2px 5px var(--verde);
+                background-color: gainsboro;
+
+            }
+        </style>
+        <h1 id="titulo">
+            <i class="bi bi-question-circle"></i>
+            Centro de Ajuda
+        </h1>
+
+        <p id="subtitulo">
+            Essa pagina é dedicada a dúvidas quanto ao uso do sistema
+        </p>
+
+        <p>
+            <a class="btn btn-sm btn-primary" href="{% url 'index' %}">
+                &lt; Voltar
+            </a>
+
+            <a href="{% url 'index' %}" class="btn btn-sm btn-success">
+                <span class="bi bi-house-door-fill"></span> Início
+            </a>
+        </p>
+
+        <section class="container rounded-3 p-3">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 p-2">
 
-                    <h1 id="Título" class="fs-2 fs-md-1">
-                        Centro de Ajuda
-                    </h1>
-
-                    <p id="subtitulo" class="fs-5">
-                        Essa pagina é dedicada a dúvidas quanto ao uso do sistema
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-12">
-
-                    <h4 class="text-success">
+                    <h4 class="p-2">
                         Perguntas Frequentes
                     </h4>
 
-                    <section class="container-fluid p-0 mt-3">
+                    <div class="container-fluid p-0 mt-3" style="align-items: center;">
 
-                        <div class="row g-3">
+                        <div class="row p-3">
 
-                            <nav class="col-12 col-md-6">
+                            <nav class="col-10 col-md-5 rounded-3 mx-3" id="destaque">
                                 <div class="p-3 border rounded-3 h-100">
 
                                     <p class="fw-bold mb-2">
                                         Área do Paciente
                                     </p>
 
-                                    <ul class="mb-0">
-                                        <li><a href="#">link</a></li>
-                                        <li><a href="#">link</a></li>
-                                        <li><a href="#">link</a></li>
+                                    <ul class="mb-0 link">
+                                        <li><a class="link" href="#">link</a></li>
+                                        <li><a class="link" href="#">link</a></li>
+                                        <li><a class="link" href="#">link</a></li>
                                     </ul>
 
                                 </div>
                             </nav>
 
-                            <nav class="col-12 col-md-6">
+                            <nav class="col-10 col-md-5 rounded-3 mx-3" id="destaque">
                                 <div class="p-3 border rounded-3 h-100">
 
                                     <p class="fw-bold mb-2">
                                         Utilizando o sistema
                                     </p>
 
-                                    <ul class="mb-0">
-                                        <li><a href="#">link</a></li>
-                                        <li><a href="#">link</a></li>
-                                        <li><a href="#">link</a></li>
+                                    <ul class="mb-0 link">
+                                        <li><a class="link" href="#agendarexame">Como posso agendar um exame?</a></li>
+                                        <li><a class="link" href="#cadastropaciente">Como cadastrar um paciente?</a></li>
+                                        <li><a class="link" href="#rotina">Como posso consultar minha rotina?</a></li>
                                     </ul>
 
                                 </div>
@@ -103,8 +127,47 @@
 
                         </div>
 
-                    </section>
+                    </div>
 
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-2" id="agendarexame">
+                    <h4 class="p-2 mb-2">Como posso agendar um exame?</h4>
+                    <nav class="px-5">
+                        <p>Para agendar um exame, acesse a página Agendar Exames. <br>
+                            Primeiro, selecione o paciente digitando seu nome no campo indicado.
+                            Em seguida, marque os exames desejados ou utilize a opção Selecionar todos. 
+                            Depois, informe a data do agendamento e o nome do solicitante. Confira as informações e clique em Cadastrar Exame para finalizar.<br>
+                            OBS: O agendamento só é possível ser realizado após o cadastro do paciente
+                        </p>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-2" id="cadastropaciente">
+                    <h4 class="p-2 mb-2">Como posso cadastrar um paciente?</h4>
+                    <nav class="px-5">
+                        <p>
+                            Na página Cadastrar Paciente, preencha os campos com as informações do paciente: 
+                            nome, data de nascimento, telefone, e-mail, CNS e CPF. 
+                            Confira se os dados foram preenchidos corretamente e clique em Cadastrar Paciente para concluir o cadastro. Caso não queira continuar, clique em Cancelar. Após o cadastro, também é possível acessar a opção Agendar novo exame.
+                        </p>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-2" id="rotina">
+                    <h4 class="p-2 mb-2">Como posso consultar minha rotina?</h4>
+                    <nav class="px-5">
+                        <p>
+                            Para consultar sua rotina, acesse a página Rotinas Laboratoriais. 
+                            Nela, você pode selecionar uma data e clicar em Filtrar para visualizar os pacientes
+                            e os exames agendados para aquele dia. As informações aparecem em uma tabela, 
+                            com opções de ações para cada paciente. Caso existam várias páginas de resultados, 
+                            utilize os botões Anterior e Próxima para navegar.
+                        </p>
+                    </nav>
                 </div>
             </div>
         </section>
