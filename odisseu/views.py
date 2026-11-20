@@ -19,6 +19,8 @@ from django.core.mail import BadHeaderError
 import logging
 from django.urls import reverse
 from urllib.parse import urlencode
+import csv
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -870,8 +872,137 @@ def paciente_logout(request):
 
     return redirect('paciente_login')  
 
+MAX_DIAS_RELATORIO = 92  # período máximo do relatório, em dias
+
+STATUS_RESULTADO = {
+    'liberado': 'Resultado liberado',
+    'aguardando': 'Aguardando liberação',
+    'pendente': 'Resultado pendente',
+}
+
+
+def _periodo_relatorio(request):
+    """Retorna (data_inicio, data_fim, erro). Sem filtro enviado: (None, None, None)."""
+    inicio_str = request.GET.get('data_inicio')
+    fim_str = request.GET.get('data_fim')
+
+    if not inicio_str and not fim_str:
+        return None, None, None
+
+    try:
+        data_inicio = datetime.strptime(inicio_str, '%Y-%m-%d').date()
+        data_fim = datetime.strptime(fim_str, '%Y-%m-%d').date()
+    except (TypeError, ValueError):
+        return None, None, 'Informe datas válidas para gerar o relatório.'
+
+    if data_inicio > data_fim:
+        return None, None, 'A data inicial não pode ser maior que a data final.'
+
+    if (data_fim - data_inicio).days > MAX_DIAS_RELATORIO:
+        return None, None, f'O período máximo do relatório é de {MAX_DIAS_RELATORIO} dias.'
+
+    return data_inicio, data_fim, None
+
+
+def _agendamentos_periodo(data_inicio, data_fim):
+    return (
+        Agendamento.objects
+        .filter(data__range=(data_inicio, data_fim))
+        .select_related('paciente', 'resultado')
+        .order_by('data', 'paciente__nome', 'id')
+    )
+
+
+def _status_resultado(agendamento):
+    resultado = getattr(agendamento, 'resultado', None)
+    if resultado is None:
+        return 'pendente'
+    return 'liberado' if resultado.liberado else 'aguardando'
+
+
+@login_required
+@has_permission_decorator('gerar_relatorios')
 def relatorios(request):
-    return render(request, 'relatorios.html')
+    data_inicio, data_fim, erro = _periodo_relatorio(request)
+    if erro:
+        messages.error(request, erro)
+
+    dias = []
+    resumo = None
+
+    if data_inicio and data_fim:
+        agrupado = {}
+        pacientes_ids = set()
+        por_status = {codigo: 0 for codigo in STATUS_RESULTADO}
+        total = 0
+
+        for ag in _agendamentos_periodo(data_inicio, data_fim):
+            ag.status = _status_resultado(ag)
+            ag.status_texto = STATUS_RESULTADO[ag.status]
+
+            dia = agrupado.setdefault(ag.data, {})
+            grupo = dia.setdefault(
+                ag.paciente_id,
+                {'paciente': ag.paciente, 'agendamentos': []},
+            )
+            grupo['agendamentos'].append(ag)
+
+            pacientes_ids.add(ag.paciente_id)
+            por_status[ag.status] += 1
+            total += 1
+
+        dias = [
+            {'data': data, 'pacientes': list(pacientes.values())}
+            for data, pacientes in agrupado.items()
+        ]
+        resumo = {
+            'total_agendamentos': total,
+            'total_pacientes': len(pacientes_ids),
+            'liberados': por_status['liberado'],
+            'aguardando': por_status['aguardando'],
+            'pendentes': por_status['pendente'],
+        }
+
+    hoje = date.today().isoformat()
+
+    return render(request, 'relatorios.html', {
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
+        'inicio_form': request.GET.get('data_inicio') or hoje,
+        'fim_form': request.GET.get('data_fim') or hoje,
+        'gerado': bool(data_inicio and data_fim),
+        'dias': dias,
+        'resumo': resumo,
+    })
+
+
+@login_required
+@has_permission_decorator('gerar_relatorios')
+def relatorios_exportar(request):
+    data_inicio, data_fim, erro = _periodo_relatorio(request)
+
+    if erro or not (data_inicio and data_fim):
+        messages.error(request, erro or 'Informe o período para exportar o relatório.')
+        return redirect('relatorios')
+
+    response = HttpResponse(content_type='text/csv; charset=utf-8')
+    response['Content-Disposition'] = (
+        f'attachment; filename="relatorio_{data_inicio:%Y%m%d}_{data_fim:%Y%m%d}.csv"'
+    )
+    response.write('\ufeff')  # BOM: o Excel reconhece os acentos
+
+    writer = csv.writer(response, delimiter=';')  # separador esperado pelo Excel em pt-BR
+    writer.writerow(['Data', 'Paciente', 'Exame', 'Situação do resultado'])
+
+    for ag in _agendamentos_periodo(data_inicio, data_fim):
+        writer.writerow([
+            ag.data.strftime('%d/%m/%Y'),
+            ag.paciente.nome,
+            ag.get_exame_display(),
+            STATUS_RESULTADO[_status_resultado(ag)],
+        ])
+
+    return response
 def ajuda(request):
     return render(request, 'ajuda.html')
 def config(request):
@@ -894,3 +1025,36 @@ def config(request):
         'perfil': perfil
     })
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import PerfilUsuario
+
+def atualizar_avatar(request):
+
+    if request.method == 'POST':
+
+        avatar = request.POST.get('avatar')
+
+        avatares_permitidos = [
+            'avatar1.png',
+            'avatar2.png',
+            'avatar3.png',
+            'avatar4.png',
+            'avatar5.png',
+            'avatar6.png',
+        ]
+
+        if avatar not in avatares_permitidos:
+            messages.error(request, 'Avatar inválido.')
+            return redirect('config')
+
+        perfil, criado = PerfilUsuario.objects.get_or_create(
+            usuario=request.user
+        )
+
+        perfil.avatar = avatar
+        perfil.save()
+
+        messages.success(request, 'Avatar atualizado com sucesso!')
+
+    return redirect('config')
